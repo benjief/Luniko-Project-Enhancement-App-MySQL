@@ -1,5 +1,6 @@
-import './App.css';
+import "./App.css";
 import { useState } from "react";
+import Axios from "axios";
 
 function App() {
 
@@ -8,6 +9,20 @@ function App() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
+
+  const addPersonnel = () => {
+    // Sending an object (body) if include comma after address
+    // Also note that this is a promise
+    Axios.post('http://localhost:3001/create', {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      company: company
+    }).then(() => {
+      console.log("Information sent from front to back end!");
+    });
+  };
 
   return (
     <div className="App">
@@ -42,7 +57,7 @@ function App() {
             setCompany(event.target.value);
           }}
         />
-        <button>Add Personnel</button>
+        <button onClick={addPersonnel}>Add Personnel</button>
       </div>
     </div>
   );
