@@ -10,15 +10,19 @@ function App() {
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
 
+  // const displayinfo = () => {
+  //   console.log(firstName + lastName + email + phone + company);
+  // }
+
   const addPersonnel = () => {
     // Sending an object (body) if include comma after address
     // Also note that this is a promise
-    Axios.post('http://localhost:3001/create', {
+    Axios.post("http://localhost:3001/create", {
       firstName: firstName,
       lastName: lastName,
       email: email,
       phone: phone,
-      company: company
+      company: company,
     }).then(() => {
       console.log("Information sent from front to back end!");
     });

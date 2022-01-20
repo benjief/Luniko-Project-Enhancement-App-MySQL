@@ -1,16 +1,20 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const mysql = require('mysql');
+const mysql = require("mysql");
+const cors = require("cors");
+
+app.use(cors());
+app.use(express.json());
 
 const db = mysql.createConnection({
-    user: 'root',
-    host: 'localhost',
-    password: '',
-    database: 'personnel_system'
+    user: "root",
+    host: "localhost",
+    password: "",
+    database: "personnel_system"
 });
 
 // Create a route
-app.post('/create', (req, res) => {
+app.post("/create", (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
@@ -18,12 +22,13 @@ app.post('/create', (req, res) => {
     const company = req.body.company;
 
     db.query(
-        'INSERT INTO personnel (pers_fname, pers_lname, pers_email, pers_phone, pers_company) VALUES (?, ?, ?, ?, ?)',
+        "INSERT INTO personnel (pers_fname, pers_lname, pers_email, pers_phone, pers_company) VALUES (?, ?, ?, ?, ?)",
         [firstName, lastName, email, phone, company], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
                 // End the request by sending a message (in this case); can send whatever you want, really
+                console.log("Values inserted!");
                 res.send("Values inserted!");
             }
         }
