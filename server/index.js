@@ -22,6 +22,7 @@ app.post("/create", (req, res) => {
     const company = req.body.company;
 
     db.query(
+        // User ?s to keep things secure?
         "INSERT INTO personnel (pers_fname, pers_lname, pers_email, pers_phone, pers_company) VALUES (?, ?, ?, ?, ?)",
         [firstName, lastName, email, phone, company], (err, result) => {
             if (err) {
@@ -33,9 +34,29 @@ app.post("/create", (req, res) => {
             }
         }
     );
+});
+
+app.get('/get', (req, res) => {
+    db.query("SELECT * FROM personnel", (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+app.delete('/delete/:id', (req, res) => {
+    const id = req.params.id;
+    db.query("DELETE FROM personnel WHERE pers_id = ?", id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
 })
 
 app.listen(3001, () => {
     console.log("Yay! Your server is running on port 3001.");
 });
-

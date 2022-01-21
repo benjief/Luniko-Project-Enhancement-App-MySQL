@@ -1,2 +1,2 @@
 States
-nodemon (so you don't have to restart server every time you make a change)
+JS -> filter function
