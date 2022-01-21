@@ -64,7 +64,7 @@ function Personnel() {
     }
 
     return (
-        <div className="App">
+        <div className="Personnel">
             <div className="enter-information">
                 <label>First Name: </label>
                 <input type="text"
