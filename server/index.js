@@ -18,13 +18,13 @@ app.post("/create", (req, res) => {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
-    const phone = req.body.phone;
-    const company = req.body.company;
+    // const phone = req.body.phone;
+    // const company = req.body.company;
 
     db.query(
         // User ?s to keep things secure?
-        "INSERT INTO personnel (pers_fname, pers_lname, pers_email, pers_phone, pers_company) VALUES (?, ?, ?, ?, ?)",
-        [firstName, lastName, email, phone, company], (err, result) => {
+        "INSERT INTO personnel (pers_fname, pers_lname, pers_email) VALUES (?, ?, ?)",
+        [firstName, lastName, email], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -45,6 +45,16 @@ app.get('/get', (req, res) => {
         }
     });
 });
+
+app.get('/uid', (req, res) => {
+    db.query("SELECT pers_id FROM personnel"), (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    }
+})
 
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
