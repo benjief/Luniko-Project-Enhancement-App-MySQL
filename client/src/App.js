@@ -1,15 +1,13 @@
 import "./App.css";
 // Router is apparently the standard name for BrowserRouter, so we rename it here
-import { BrowserRouter as Router, Routes as Switch, Route, Link } from "react-router-dom"
-import Personnel from "./pages/Personnel";
-import Home from "./pages/Home";
+import { BrowserRouter as Router, Route, Routes as Switch, Link } from "react-router-dom"
+import Login from "./pages/Login";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/personnel" element={<Personnel />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
       </Switch>
     </Router>
   );

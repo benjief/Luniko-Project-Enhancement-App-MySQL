@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React from "react";
+import { initializeApp } from "firebase/app";
 import {
     GoogleAuthProvider,
     getAuth,
@@ -7,7 +7,7 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
-    signOut,
+    signOut
 } from "firebase/auth";
 // import {
 //     getFirestore,
@@ -17,6 +17,12 @@ import {
 //     where,
 //     addDoc,
 // } from "firebase/firestore";
+
+// Variable definition
+var uid = "";
+var firstName = "";
+var lastName = "";
+var email = "";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQPWZwAjHAaT-9cSvGpyYexkiZ0NSPP70",
@@ -30,47 +36,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// DB Functions
-const [uidList, setUIDList] = useState([]);
-
-const getUIDs = () => {
-    Axios.get("http://localhost:3001/uid", {
-    }).then((response) => {
-        setUIDList(response.data);
-    });
-};
-
-const [firstName, setFirstName] = useState("");
-const [lastName, setLastName] = useState("");
-const [email, setEmail] = useState("");
-
-const addPersonnel = () => {
-    Axios.post("http://localhost:3001/create", {
-        firstName: firstName,
-        lastName: lastName,
-        email: email
-    }).then(() => {
-        console.log("New user added!");
-    });
-};
-
 // Google authentication
 const googleProvider = new GoogleAuthProvider();
-
-const signInWithGoogle = async () => {
+const loginWithGoogle = async () => {
     try {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
-        getUIDs();
+
+        var uidList = [];
+        // Pull all UIDs from the MySQL DB
+        Axios.get("http://localhost:3001/uid", {
+        }).then((response) => {
+            uidList = response.data;
+            if (!uidList.includes(user.id)) {
+                uid = user.id;
+                firstName = user.displayName.split(" ")[0];
+                lastName = user.displayName.split(" ")[1];
+                email = user.email;
+
+                // Add the new user to the MySQL DB
+                Axios.post("http://localhost:3001/create", {
+                    uid: uid,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email
+                }).then(() => {
+                    console.log("New user added!");
+                });
+            }
+        });
+
         // const q = query(collection(db, "users"), where("uid", "==", user.uid));
         // const docs = await getDocs(q);
-        if (!uidList.includes(user.id)) {
-            setFirstName(user.displayName.split(" ")[0]);
-            setLastName(user.displayName.split(" ")[1]);
-            setEmail(user.email);
-        }
-
-        addPersonnel();
 
         // await addDoc(collection(db, "users"), {
         //     uid: user.uid,
@@ -86,7 +83,7 @@ const signInWithGoogle = async () => {
 };
 
 // Standard Authentication
-const signInWithEmailAndPassword = async (email, password) => {
+const loginWithEmailAndPassword = async (email, password) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
@@ -101,11 +98,20 @@ const registerWithEmailAndPassword = async (name, email, password) => {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
 
-        setFirstName(name.split(" ")[0]);
-        setLastName(name.split(" ")[1]);
-        setEmail(email);
+        uid = user.id;
+        firstName = user.displayName.split(" ")[0];
+        lastName = user.displayName.split(" ")[1];
+        email = user.email;
 
-        addPersonnel();
+        // Add the new user to the MySQL DB
+        Axios.post("http://localhost:3001/create", {
+            uid: uid,
+            firstName: firstName,
+            lastName: lastName,
+            email: email
+        }).then(() => {
+            console.log("New user added!");
+        });
 
         //   await addDoc(collection(db, "users"), {
         //     uid: user.uid,
@@ -137,8 +143,8 @@ const logout = () => {
 
 export {
     auth,
-    signInWithGoogle,
-    signInWithEmailAndPassword,
+    loginWithGoogle,
+    loginWithEmailAndPassword,
     registerWithEmailAndPassword,
     sendPasswordReset,
     logout
