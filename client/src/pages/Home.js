@@ -24,40 +24,42 @@ class Home extends Component {
 
     render() {
         return (
-            <Navbar
-                // color="success"
-                dark
-                expand="md"
-                fixed=""
-                light
-            >
-                <NavbarBrand href="/home">
-                    + Luniko
-                </NavbarBrand>
-                <NavbarToggler onClick={this.toggle} />
-                <Collapse navbar isOpen={this.state.collapse}>
-                    <Nav
-                        className="me-auto"
-                        navbar
-                    >
-                        <NavItem>
-                            <NavLink href="/components/">
-                                Create
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/components/">
-                                View
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="https://github.com/reactstrap/reactstrap">
-                                Logout
-                            </NavLink>
-                        </NavItem>
-                    </Nav>
-                </Collapse>
-            </Navbar>
+            <div>
+                <Navbar
+                    // color="success"
+                    dark
+                    expand="md"
+                    fixed=""
+                    light
+                >
+                    <NavbarBrand href="/home">
+                        <img src={require("../img/logo.png")} alt=""></img>
+                    </NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse navbar isOpen={this.state.collapse}>
+                        <Nav
+                            className="me-auto"
+                            navbar
+                        >
+                            <NavItem>
+                                <NavLink href="/components/">
+                                    Create
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="/components/">
+                                    View
+                                </NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="https://github.com/reactstrap/reactstrap">
+                                    Logout
+                                </NavLink>
+                            </NavItem>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
+            </div>
         );
     }
 }
