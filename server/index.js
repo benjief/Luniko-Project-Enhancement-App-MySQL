@@ -15,6 +15,7 @@ const db = mysql.createConnection({
 
 // Create a route
 app.post("/create", (req, res) => {
+    const uid = req.body.uid;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
@@ -56,8 +57,9 @@ app.get('/get-uids', (req, res) => {
     });
 });
 
-app.get('/get-personnel-with-id:id', (req, res) => {
+app.get('/get-personnel-with-id/:id', (req, res) => {
     const id = req.params.id;
+    console.log(id);
     db.query("SELECT * FROM personnel WHERE pers_id = ?", id, (err, result) => {
         if (err) {
             console.log(err);

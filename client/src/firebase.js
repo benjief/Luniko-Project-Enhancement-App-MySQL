@@ -45,11 +45,11 @@ const loginWithGoogle = async () => {
 
         var uidList = [];
         // Pull all UIDs from the MySQL DB
-        Axios.get("http://localhost:3001/get-uids", {
+        await Axios.get("http://localhost:3001/get-uids", {
         }).then((response) => {
             uidList = response.data;
             if (!uidList.includes(user.id)) {
-                uid = user.id;
+                uid = user.uid;
                 firstName = user.displayName.split(" ")[0];
                 lastName = user.displayName.split(" ")[1];
                 email = user.email;
@@ -98,13 +98,17 @@ const registerWithEmailAndPassword = async (name, email, password) => {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
 
-        uid = user.id;
-        firstName = user.displayName.split(" ")[0];
-        lastName = user.displayName.split(" ")[1];
+        console.log(name);
+
+        uid = user.uid;
+        firstName = name.split(" ")[0];
+        lastName = name.split(" ")[1];
         email = user.email;
 
+        console.log(uid + ' ' + firstName + ' ' + lastName + ' ' + email);
+
         // Add the new user to the MySQL DB
-        Axios.post("http://localhost:3001/create", {
+        await Axios.post("http://localhost:3001/create", {
             uid: uid,
             firstName: firstName,
             lastName: lastName,

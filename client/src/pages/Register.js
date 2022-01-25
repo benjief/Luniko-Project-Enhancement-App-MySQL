@@ -12,19 +12,21 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    const [userInDB, setUserInDB] = useState(false);
     const [user, loading, error] = useAuthState(auth);
     // const history = useHistory();
     const navigate = useNavigate();
     const register = () => {
         if (!name) alert("Please enter name");
-        registerWithEmailAndPassword(name, email, password);
+        registerWithEmailAndPassword(name, email, password).then(() => {
+            console.log(user);
+            navigate("/dashboard");
+        })
     };
 
     useEffect(() => {
         if (loading) return;
-        // if (user) history.replace("/dashboard");
-        if (user) navigate("/dashboard");
-    }, [user, loading]);
+    }, [loading]);
 
     return (
         <div className="register">

@@ -13,12 +13,13 @@ function Dashboard() {
 
     const getPersonnelInfoWithID = (id) => {
         Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`).then((response) => {
-            setFirstName(response.data.pers_fname);
+            setFirstName(response.data[0].pers_fname);
         });
     }
 
     const fetchUserName = async () => {
         try {
+            console.log(user?.uid);
             // Fetch and set personnel first name
             getPersonnelInfoWithID(user?.uid);
             // const q = query(collection(db, "users"), where("uid", "==", user?.uid));
