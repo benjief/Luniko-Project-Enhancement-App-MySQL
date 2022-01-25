@@ -12,21 +12,31 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-    const [userInDB, setUserInDB] = useState(false);
     const [user, loading, error] = useAuthState(auth);
     // const history = useHistory();
     const navigate = useNavigate();
-    const register = () => {
+
+    const registerConventionally = () => {
         if (!name) alert("Please enter name");
         registerWithEmailAndPassword(name, email, password).then(() => {
-            console.log(user);
+            // setTimeout(function () {
             navigate("/dashboard");
+            // }, 1000)
         })
     };
 
-    useEffect(() => {
-        if (loading) return;
-    }, [loading]);
+    const registerWithGoogle = () => {
+        loginWithGoogle().then(() => {
+            // setTimeout(function () {
+            navigate("/dashboard");
+            // }, 1000);
+
+        })
+    }
+
+    // useEffect(() => {
+    //     if (loading) return;
+    // }, [loading]);
 
     return (
         <div className="register">
@@ -52,12 +62,12 @@ function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                 />
-                <button className="register__btn" onClick={register}>
+                <button className="register__btn" onClick={registerConventionally}>
                     Register
                 </button>
                 <button
                     className="register__btn register__google"
-                    onClick={loginWithGoogle}
+                    onClick={registerWithGoogle}
                 >
                     Register with Google
                 </button>

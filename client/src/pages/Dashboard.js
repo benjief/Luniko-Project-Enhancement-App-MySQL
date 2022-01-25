@@ -12,16 +12,17 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const getPersonnelInfoWithID = (id) => {
-        Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`).then((response) => {
+        Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`, {
+        }).then((response) => {
             setFirstName(response.data[0].pers_fname);
         });
     }
 
     const fetchUserName = async () => {
         try {
-            console.log(user?.uid);
             // Fetch and set personnel first name
             getPersonnelInfoWithID(user?.uid);
+
             // const q = query(collection(db, "users"), where("uid", "==", user?.uid));
             // const doc = await getDocs(q);
             // const data = doc.docs[0].data();
@@ -36,7 +37,7 @@ function Dashboard() {
         if (loading) return;
         if (!user) return navigate("/");
         fetchUserName();
-    }, [user, loading]);
+    });
 
     return (
         <div className="dashboard">

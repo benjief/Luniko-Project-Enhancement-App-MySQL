@@ -19,10 +19,10 @@ import {
 // } from "firebase/firestore";
 
 // Variable definition
-var uid = "";
-var firstName = "";
-var lastName = "";
-var email = "";
+// var uid = "";
+// var firstName = "";
+// var lastName = "";
+// var email = "";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAQPWZwAjHAaT-9cSvGpyYexkiZ0NSPP70",
@@ -36,6 +36,32 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+const getUIDs = async () => {
+    // Pull all UIDs from the MySQL DB
+    try {
+        await Axios.get("http://localhost:3001/get-uids", {
+        }).then((response) => {
+            return response.data;
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const writePersonnelToDB = async (uid, firstName, lastName, email) => {
+    // Add the new user to the MySQL DB
+    try {
+        await Axios.post("http://localhost:3001/create", {
+            uid: uid,
+            firstName: firstName,
+            lastName: lastName,
+            email: email
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 // Google authentication
 const googleProvider = new GoogleAuthProvider();
 const loginWithGoogle = async () => {
@@ -43,28 +69,13 @@ const loginWithGoogle = async () => {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
 
-        var uidList = [];
-        // Pull all UIDs from the MySQL DB
-        await Axios.get("http://localhost:3001/get-uids", {
-        }).then((response) => {
-            uidList = response.data;
-            if (!uidList.includes(user.id)) {
-                uid = user.uid;
-                firstName = user.displayName.split(" ")[0];
-                lastName = user.displayName.split(" ")[1];
-                email = user.email;
+        let uidList = [];
 
-                // Add the new user to the MySQL DB
-                Axios.post("http://localhost:3001/create", {
-                    uid: uid,
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email
-                }).then(() => {
-                    console.log("New user added!");
-                });
-            }
-        });
+        uidList = await getUIDs(user);
+        await writePersonnelToDB(user.uid, user.displayName.split(" ")[0],
+            user.displayName.split(" ")[1], user.email).then(() => {
+                console.log("Personnel written to DB!");
+            });
 
         // const q = query(collection(db, "users"), where("uid", "==", user.uid));
         // const docs = await getDocs(q);
@@ -98,23 +109,9 @@ const registerWithEmailAndPassword = async (name, email, password) => {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
 
-        console.log(name);
-
-        uid = user.uid;
-        firstName = name.split(" ")[0];
-        lastName = name.split(" ")[1];
-        email = user.email;
-
-        console.log(uid + ' ' + firstName + ' ' + lastName + ' ' + email);
-
         // Add the new user to the MySQL DB
-        await Axios.post("http://localhost:3001/create", {
-            uid: uid,
-            firstName: firstName,
-            lastName: lastName,
-            email: email
-        }).then(() => {
-            console.log("New user added!");
+        await writePersonnelToDB(user.uid, name.split(" ")[0], name.split(" ")[1], email = user.email).then(() => {
+            console.log("Personnel written to DB!")
         });
 
         //   await addDoc(collection(db, "users"), {
