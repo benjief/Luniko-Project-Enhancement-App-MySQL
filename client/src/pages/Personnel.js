@@ -1,4 +1,4 @@
-import "./Personnel.css";
+import "../styles/Personnel.css";
 import { useState } from "react";
 import Axios from "axios";
 import React from "react";

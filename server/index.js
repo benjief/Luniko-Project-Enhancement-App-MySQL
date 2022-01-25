@@ -23,8 +23,8 @@ app.post("/create", (req, res) => {
 
     db.query(
         // User ?s to keep things secure?
-        "INSERT INTO personnel (pers_fname, pers_lname, pers_email) VALUES (?, ?, ?)",
-        [firstName, lastName, email], (err, result) => {
+        "INSERT INTO personnel (pers_id, pers_fname, pers_lname, pers_email) VALUES (?, ?, ?, ?)",
+        [uid, firstName, lastName, email], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -46,15 +46,26 @@ app.get('/get', (req, res) => {
     });
 });
 
-app.get('/uid', (req, res) => {
-    db.query("SELECT pers_id FROM personnel"), (err, result) => {
+app.get('/get-uids', (req, res) => {
+    db.query("SELECT pers_id FROM personnel", (err, result) => {
         if (err) {
             console.log(err);
         } else {
             res.send(result);
         }
-    }
-})
+    });
+});
+
+app.get('/get-personnel-with-id:id', (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM personnel WHERE pers_id = ?", id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
 
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;

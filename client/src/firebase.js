@@ -45,7 +45,7 @@ const loginWithGoogle = async () => {
 
         var uidList = [];
         // Pull all UIDs from the MySQL DB
-        Axios.get("http://localhost:3001/uid", {
+        Axios.get("http://localhost:3001/get-uids", {
         }).then((response) => {
             uidList = response.data;
             if (!uidList.includes(user.id)) {
