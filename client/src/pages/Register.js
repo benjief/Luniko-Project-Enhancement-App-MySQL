@@ -18,25 +18,31 @@ function Register() {
 
     const registerConventionally = () => {
         if (!name) alert("Please enter name");
-        registerWithEmailAndPassword(name, email, password).then(() => {
-            // setTimeout(function () {
-            navigate("/dashboard");
-            // }, 1000)
-        })
+        registerWithEmailAndPassword(name, email, password)
+        // .then(() => {
+        //     // setTimeout(function () {
+        //     navigate("/dashboard");
+        //     // }, 1000)
+        // })
     };
 
-    const registerWithGoogle = () => {
-        loginWithGoogle().then(() => {
-            // setTimeout(function () {
-            navigate("/dashboard");
-            // }, 1000);
+    // const registerWithGoogle = () => {
+    //     loginWithGoogle().then(() => {
+    //         // setTimeout(function () {
+    //         navigate("/dashboard");
+    //         // }, 1000);
 
-        })
-    }
+    //     })
+    // }
 
-    // useEffect(() => {
-    //     if (loading) return;
-    // }, [loading]);
+    useEffect(() => {
+        if (loading) return;
+        if (user) {
+            setTimeout(function () {
+                navigate("/dashboard");
+            }, 200);
+        }
+    }, [user, loading]);
 
     return (
         <div className="register">
@@ -67,8 +73,7 @@ function Register() {
                 </button>
                 <button
                     className="register__btn register__google"
-                    onClick={registerWithGoogle}
-                >
+                    onClick={loginWithGoogle}>
                     Register with Google
                 </button>
                 <div>

@@ -2,6 +2,7 @@ import Axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
     GoogleAuthProvider,
+    FacebookAuthProvider,
     getAuth,
     signInWithPopup,
     signInWithEmailAndPassword,
@@ -9,6 +10,7 @@ import {
     sendPasswordResetEmail,
     signOut
 } from "firebase/auth";
+import { useState } from "react";
 // import {
 //     getFirestore,
 //     query,
@@ -36,17 +38,31 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const getUIDs = async () => {
-    // Pull all UIDs from the MySQL DB
+// const getUIDs = async () => {
+//     let uidList = [];
+//     // Pull all UIDs from the MySQL DB
+//     try {
+//         await Axios.get("http://localhost:3001/get-uids", {
+//         }).then((response) => {
+//             uidList.push(response.data);
+//             return uidList;
+//         });
+//     } catch (err) {
+//         console.log(err);
+//     }
+// };
+
+const getPersonnelWithUID = async (id) => {
+    let personnelList = [];
     try {
-        await Axios.get("http://localhost:3001/get-uids", {
+        await Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`, {
         }).then((response) => {
-            return response.data;
+            personnelList.push(response.data);
         });
     } catch (err) {
         console.log(err);
     }
-};
+}
 
 const writePersonnelToDB = async (uid, firstName, lastName, email) => {
     // Add the new user to the MySQL DB
@@ -69,13 +85,22 @@ const loginWithGoogle = async () => {
         const res = await signInWithPopup(auth, googleProvider);
         const user = res.user;
 
-        let uidList = [];
+        // let uidList = [];
+        // uidList = await getUIDs(user).then(() => {
+        //     console.log(uidList);
+        // })
 
-        uidList = await getUIDs(user);
-        await writePersonnelToDB(user.uid, user.displayName.split(" ")[0],
-            user.displayName.split(" ")[1], user.email).then(() => {
-                console.log("Personnel written to DB!");
-            });
+        let personnelList = [];
+        personnelList = await getPersonnelWithUID(user.uid).then(() => {
+
+            if (personnelList.length === 0) {
+                writePersonnelToDB(user.uid, user.displayName.split(" ")[0],
+                    user.displayName.split(" ")[1], user.email).then(() => {
+                        console.log("Personnel written to DB!");
+                    });
+            }
+        });
+
 
         // const q = query(collection(db, "users"), where("uid", "==", user.uid));
         // const docs = await getDocs(q);
