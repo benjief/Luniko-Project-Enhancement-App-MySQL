@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, loginWithEmailAndPassword, loginWithGoogle } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import NavBar from "./Navbar";
 import "../styles/Login.css";
+
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -18,39 +20,47 @@ function Login() {
         if (user) navigate("/dashboard");
     }, [user, loading]);
     return (
-        <div className="login">
-            <div className="login__container">
-                <input
-                    type="text"
-                    className="login__textBox"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="E-mail Address"
-                />
-                <input
-                    type="password"
-                    className="login__textBox"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                />
-                <button
-                    className="login__btn"
-                    onClick={() => loginWithEmailAndPassword(email, password)}
-                >
-                    Login
-                </button>
-                <button className="login__btn login__google" onClick={loginWithGoogle}>
-                    Login with Google
-                </button>
-                <div>
-                    <Link to="/reset">Forgot Password</Link>
-                </div>
-                <div>
-                    Don't have an account? <Link to="/register">Register</Link> now.
+        <Fragment>
+            <NavBar />
+            <div className="login">
+                <div className="login-container">
+                    <input
+                        type="text"
+                        className="login-textBox"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="E-mail Address"
+                    />
+                    <input
+                        type="password"
+                        className="login-textBox"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+                    <button
+                        className="login-button"
+                        onClick={() => loginWithEmailAndPassword(email, password)}
+                    >
+                        Login
+                    </button>
+                    <div
+                        className="login-google"
+                        onClick={loginWithGoogle}>
+                        <img src={require("../img/google_logo.png")} />
+                        <p>Login with Google</p>
+                    </div>
+                    <div className="login-text-container">
+                        <div>
+                            <Link to="/reset">Forgot Password</Link>
+                        </div>
+                        <div>
+                            Don't have an account? <Link to="/register">Register</Link> now.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Fragment>
     );
 }
 

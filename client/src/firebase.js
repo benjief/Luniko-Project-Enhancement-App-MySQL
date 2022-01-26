@@ -2,7 +2,6 @@ import Axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
     GoogleAuthProvider,
-    FacebookAuthProvider,
     getAuth,
     signInWithPopup,
     signInWithEmailAndPassword,

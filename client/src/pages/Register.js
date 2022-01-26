@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -6,6 +6,7 @@ import {
     registerWithEmailAndPassword,
     loginWithGoogle,
 } from "../firebase";
+import NavBar from "./Navbar";
 import "../styles/Register.css";
 
 function Register() {
@@ -18,7 +19,7 @@ function Register() {
 
     const registerConventionally = () => {
         if (!name) alert("Please enter name");
-        registerWithEmailAndPassword(name, email, password)
+        registerWithEmailAndPassword(name, email, password);
         // .then(() => {
         //     // setTimeout(function () {
         //     navigate("/dashboard");
@@ -45,42 +46,48 @@ function Register() {
     }, [user, loading]);
 
     return (
-        <div className="register">
-            <div className="register__container">
-                <input
-                    type="text"
-                    className="register__textBox"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Full Name"
-                />
-                <input
-                    type="text"
-                    className="register__textBox"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="E-mail Address"
-                />
-                <input
-                    type="password"
-                    className="register__textBox"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                />
-                <button className="register__btn" onClick={registerConventionally}>
-                    Register
-                </button>
-                <button
-                    className="register__btn register__google"
-                    onClick={loginWithGoogle}>
-                    Register with Google
-                </button>
-                <div>
-                    Already have an account? <Link to="/">Login</Link> now.
+        <Fragment>
+            <NavBar></NavBar>
+            <div className="register">
+                <div className="register-container">
+                    <input
+                        type="text"
+                        className="register-textBox"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Full Name"
+                    />
+                    <input
+                        type="text"
+                        className="register-textBox"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="E-mail Address"
+                    />
+                    <input
+                        type="password"
+                        className="register-textBox"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+                    <button className="register-button" onClick={registerConventionally}>
+                        Register
+                    </button>
+                    <div
+                        className="register-google"
+                        onClick={loginWithGoogle}>
+                        <img src={require("../img/google_logo.png")} />
+                        <p>Register with Google</p>
+                    </div>
+                    <div className="register-text-container">
+                        <div>
+                            Already have an account? <Link to="/">Login</Link> now.
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Fragment>
     );
 }
 
