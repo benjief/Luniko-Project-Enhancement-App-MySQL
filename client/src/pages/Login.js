@@ -28,14 +28,14 @@ function Login() {
                         type="text"
                         className="login-textBox"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(event) => setEmail(event.target.value)}
                         placeholder="E-mail Address"
                     />
                     <input
                         type="password"
                         className="login-textBox"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password"
                     />
                     <button

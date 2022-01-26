@@ -10,15 +10,27 @@ import NavBar from "./Navbar";
 import "../styles/Register.css";
 
 function Register() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
     const [user, loading, error] = useAuthState(auth);
+    const [backgroundColor, setBackgroundColor] = useState("#BFBFBF");
+    const [disabled, setDisabled] = useState(true);
+
     // const history = useHistory();
     const navigate = useNavigate();
 
+    const activateRegistration = () => {
+        setBackgroundColor("#E58004");
+        setDisabled(false);
+    }
+
+    const deactivateRegistration = () => {
+        setBackgroundColor("#BFBFBF");
+        setDisabled(true);
+    }
+
     const registerConventionally = () => {
-        if (!name) alert("Please enter name");
         registerWithEmailAndPassword(name, email, password);
         // .then(() => {
         //     // setTimeout(function () {
@@ -43,7 +55,16 @@ function Register() {
                 navigate("/dashboard");
             }, 200);
         }
-    }, [user, loading]);
+        if (name && email && password) {
+            if (disabled) {
+                activateRegistration();
+            }
+        } else {
+            if (!disabled) {
+                deactivateRegistration();
+            }
+        }
+    }, [user, loading, name, email, password]);
 
     return (
         <Fragment>
@@ -54,24 +75,27 @@ function Register() {
                         type="text"
                         className="register-textBox"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(event) => setName(event.target.value)}
                         placeholder="Full Name"
                     />
                     <input
                         type="text"
                         className="register-textBox"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(event) => setEmail(event.target.value)}
                         placeholder="E-mail Address"
                     />
                     <input
                         type="password"
                         className="register-textBox"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password"
                     />
-                    <button className="register-button" onClick={registerConventionally}>
+                    <button className="register-button"
+                        style={{ backgroundColor: backgroundColor }}
+                        disabled={disabled}
+                        onClick={registerConventionally}>
                         Register
                     </button>
                     <div
