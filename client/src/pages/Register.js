@@ -7,10 +7,12 @@ import {
     loginWithGoogle,
 } from "../firebase";
 import NavBar from "./Navbar";
+import RegistrationPopover from "./RegistrationPopover";
 import "../styles/Register.css";
 
 function Register() {
-    const [name, setName] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [user, loading, error] = useAuthState(auth);
@@ -31,7 +33,8 @@ function Register() {
     }
 
     const registerConventionally = () => {
-        registerWithEmailAndPassword(name, email, password);
+        let fullName = firstName + " " + lastName;
+        registerWithEmailAndPassword(fullName, email, password);
         // .then(() => {
         //     // setTimeout(function () {
         //     navigate("/dashboard");
@@ -55,7 +58,7 @@ function Register() {
                 navigate("/dashboard");
             }, 200);
         }
-        if (name && email && password) {
+        if (firstName && lastName && email && password) {
             if (disabled) {
                 activateRegistration();
             }
@@ -64,7 +67,7 @@ function Register() {
                 deactivateRegistration();
             }
         }
-    }, [user, loading, name, email, password]);
+    }, [user, loading, firstName, lastName, email, password]);
 
     return (
         <Fragment>
@@ -74,9 +77,16 @@ function Register() {
                     <input
                         type="text"
                         className="register-textBox"
-                        value={name}
-                        onChange={(event) => setName(event.target.value)}
-                        placeholder="Full Name"
+                        value={firstName}
+                        onChange={(event) => setFirstName(event.target.value)}
+                        placeholder="First Name"
+                    />
+                    <input
+                        type="text"
+                        className="register-textBox"
+                        value={lastName}
+                        onChange={(event) => setLastName(event.target.value)}
+                        placeholder="Last Name"
                     />
                     <input
                         type="text"
@@ -104,6 +114,7 @@ function Register() {
                         <img src={require("../img/google_logo.png")} />
                         <p>Register with Google</p>
                     </div>
+                    <RegistrationPopover></RegistrationPopover>
                     <div className="register-text-container">
                         <div>
                             Already have an account? <Link to="/">Login</Link> now.
