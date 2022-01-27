@@ -58,7 +58,7 @@ function Register() {
                 navigate("/dashboard");
             }, 200);
         }
-        if (firstName && lastName && email && password) {
+        if (firstName && lastName && email.match(/[^@]+@[^@]+\./) && password.length > 5) {
             if (disabled) {
                 activateRegistration();
             }
@@ -80,6 +80,7 @@ function Register() {
                         value={firstName}
                         onChange={(event) => setFirstName(event.target.value)}
                         placeholder="First Name"
+                        required={true}
                     />
                     <input
                         type="text"
@@ -87,6 +88,8 @@ function Register() {
                         value={lastName}
                         onChange={(event) => setLastName(event.target.value)}
                         placeholder="Last Name"
+                        required={true}
+                        pattern="/[^@]+@[^@]+\./"
                     />
                     <input
                         type="text"
@@ -94,6 +97,8 @@ function Register() {
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                         placeholder="E-mail Address"
+                        required={true}
+                        minLength={6}
                     />
                     <input
                         type="password"
@@ -101,6 +106,7 @@ function Register() {
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         placeholder="Password"
+                        required={true}
                     />
                     <button className="register-button"
                         style={{ backgroundColor: backgroundColor }}

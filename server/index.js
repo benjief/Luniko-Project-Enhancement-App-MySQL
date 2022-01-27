@@ -59,7 +59,6 @@ app.get('/get', (req, res) => {
 
 app.get('/get-personnel-with-id/:id', (req, res) => {
     const id = req.params.id;
-    console.log(id);
     db.query("SELECT * FROM personnel WHERE pers_id = ?", id, (err, result) => {
         if (err) {
             console.log(err);
