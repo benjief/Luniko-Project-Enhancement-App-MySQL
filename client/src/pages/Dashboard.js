@@ -10,34 +10,50 @@ import NavBar from "./Navbar";
 function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
     const [firstName, setFirstName] = useState("");
+    const [isIdentifier, setIsIdentifier] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
+    const [srBackgroundColor, setSRBackgroundColor] = useState("#BFBFBF");
+    const [orBackgroundColor, setORBackgroundColor] = useState("#BFBFBF");
     const navigate = useNavigate();
 
     const getPersonnelInfoWithID = (id) => {
         Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`, {
         }).then((response) => {
             setFirstName(response.data[0].pers_fname);
+            if (response.data[0].pers_is_identifier === 1) {
+                setIsIdentifier(true);
+                setSRBackgroundColor("var(--lunikoBlue)");
+            }
+            if (response.data[0].pers_is_owner === 1) {
+                setIsOwner(true);
+                setORBackgroundColor("var(--lunikoBlue)");
+            }
         });
     }
 
-    const fetchUserName = async () => {
-        try {
-            // Fetch and set personnel first name
-            getPersonnelInfoWithID(user?.uid);
+    // const fetchUserName = async () => {
+    //     try {
+    //         // Fetch and set personnel first name
+    //         getPersonnelInfoWithID(user?.uid);
 
-            // const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-            // const doc = await getDocs(q);
-            // const data = doc.docs[0].data();
-            // setName(data.name);
-        } catch (err) {
-            console.error(err);
-            alert("An error occured while fetching user data");
-        }
-    };
+    //         // const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+    //         // const doc = await getDocs(q);
+    //         // const data = doc.docs[0].data();
+    //         // setName(data.name);
+    //     } catch (err) {
+    //         console.error(err);
+    //         alert("An error occured while fetching user data");
+    //     }
+    // };
 
     useEffect(() => {
         if (loading) return;
-        if (!user) return navigate("/");
-        fetchUserName();
+        if (!user) {
+            return navigate("/");
+        } else {
+            getPersonnelInfoWithID(user?.uid);
+        }
+
     });
 
     return (
@@ -45,8 +61,21 @@ function Dashboard() {
             <NavBar></NavBar>
             <div className="dashboard">
                 <div className="dashboard-container">
-                    <p>Welcome, {firstName}!</p>
-                    <button className="dashboard-button" onClick={logout}>
+                    <p>Welcome, <b>{firstName}</b>!</p>
+                    <button className="add-request-button">Create Request</button>
+                    <button
+                        className="submitted-requests-button"
+                        disabled={!isIdentifier}
+                        style={{ backgroundColor: srBackgroundColor }}>
+                        Submitted Requests
+                    </button>
+                    <button
+                        className="owned-requests-button"
+                        disabled={!isOwner}
+                        style={{ backgroundColor: orBackgroundColor }}>
+                        Owned Requests
+                    </button>
+                    <button className="logout-button" onClick={logout}>
                         Logout
                     </button>
                 </div>

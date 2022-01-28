@@ -23,9 +23,27 @@
   border-radius: 20px;
   width: 90%;
   max-width: 350px;
+  box-shadow: 2px 2px 6px rgba(43, 43, 43, 0.884);
 }
 
-.dashboard-button {
+.dashboard-container p {
+  color: white;
+}
+
+.add-request-button, .submitted-requests-button, .owned-requests-button {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  color: white;
+  background-color: var(--lunikoBlue);
+  border-radius: 5px;
+  font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  font-size: 14pt;
+  height: 50px;
+}
+
+.logout-button {
   padding: 10px;
   margin-top: 15px;
   margin-bottom: 10px;
@@ -37,10 +55,6 @@
   font-weight: 600;
   font-size: 14pt;
   height: 50px;
-}
-
-.dashboard-button:hover {
-  cursor: pointer;
 }
 
 .dashboard div {
