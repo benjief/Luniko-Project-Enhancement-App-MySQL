@@ -16,15 +16,26 @@ import "../styles/Navbar.css";
 function NavBar() {
     const [user, loading, error] = useAuthState(auth);
     const [isOpen, setIsOpen] = useState(false);
+    const [navItems, setNavItems] = useState(null);
+    const [navbarToggler, setNavbarToggler] = useState(null);
 
     useEffect(() => {
+        console.log(user);
+        if (loading) return;
         if (!user) {
-            let navItems = document.getElementsByClassName("me-auto")[0];
-            let navbarToggler = document.getElementsByClassName("navbar-toggler")[0];
             navItems.style.visibility = "hidden";
             navbarToggler.style.visibility = "hidden";
-            console.log(user);
+            setNavItems(document.getElementsByClassName("me-auto")[0]);
+            setNavbarToggler(document.getElementsByClassName("navbar-toggler")[0]);
         }
+
+        // if (!user) {
+        //     navItems.style.visibility = "hidden";
+        //     navbarToggler.style.visibility = "hidden";
+        // } else {
+        //     navItems.style.visibility = "hidden";
+        //     navbarToggler.style.visibility = "hidden";
+        // }
     }, [user]);
 
     return (

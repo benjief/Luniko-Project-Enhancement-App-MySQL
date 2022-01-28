@@ -35,6 +35,7 @@ function Dashboard() {
     };
 
     useEffect(() => {
+        console.log(user);
         if (loading) return;
         if (!user) return navigate("/");
         fetchUserName();
