@@ -23,6 +23,7 @@ function NavBar() {
             let navbarToggler = document.getElementsByClassName("navbar-toggler")[0];
             navItems.style.visibility = "hidden";
             navbarToggler.style.visibility = "hidden";
+            console.log(user);
         }
     }, [user]);
 

@@ -38,7 +38,7 @@ class RegistrationPopover extends Component {
                         style={{
                             fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif"
                         }}>
-                        Note that a <b>valid email address</b> and password length
+                        A <b>valid email address</b> and password length
                         of <b>at least six characters</b> are required for registration.
                     </PopoverBody>
                 </Popover>
