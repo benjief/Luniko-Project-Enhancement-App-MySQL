@@ -90,7 +90,6 @@ const loginWithGoogle = async () => {
 
         let personnelList = [];
         await getPersonnelWithUID(personnelList, user.uid).then(() => {
-            console.log("is list returned?");
             if (personnelList.length === 0) {
                 writePersonnelToDB(user.uid, user.displayName.split(" ")[0],
                     user.displayName.split(" ")[1], user.email).then(() => {

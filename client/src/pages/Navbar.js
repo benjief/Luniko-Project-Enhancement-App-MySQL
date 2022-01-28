@@ -16,17 +16,12 @@ import "../styles/Navbar.css";
 function NavBar() {
     const [user, loading, error] = useAuthState(auth);
     const [isOpen, setIsOpen] = useState(false);
-    const [navItems, setNavItems] = useState(null);
-    const [navbarToggler, setNavbarToggler] = useState(null);
+    const [visibility, setVisibility] = useState("hidden");
 
     useEffect(() => {
-        console.log(user);
         if (loading) return;
-        if (!user) {
-            navItems.style.visibility = "hidden";
-            navbarToggler.style.visibility = "hidden";
-            setNavItems(document.getElementsByClassName("me-auto")[0]);
-            setNavbarToggler(document.getElementsByClassName("navbar-toggler")[0]);
+        if (user) {
+            setVisibility("visible");
         }
 
         // if (!user) {
@@ -36,7 +31,7 @@ function NavBar() {
         //     navItems.style.visibility = "hidden";
         //     navbarToggler.style.visibility = "hidden";
         // }
-    }, [user]);
+    }, [loading, user, visibility]);
 
     return (
         <Navbar
@@ -46,13 +41,17 @@ function NavBar() {
             fixed=""
             light
         >
-            <NavbarBrand href="/home">
+            <NavbarBrand href="/">
                 <img className="test" src={require("../img/logo_exp.png")} alt="Luniko"></img>
             </NavbarBrand>
-            <NavbarToggler onClick={() => { setIsOpen(!isOpen) }} />
+            <NavbarToggler
+                onClick={() => { setIsOpen(!isOpen) }}
+                style={{ visibility: visibility }}
+            />
             <Collapse navbar isOpen={isOpen}>
                 <Nav
                     className="me-auto"
+                    style={{ visibility: visibility }}
                     navbar
                 >
                     <NavItem>
