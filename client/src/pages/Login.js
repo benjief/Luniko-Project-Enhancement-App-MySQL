@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, loginWithEmailAndPassword, loginWithGoogle } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import NavBar from "./Navbar";
+import NavBar from "../components/Navbar";
 import "../styles/Login.css";
 
 

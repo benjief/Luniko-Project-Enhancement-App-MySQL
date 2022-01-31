@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase";
+import { auth, logout } from "../firebase";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Navbar,
@@ -55,7 +55,7 @@ function NavBar() {
         //     navItems.style.visibility = "hidden";
         //     navbarToggler.style.visibility = "hidden";
         // }
-    }, [loading, user, visibility]);
+    }, [loading, user, visibility, orNavLinkColor, srNavLinkColor]);
 
     return (
         <Navbar
@@ -100,7 +100,8 @@ function NavBar() {
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="https://github.com/reactstrap/reactstrap">
+                        <NavLink
+                            onClick={logout}>
                             Logout
                         </NavLink>
                     </NavItem>

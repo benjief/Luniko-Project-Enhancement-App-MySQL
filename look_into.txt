@@ -1,2 +1,6 @@
 States
 JS -> filter function
+Protected Routes
+React Hooks
+Auto logout (after x amount of time)
+React Final-Form

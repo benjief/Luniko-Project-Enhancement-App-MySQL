@@ -50,7 +50,7 @@ function Personnel() {
             setPersonnelList(response.data);
         });
     };
-
+    f
     const deletePersonnel = (id) => {
         Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
             setPersonnelList(personnelList.filter((val) => {

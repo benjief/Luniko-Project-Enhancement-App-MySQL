@@ -21,7 +21,7 @@
   background-color: var(--lunikoDarkGrey);
   padding: 30px;
   border-radius: 20px;
-  width: 90%;
+  width: 95%;
   max-width: 350px;
   box-shadow: 2px 2px 6px rgba(43, 43, 43, 0.884);
 }
@@ -41,6 +41,7 @@
   font-weight: 600;
   font-size: 14pt;
   height: 50px;
+  width: 100%;
 }
 
 .logout-button {

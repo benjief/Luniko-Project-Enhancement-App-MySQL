@@ -25,6 +25,7 @@
 
 .nav-link:hover {
   color: var(--lunikoOrange) !important;
+  cursor: pointer;
 }
 
 .navbar-toggler {

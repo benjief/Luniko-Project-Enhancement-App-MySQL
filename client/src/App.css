@@ -54,6 +54,7 @@ button {
 
 input {
   box-shadow: 2px 2px 4px rgba(43, 43, 43, 0.6);
+  height: 50px;
 }
 
 button:hover {

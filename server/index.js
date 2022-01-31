@@ -10,7 +10,7 @@ const db = mysql.createConnection({
     user: "root",
     host: "localhost",
     password: "",
-    database: "personnel_system"
+    database: "luniko_pe"
 });
 
 // Create a route

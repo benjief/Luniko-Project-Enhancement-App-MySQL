@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
-import "../styles/Dashboard.css";
+import { useNavigate, Link } from "react-router-dom";
 import { auth, logout } from "../firebase";
 // import { query, collection, getDocs, where } from "firebase/firestore";
-import NavBar from "./Navbar";
+import NavBar from "../components/Navbar";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
     const [user, loading, error] = useAuthState(auth);
@@ -54,7 +54,7 @@ function Dashboard() {
             getPersonnelInfoWithID(user?.uid);
         }
 
-    });
+    }, [loading, user]);
 
     return (
         <Fragment>
@@ -62,7 +62,12 @@ function Dashboard() {
             <div className="dashboard">
                 <div className="dashboard-container">
                     <p>Welcome, <b>{firstName}</b>!</p>
-                    <button className="add-request-button">Create Request</button>
+                    <Link to="/create-request/" state={{ uid: user?.uid }}>
+                        <button
+                            className="add-request-button">
+                            Create Request
+                        </button>
+                    </Link>
                     <button
                         className="submitted-requests-button"
                         disabled={!isIdentifier}
@@ -80,7 +85,7 @@ function Dashboard() {
                     </button>
                 </div>
             </div>
-        </Fragment>
+        </Fragment >
     );
 }
 

@@ -6,8 +6,8 @@ import {
     registerWithEmailAndPassword,
     loginWithGoogle,
 } from "../firebase";
-import NavBar from "./Navbar";
-import RegistrationPopover from "./RegistrationPopover";
+import NavBar from "../components/Navbar";
+import RegistrationPopover from "../components/RegistrationPopover";
 import "../styles/Register.css";
 
 function Register() {
