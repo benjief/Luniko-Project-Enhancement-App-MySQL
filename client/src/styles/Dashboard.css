@@ -32,6 +32,7 @@
 
 .add-request-button, .submitted-requests-button, .owned-requests-button {
   padding: 10px;
+  margin-top: 0;
   margin-bottom: 10px;
   border: none;
   color: white;

@@ -31,6 +31,7 @@
 .navbar-toggler {
   width: 60px;
   box-shadow: none;
+  margin-top: 0;
 }
 
 .navbar-toggler:focus {

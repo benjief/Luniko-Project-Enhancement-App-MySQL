@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { auth, logout } from "../firebase";
 // import { query, collection, getDocs, where } from "firebase/firestore";
 import NavBar from "../components/Navbar";
@@ -46,28 +46,41 @@ function Dashboard() {
     //     }
     // };
 
+    const navigateToCreateRequestPage = () => {
+        navigate("CreateRequest", {
+            uid: user?.uid,
+            isIdentifier: isIdentifier,
+            isOwner: isOwner
+        });
+    }
+
     useEffect(() => {
         if (loading) return;
         if (!user) {
             return navigate("/");
         } else {
             getPersonnelInfoWithID(user?.uid);
+            console.log(isIdentifier);
+            console.log(isOwner);
         }
 
     }, [loading, user]);
 
     return (
         <Fragment>
-            <NavBar></NavBar>
+            <NavBar
+                visibility={"visible"}
+                srDisabled={!isIdentifier}
+                orDisabled={!isOwner}>
+            </NavBar>
             <div className="dashboard">
                 <div className="dashboard-container">
                     <p>Welcome, <b>{firstName}</b>!</p>
-                    <Link to="/create-request/" state={{ uid: user?.uid }}>
-                        <button
-                            className="add-request-button">
-                            Create Request
-                        </button>
-                    </Link>
+                    <button
+                        className="add-request-button"
+                        onClick={navigateToCreateRequestPage()}>
+                        Create Request
+                    </button>
                     <button
                         className="submitted-requests-button"
                         disabled={!isIdentifier}

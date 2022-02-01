@@ -92,7 +92,7 @@ const loginWithGoogle = async () => {
         await getPersonnelWithUID(personnelList, user.uid).then(() => {
             if (personnelList[0].length === 0) {
                 writePersonnelToDB(user.uid, user.displayName.split(" ")[0],
-                    user.displayName.split(" ")[1], user.email).then(() => {
+                    user.displayName.split(" ").slice(1), user.email).then(() => {
                         console.log("Personnel written to DB!");
                     });
             }
@@ -126,13 +126,13 @@ const loginWithEmailAndPassword = async (email, password) => {
 };
 
 // Register with email and password
-const registerWithEmailAndPassword = async (name, email, password) => {
+const registerWithEmailAndPassword = async (firstName, lastName, email, password) => {
     try {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
 
         // Add the new user to the MySQL DB
-        await writePersonnelToDB(user.uid, name.split(" ")[0], name.split(" ")[1], email = user.email).then(() => {
+        await writePersonnelToDB(user.uid, firstName, lastName, email = user.email).then(() => {
             console.log("Personnel written to DB!")
         });
 

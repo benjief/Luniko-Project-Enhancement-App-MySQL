@@ -45,12 +45,12 @@ function Personnel() {
     // Here, you're receiving a response from the back end (goes in d.then())
     const getPersonnel = () => {
         setPersonnelListVisibility(true);
-        Axios.get("http://localhost:3001/get", {
+        Axios.get("http://localhost:3001/get-all-personnel", {
         }).then((response) => {
             setPersonnelList(response.data);
         });
     };
-    f
+
     const deletePersonnel = (id) => {
         Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
             setPersonnelList(personnelList.filter((val) => {

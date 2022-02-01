@@ -33,8 +33,7 @@ function Register() {
     }
 
     const registerConventionally = () => {
-        let fullName = firstName + " " + lastName;
-        registerWithEmailAndPassword(fullName, email, password);
+        registerWithEmailAndPassword(firstName, lastName, email, password);
         // .then(() => {
         //     // setTimeout(function () {
         //     navigate("/dashboard");
@@ -71,7 +70,11 @@ function Register() {
 
     return (
         <Fragment>
-            <NavBar></NavBar>
+            <NavBar
+                visibility={"hidden"}
+                srDisabled={true}
+                orDisabled={true}>
+            </NavBar>
             <div className="register">
                 <div className="register-container">
                     <input

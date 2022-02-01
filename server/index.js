@@ -37,7 +37,7 @@ app.post("/create", (req, res) => {
     );
 });
 
-app.get('/get', (req, res) => {
+app.get('/get-all-personnel', (req, res) => {
     db.query("SELECT * FROM personnel", (err, result) => {
         if (err) {
             console.log(err);

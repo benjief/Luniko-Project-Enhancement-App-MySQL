@@ -21,7 +21,11 @@ function Login() {
     }, [user, loading]);
     return (
         <Fragment>
-            <NavBar />
+            <NavBar
+                visibility={"hidden"}
+                srDisabled={true}
+                orDisabled={true}>
+            </NavBar>
             <div className="login">
                 <div className="login-container">
                     <input
