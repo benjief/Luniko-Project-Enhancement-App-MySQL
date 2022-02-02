@@ -9,7 +9,7 @@ import "../styles/Login.css";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,7 +18,8 @@ function Login() {
             return;
         }
         if (user) navigate("/dashboard");
-    }, [user, loading]);
+    }, [user, loading, navigate]);
+
     return (
         <Fragment>
             <NavBar
@@ -51,7 +52,7 @@ function Login() {
                     <div
                         className="login-google"
                         onClick={loginWithGoogle}>
-                        <img src={require("../img/google_logo.png")} />
+                        <img src={require("../img/google_logo.png")} alt="Luniko" />
                         <p>Login with Google</p>
                     </div>
                     <div className="login-text-container">

@@ -1,14 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Axios from "axios";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { auth, logout } from "../firebase";
 // import { query, collection, getDocs, where } from "firebase/firestore";
 import NavBar from "../components/Navbar";
 import "../styles/Dashboard.css";
 
 function Dashboard() {
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     const [firstName, setFirstName] = useState("");
     const [isIdentifier, setIsIdentifier] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
@@ -46,25 +46,15 @@ function Dashboard() {
     //     }
     // };
 
-    const navigateToCreateRequestPage = () => {
-        navigate("CreateRequest", {
-            uid: user?.uid,
-            isIdentifier: isIdentifier,
-            isOwner: isOwner
-        });
-    }
-
     useEffect(() => {
         if (loading) return;
         if (!user) {
             return navigate("/");
         } else {
             getPersonnelInfoWithID(user?.uid);
-            console.log(isIdentifier);
-            console.log(isOwner);
         }
 
-    }, [loading, user]);
+    }, [loading, user, navigate]);
 
     return (
         <Fragment>
@@ -76,11 +66,12 @@ function Dashboard() {
             <div className="dashboard">
                 <div className="dashboard-container">
                     <p>Welcome, <b>{firstName}</b>!</p>
-                    <button
-                        className="add-request-button"
-                        onClick={navigateToCreateRequestPage()}>
-                        Create Request
-                    </button>
+                    <Link to={`/create-request/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                        <button
+                            className="add-request-button">
+                            Create Request
+                        </button>
+                    </Link>
                     <button
                         className="submitted-requests-button"
                         disabled={!isIdentifier}

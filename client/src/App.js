@@ -1,6 +1,6 @@
 import "./App.css";
 // Router is apparently the standard name for BrowserRouter, so we rename it here
-import { BrowserRouter as Router, Route, Routes as Switch, Link } from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes as Switch } from "react-router-dom"
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Reset from "./pages/Reset";
