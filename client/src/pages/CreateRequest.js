@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import SingleSelect from "../components/SingleSelect";
 import MultiSelect from "../components/MultiSelect";
+import BootstrapPopover from "../components/BootstrapPopover";
 import Axios from "axios";
 import "../styles/CreateRequest.css";
 
@@ -19,7 +20,21 @@ function CreateRequest() {
     const [value, setValue] = useState("");
     const [identifierOptions, setIdentifierOptions] = useState([]);
     const [selectedIdentifiers, setSelectedIdentifiers] = useState([]);
+    const [disabled, setDisabled] = useState(true);
     const [submitted, setSubmitted] = useState(false);
+    const [submitButtonText, setSubmitButtonText] = useState("Submit");
+    const [submitButtonColor, setSubmitButtonColor] = useState("#BFBFBF");
+
+    // Submit button
+    const activateSubmit = () => {
+        setSubmitButtonColor("#E58004");
+        setDisabled(false);
+    }
+
+    const deactivateSubmit = () => {
+        setSubmitButtonColor("#BFBFBF");
+        setDisabled(true);
+    }
 
     // Single select options
     const scopeOptions = [
@@ -115,9 +130,15 @@ function CreateRequest() {
                 req_id: requestID
             }).then((response) => {
                 console.log("Identification successfully added!");
+                setSubmitButtonColor("rgb(0, 191, 32)");
+                setSubmitButtonText("Request Submitted!");
+                setTimeout(function () {
+                    navigate("/dashboard");
+                }, 2000);
             });
-        }
+        };
     };
+    
 
     useEffect(() => {
         if (loading) return;
@@ -125,8 +146,17 @@ function CreateRequest() {
             return navigate("/");
         } else {
             getIdentifiers();
+            if (company && scopeType && department && value) {
+                if (disabled) {
+                    activateSubmit();
+                }
+            } else {
+                if (!disabled) {
+                    deactivateSubmit();
+                }
+            }
         }
-    }, [loading, user]);
+    }, [loading, user, company, scopeType, department, value, disabled]);
 
     return (
         <Fragment>
@@ -184,9 +214,17 @@ function CreateRequest() {
                     </MultiSelect>
                     <button
                         className="submit-request-button"
-                        onClick={!submitted ? addRequest : null}>
-                        Submit
+                        disabled={disabled}
+                        // TODO: this might not be super necessary
+                        onClick={!submitted ? addRequest : null}
+                        style={{ backgroundColor: submitButtonColor }}>
+                        {submitButtonText}
                     </button>
+                    <BootstrapPopover
+                        popoverText=
+                            "All identifiers added to this request will be able to view 
+                            it and receive updates pertaining to it."> 
+                    </BootstrapPopover>
                 </div>
             </div>
         </Fragment >

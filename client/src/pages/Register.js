@@ -7,7 +7,7 @@ import {
     loginWithGoogle,
 } from "../firebase";
 import NavBar from "../components/Navbar";
-import RegistrationPopover from "../components/RegistrationPopover";
+import BootstrapPopover from "../components/BootstrapPopover";
 import "../styles/Register.css";
 
 function Register() {
@@ -34,21 +34,7 @@ function Register() {
 
     const registerConventionally = () => {
         registerWithEmailAndPassword(firstName, lastName, email, password);
-        // .then(() => {
-        //     // setTimeout(function () {
-        //     navigate("/dashboard");
-        //     // }, 1000)
-        // })
     };
-
-    // const registerWithGoogle = () => {
-    //     loginWithGoogle().then(() => {
-    //         // setTimeout(function () {
-    //         navigate("/dashboard");
-    //         // }, 1000);
-
-    //     })
-    // }
 
     useEffect(() => {
         if (loading) return;
@@ -123,7 +109,11 @@ function Register() {
                         <img src={require("../img/google_logo.png")} alt="Google" />
                         <p>Register with Google</p>
                     </div>
-                    <RegistrationPopover></RegistrationPopover>
+                    <BootstrapPopover
+                        popoverText=
+                            "A valid email address and password length of at least six 
+                            characters are required for registration."> 
+                    </BootstrapPopover>
                     <div className="register-text-container">
                         <div>
                             Already have an account? <Link to="/">Login</Link> now.

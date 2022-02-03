@@ -10,7 +10,7 @@ function SingleSelect({ name = "", placeholder = "", singleSelectOptions = [], s
             border: state.isFocused ? 0 : 0,
             textAlign: "left",
             paddingLeft: "3px",
-            marginBottom: "10px"
+            marginBottom: "20px"
         }),
         placeholder: (base) => ({
             ...base,

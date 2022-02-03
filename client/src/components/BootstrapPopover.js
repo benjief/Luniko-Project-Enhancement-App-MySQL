@@ -5,10 +5,13 @@ import {
     PopoverBody
 } from "reactstrap";
 
-class RegistrationPopover extends Component {
-    constructor() {
-        super();
-        this.state = { popoverOpen: false };
+class BootstrapPopover extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            popoverOpen: false,
+            popoverText: this.props.popoverText
+        };
         this.togglePopover = this.togglePopover.bind(this);
     };
 
@@ -17,7 +20,7 @@ class RegistrationPopover extends Component {
     }
 
     render() {
-        const { popoverOpen } = this.state;
+        const { popoverOpen, popoverText } = this.state;
 
         return (
             <div className="register-popover-container" style={{ marginTop: "0" }}>
@@ -37,13 +40,12 @@ class RegistrationPopover extends Component {
                         style={{
                             fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif"
                         }}>
-                        A <b>valid email address</b> and password length
-                        of <b>at least six characters</b> are required for registration.
+                        {popoverText}
                     </PopoverBody>
                 </Popover>
             </div>
         );
-    }
+    } c
 }
 
-export default RegistrationPopover;
+export default BootstrapPopover;
