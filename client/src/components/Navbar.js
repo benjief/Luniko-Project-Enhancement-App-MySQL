@@ -14,15 +14,16 @@ import "../styles/Navbar.css";
 
 function NavBar({ visibility = "hidden", srDisabled = true, orDisabled = true }) {
     const [isOpen, setIsOpen] = useState(false);
-    const disabledNavLinkColor = "rgba(228, 228, 228, 0.6)";
 
     const setSRAndORStatus = () => {
         let sr = document.getElementsByClassName("sr-nav-link")[0];
         let or = document.getElementsByClassName("or-nav-link")[0];
-        srDisabled ? sr.style.setProperty("color", disabledNavLinkColor, "important") :
+        if (!srDisabled) {
             sr.style.setProperty("color", "white", "important");
-        orDisabled ? or.style.setProperty("color", disabledNavLinkColor, "important") :
+        }
+        if (!orDisabled) {
             or.style.setProperty("color", "white", "important");
+        }
     }
 
     // Manipulating DOM elements directly isn't encouraged, but I don't have a choice here

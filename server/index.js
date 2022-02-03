@@ -89,16 +89,6 @@ app.get('/get-all-personnel', (req, res) => {
     });
 });
 
-// app.get('/get-uids', (req, res) => {
-//     db.query("SELECT pers_id FROM personnel", (err, result) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send(result);
-//         }
-//     });
-// });
-
 app.get('/get-personnel-with-id/:id', (req, res) => {
     const id = req.params.id;
     db.query("SELECT * FROM personnel WHERE pers_id = ?", id, (err, result) => {
