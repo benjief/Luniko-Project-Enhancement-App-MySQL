@@ -18,7 +18,7 @@ function Login() {
             return;
         }
         if (user) navigate("/dashboard");
-    }, [user, loading, navigate]);
+    }, [loading, user]);
 
     return (
         <Fragment>

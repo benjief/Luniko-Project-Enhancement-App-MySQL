@@ -15,7 +15,7 @@ function Register() {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     const [backgroundColor, setBackgroundColor] = useState("#BFBFBF");
     const [disabled, setDisabled] = useState(true);
 
@@ -66,7 +66,7 @@ function Register() {
                 deactivateRegistration();
             }
         }
-    }, [user, loading, firstName, lastName, email, password]);
+    }, [loading, user, firstName, lastName, email, password, disabled]);
 
     return (
         <Fragment>
@@ -120,7 +120,7 @@ function Register() {
                     <div
                         className="register-google"
                         onClick={loginWithGoogle}>
-                        <img src={require("../img/google_logo.png")} />
+                        <img src={require("../img/google_logo.png")} alt="Google" />
                         <p>Register with Google</p>
                     </div>
                     <RegistrationPopover></RegistrationPopover>

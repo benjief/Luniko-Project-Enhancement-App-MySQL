@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 // Create a route
-app.post("/create", (req, res) => {
+app.post("/create-personnel", (req, res) => {
     const uid = req.body.uid;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
@@ -23,7 +23,7 @@ app.post("/create", (req, res) => {
     // const company = req.body.company;
 
     db.query(
-        // User ?s to keep things secure?
+        // Use ?s to keep things secure?
         "INSERT INTO personnel (pers_id, pers_fname, pers_lname, pers_email) VALUES (?, ?, ?, ?)",
         [uid, firstName, lastName, email], (err, result) => {
             if (err) {
@@ -32,6 +32,48 @@ app.post("/create", (req, res) => {
                 // End the request by sending a message (in this case); can send whatever you want, really
                 console.log("Values inserted!");
                 res.send("Values inserted!");
+            }
+        }
+    );
+});
+
+// Write request to DB
+app.post("/create-request", (req, res) => {
+    const uid = req.body.uid;
+    const company = req.body.company;
+    const scopeType = req.body.scopeType;
+    const department = req.body.department;
+    const description = req.body.description;
+    const value = req.body.value;
+
+    db.query(
+        "INSERT INTO request (req_submitter, req_company, req_scope_type, req_dept, req_descr, req_value) VALUES (?, ?, ?, ?, ?, ?)",
+        [uid, company, scopeType, department, description, value], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // End the request by sending a message (in this case); can send whatever you want, really
+                console.log("Request inserted!");
+                res.send(result);
+            }
+        }
+    );
+});
+
+// Write identification to DB
+app.post("/create-identification", (req, res) => {
+    const uid = req.body.uid;
+    const req_id = req.body.req_id;
+
+    db.query(
+        "INSERT INTO identification (pers_id, req_id) VALUES (?, ?)",
+        [uid, req_id], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // End the request by sending a message (in this case); can send whatever you want, really
+                console.log("Identification inserted!");
+                res.send("Identification inserted!");
             }
         }
     );

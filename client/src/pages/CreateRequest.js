@@ -4,15 +4,12 @@ import { auth } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import SingleSelect from "../components/SingleSelect";
-// import DeptSelect from "../components/DeptSelect";
-// import ValueSelect from "../components/ValueSelect";
-// import IdentifierSelect from "../components/IdentifierSelect";
 import MultiSelect from "../components/MultiSelect";
 import Axios from "axios";
 import "../styles/CreateRequest.css";
 
 function CreateRequest() {
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
     const navigate = useNavigate();
     const { uid, isIdentifier, isOwner } = useParams();
     const [company, setCompany] = useState("");
@@ -20,9 +17,9 @@ function CreateRequest() {
     const [department, setDepartment] = useState("");
     const [description, setDescription] = useState("");
     const [value, setValue] = useState("");
-    const [comments, setComments] = useState("");
     const [identifierOptions, setIdentifierOptions] = useState([]);
     const [selectedIdentifiers, setSelectedIdentifiers] = useState([]);
+    const [submitted, setSubmitted] = useState(false);
 
     // Single select options
     const scopeOptions = [
@@ -61,7 +58,7 @@ function CreateRequest() {
         if (identifierList.length > 1) {
             let tempArray = [];
             for (let i = 0; i < identifierList.length; i++) {
-                if (identifierList[i].pers_id != uid) {
+                if (identifierList[i].pers_id !== uid) {
                     let value = identifierList[i].pers_id;
                     let label = identifierList[i].pers_fname + " " + identifierList[i].pers_lname;
                     let identifier = {
@@ -92,6 +89,36 @@ function CreateRequest() {
         setSelectedIdentifiers(identifiersFromSelector);
     }
 
+    const addRequest = () => {
+        console.log("Adding request...");
+        Axios.post("http://localhost:3001/create-request", {
+            uid: uid,
+            company: company,
+            scopeType: scopeType,
+            department: department,
+            description: description,
+            value: value
+        }).then((response) => {
+            setSubmitted(true);
+            console.log("Request successfully added!!");
+            if (selectedIdentifiers.length !== 0) {
+                addIdentifications(response.data.insertId);
+            }
+        });
+    };
+
+    const addIdentifications = (requestID) => {
+        console.log("Moving on to identifications...")
+        for (let i = 0; i < selectedIdentifiers.length; i++) {
+            Axios.post("http://localhost:3001/create-identification", {
+                uid: selectedIdentifiers[i],
+                req_id: requestID
+            }).then((response) => {
+                console.log("Identification successfully added!");
+            });
+        }
+    };
+
     useEffect(() => {
         if (loading) return;
         if (!user) {
@@ -99,15 +126,15 @@ function CreateRequest() {
         } else {
             getIdentifiers();
         }
-
-    }, [loading, user, isIdentifier, isOwner]);
+    }, [loading, user]);
 
     return (
         <Fragment>
             <NavBar
                 visibility={"visible"}
-                srDisabled={!(isIdentifier == true)}
-                orDisabled={!(isOwner == true)}>
+                srDisabled={!isIdentifier}
+                // TODO: Look into why isIdentifier and isOwner don't have the same behaviour
+                orDisabled={!(isOwner === true)}>
             </NavBar>
             <div className="create-request">
                 <div className="create-request-container">
@@ -148,15 +175,6 @@ function CreateRequest() {
                         singleSelectOptions={valueOptions}
                         selectedValue={handleValueCallback}>
                     </SingleSelect>
-                    <textarea
-                        className="request-textBox"
-                        type="text"
-                        value={comments}
-                        onChange={(event) => setComments(event.target.value)}
-                        placeholder="Comments"
-                        maxLength={500}
-                        style={{ marginTop: "10px", height: "150px" }}>
-                    </textarea>
                     <MultiSelect
                         name="identifiers"
                         placeholder="Add Identifiers"
@@ -165,12 +183,13 @@ function CreateRequest() {
                     >
                     </MultiSelect>
                     <button
-                        className="submit-request-button">
+                        className="submit-request-button"
+                        onClick={!submitted ? addRequest : null}>
                         Submit
                     </button>
                 </div>
             </div>
-        </Fragment>
+        </Fragment >
     )
 }
 

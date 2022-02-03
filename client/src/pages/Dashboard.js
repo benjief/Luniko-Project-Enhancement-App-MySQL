@@ -20,31 +20,16 @@ function Dashboard() {
         Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`, {
         }).then((response) => {
             setFirstName(response.data[0].pers_fname);
-            if (response.data[0].pers_is_identifier === 1) {
+            if (response.data[0].pers_is_identifier.data[0] === 1) {
                 setIsIdentifier(true);
                 setSRBackgroundColor("var(--lunikoBlue)");
             }
-            if (response.data[0].pers_is_owner === 1) {
+            if (response.data[0].pers_is_owner.data[0] === 1) {
                 setIsOwner(true);
                 setORBackgroundColor("var(--lunikoBlue)");
             }
         });
     }
-
-    // const fetchUserName = async () => {
-    //     try {
-    //         // Fetch and set personnel first name
-    //         getPersonnelInfoWithID(user?.uid);
-
-    //         // const q = query(collection(db, "users"), where("uid", "==", user?.uid));
-    //         // const doc = await getDocs(q);
-    //         // const data = doc.docs[0].data();
-    //         // setName(data.name);
-    //     } catch (err) {
-    //         console.error(err);
-    //         alert("An error occured while fetching user data");
-    //     }
-    // };
 
     useEffect(() => {
         if (loading) return;
@@ -54,7 +39,7 @@ function Dashboard() {
             getPersonnelInfoWithID(user?.uid);
         }
 
-    }, [loading, user, navigate]);
+    }, [loading, user]);
 
     return (
         <Fragment>

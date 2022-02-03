@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import Select, { components, PlaceholderProps } from "react-select";
 
 function SingleSelect({ name = "", placeholder = "", singleSelectOptions = [], selectedValue = "" }) {

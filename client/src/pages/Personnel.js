@@ -9,9 +9,7 @@ function Personnel() {
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [company, setCompany] = useState("");
-
     const [personnelList, setPersonnelList] = useState([]);
-
     const [personnelListVisibility, setPersonnelListVisibility] = useState(false);
 
     // const displayinfo = () => {
@@ -21,7 +19,7 @@ function Personnel() {
     const addPersonnel = () => {
         // Sending an object (body) if include comma after address
         // Also note that this is a promise
-        Axios.post("http://localhost:3001/create", {
+        Axios.post("http://localhost:3001/create-personnel", {
             firstName: firstName,
             lastName: lastName,
             email: email,
@@ -42,7 +40,7 @@ function Personnel() {
         });
     };
 
-    // Here, you're receiving a response from the back end (goes in d.then())
+    // Here, you're receiving a response from the back end (goes in .then())
     const getPersonnel = () => {
         setPersonnelListVisibility(true);
         Axios.get("http://localhost:3001/get-all-personnel", {

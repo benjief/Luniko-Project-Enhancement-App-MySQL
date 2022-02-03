@@ -9,7 +9,6 @@ import {
     sendPasswordResetEmail,
     signOut
 } from "firebase/auth";
-import { useState } from "react";
 // import {
 //     getFirestore,
 //     query,
@@ -65,7 +64,7 @@ const getPersonnelWithUID = async (personnelList, id) => {
 const writePersonnelToDB = async (uid, firstName, lastName, email) => {
     // Add the new user to the MySQL DB
     try {
-        await Axios.post("http://localhost:3001/create", {
+        await Axios.post("http://localhost:3001/create-personnel", {
             uid: uid,
             firstName: firstName,
             lastName: lastName,
