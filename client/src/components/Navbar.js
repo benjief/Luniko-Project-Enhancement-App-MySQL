@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { logout } from "../firebase";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
     Navbar,
@@ -12,17 +13,29 @@ import {
 } from "reactstrap";
 import "../styles/Navbar.css";
 
-function NavBar({ visibility = "hidden", srDisabled = true, orDisabled = true }) {
+function NavBar({ visibility = "hidden", srDisabled = false, orDisabled = false, createRequestLink = "/", submittedRequestsLink = "/", ownedRequestLink = "/" }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [srColor, setSRcolor] = useState("rgba(228, 228, 228, 0.6)");
+    const [orColor, setORcolor] = useState("rgba(228, 228, 228, 0.6)");
 
     const setSRAndORStatus = () => {
-        let sr = document.getElementsByClassName("sr-nav-link")[0];
-        let or = document.getElementsByClassName("or-nav-link")[0];
-        if (!srDisabled) {
-            sr.style.setProperty("color", "white", "important");
+        var sr = document.getElementsByClassName("sr-nav-link")[0];
+        var or = document.getElementsByClassName("or-nav-link")[0];
+        srDisabled ? setSRcolor("rgba(228, 228, 228, 0.6)") : setSRcolor("white");
+        orDisabled ? setORcolor("rgba(228, 228, 228, 0.6)") : setORcolor("white");
+        sr.style.setProperty("color", srColor, "important");
+        or.style.setProperty("color", orColor, "important");
+    }
+
+    function handleMouseOver(target) {
+        if (!target.disabled) {
+            target.style.setProperty("color", "var(--lunikoOrange)", "important");
         }
-        if (!orDisabled) {
-            or.style.setProperty("color", "white", "important");
+    }
+
+    function handleMouseLeave(target) {
+        if (!target.disabled) {
+            target.style.setProperty("color", "white", "important");
         }
     }
 
@@ -38,7 +51,7 @@ function NavBar({ visibility = "hidden", srDisabled = true, orDisabled = true })
             fixed=""
             light
         >
-            <NavbarBrand href="/">
+            <NavbarBrand href="/dashboard">
                 <img className="test" src={require("../img/logo_exp.png")} alt="Luniko"></img>
             </NavbarBrand>
             <NavbarToggler
@@ -49,32 +62,40 @@ function NavBar({ visibility = "hidden", srDisabled = true, orDisabled = true })
                 <Nav
                     className="me-auto"
                     style={{ visibility: visibility }}
-                    navbar
-                >
+                    navbar>
                     <NavItem>
-                        <NavLink href="/components/">
+                        <NavLink
+                            href={createRequestLink}
+                            onMouseOver={(event) => { handleMouseOver(event.target) }}
+                            onMouseLeave={(event) => { handleMouseLeave(event.target) }}>
                             Create
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            href="/components/"
+                            href={submittedRequestsLink}
                             className="sr-nav-link"
-                            disabled={srDisabled}>
+                            disabled={srDisabled}
+                            onMouseOver={(event) => { handleMouseOver(event.target) }}
+                            onMouseLeave={(event) => { handleMouseLeave(event.target) }}>
                             Submitted
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            href="/components/"
+                            href={ownedRequestLink}
                             className="or-nav-link"
-                            disabled={orDisabled}>
+                            disabled={orDisabled}
+                            onMouseOver={(event) => { handleMouseOver(event.target) }}
+                            onMouseLeave={(event) => { handleMouseLeave(event.target) }}>
                             Owned
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            onClick={logout}>
+                            onClick={logout}
+                            onMouseOver={(event) => { handleMouseOver(event.target) }}
+                            onMouseLeave={(event) => { handleMouseLeave(event.target) }}>
                             Logout
                         </NavLink>
                     </NavItem>

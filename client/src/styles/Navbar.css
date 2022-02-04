@@ -23,15 +23,10 @@
   top: 2px;
 }
 
-.sr-nav-link, .or-nav-link {
-  color: rgba(228, 228, 228, 0.6) !important;
-}
-
 .nav-link:hover {
-  color: var(--lunikoOrange) !important;
+  /* color: var(--lunikoOrange) !important; */
   cursor: pointer;
 }
-
 
 .navbar-toggler {
   width: 60px;

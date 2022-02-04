@@ -42,39 +42,42 @@ function Dashboard() {
     }, [loading, user]);
 
     return (
-        <Fragment>
-            <NavBar
-                visibility={"visible"}
-                srDisabled={!isIdentifier}
-                orDisabled={!isOwner}>
-            </NavBar>
-            <div className="dashboard">
-                <div className="dashboard-container">
-                    <p>Welcome, <b>{firstName}</b>!</p>
-                    <Link to={`/create-request/${user?.uid}/${isIdentifier}/${isOwner}`}>
+        firstName === "" ? <div>I AM A FROG!!!!</div> :
+            <Fragment>
+                <NavBar
+                    visibility={"visible"}
+                    srDisabled={!(isIdentifier === "true" || isIdentifier === true)}
+                    orDisabled={!(isOwner === "true" || isOwner === true)}
+                    createRequestLink={`/create-request/${user?.uid}/${isIdentifier}/${isOwner}`}
+                    submittedRequestsLink={`/submitted-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                </NavBar>
+                <div className="dashboard">
+                    <div className="dashboard-container">
+                        <p>Welcome, <b>{firstName}</b>!</p>
+                        <Link to={`/create-request/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                            <button
+                                className="add-request-button">
+                                Create Request
+                            </button>
+                        </Link>
                         <button
-                            className="add-request-button">
-                            Create Request
+                            className="submitted-requests-button"
+                            disabled={!isIdentifier}
+                            style={{ backgroundColor: srBackgroundColor }}>
+                            Submitted Requests
                         </button>
-                    </Link>
-                    <button
-                        className="submitted-requests-button"
-                        disabled={!isIdentifier}
-                        style={{ backgroundColor: srBackgroundColor }}>
-                        Submitted Requests
-                    </button>
-                    <button
-                        className="owned-requests-button"
-                        disabled={!isOwner}
-                        style={{ backgroundColor: orBackgroundColor }}>
-                        Owned Requests
-                    </button>
-                    <button className="logout-button" onClick={logout}>
-                        Logout
-                    </button>
+                        <button
+                            className="owned-requests-button"
+                            disabled={!isOwner}
+                            style={{ backgroundColor: orBackgroundColor }}>
+                            Owned Requests
+                        </button>
+                        <button className="logout-button" onClick={logout}>
+                            Logout
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </Fragment >
+            </Fragment >
     );
 }
 

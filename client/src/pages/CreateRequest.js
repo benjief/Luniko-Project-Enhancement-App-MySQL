@@ -118,6 +118,8 @@ function CreateRequest() {
             console.log("Request successfully added!!");
             if (selectedIdentifiers.length !== 0) {
                 addIdentifications(response.data.insertId);
+            } else {
+                handleSuccessfulSubmit();
             }
         });
     };
@@ -130,15 +132,18 @@ function CreateRequest() {
                 req_id: requestID
             }).then((response) => {
                 console.log("Identification successfully added!");
-                setSubmitButtonColor("rgb(0, 191, 32)");
-                setSubmitButtonText("Request Submitted!");
-                setTimeout(function () {
-                    navigate("/dashboard");
-                }, 2000);
+                handleSuccessfulSubmit();
             });
         };
     };
-    
+
+    const handleSuccessfulSubmit = () => {
+        setSubmitButtonColor("rgb(0, 191, 32)");
+        setSubmitButtonText("Request Submitted!");
+        setTimeout(function () {
+            navigate("/dashboard");
+        }, 2000);
+    }
 
     useEffect(() => {
         if (loading) return;
@@ -162,9 +167,9 @@ function CreateRequest() {
         <Fragment>
             <NavBar
                 visibility={"visible"}
-                srDisabled={!isIdentifier}
-                // TODO: Look into why isIdentifier and isOwner don't have the same behaviour
-                orDisabled={!(isOwner === true)}>
+                srDisabled={!(isIdentifier === "true")}
+                orDisabled={!(isOwner === "true")}
+                uid={uid}>
             </NavBar>
             <div className="create-request">
                 <div className="create-request-container">

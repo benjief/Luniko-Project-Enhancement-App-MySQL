@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Reset from "./pages/Reset";
 import Dashboard from "./pages/Dashboard";
 import CreateRequest from "./pages/CreateRequest";
+import SubmittedRequests from "./pages/SubmittedRequests";
+import SubmittedRequest from "./pages/SubmittedRequest";
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
           <Route exact path="/reset" element={<Reset />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/create-request/:uid/:isIdentifier/:isOwner" element={<CreateRequest />} />
+          <Route exact path="/submitted-requests/:uid/:isIdentifier/:isOwner" element={<SubmittedRequests />} />
         </Switch>
       </Router>
     </div>
