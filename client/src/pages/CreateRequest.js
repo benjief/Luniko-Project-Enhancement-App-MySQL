@@ -169,7 +169,8 @@ function CreateRequest() {
                 visibility={"visible"}
                 srDisabled={!(isIdentifier === "true")}
                 orDisabled={!(isOwner === "true")}
-                uid={uid}>
+                createRequestLink={`/create-request/${uid}/${isIdentifier}/${isOwner}`}
+                submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}>
             </NavBar>
             <div className="create-request">
                 <div className="create-request-container">

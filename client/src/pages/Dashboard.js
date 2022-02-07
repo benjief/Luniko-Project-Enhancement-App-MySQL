@@ -5,10 +5,12 @@ import { useNavigate, Link } from "react-router-dom";
 import { auth, logout } from "../firebase";
 // import { query, collection, getDocs, where } from "firebase/firestore";
 import NavBar from "../components/Navbar";
+import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import "../styles/Dashboard.css";
 
 function Dashboard() {
     const [user, loading] = useAuthState(auth);
+    const [rendering, setRendering] = useState(true);
     const [firstName, setFirstName] = useState("");
     const [isIdentifier, setIsIdentifier] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
@@ -28,6 +30,7 @@ function Dashboard() {
                 setIsOwner(true);
                 setORBackgroundColor("var(--lunikoBlue)");
             }
+            setRendering(false);
         });
     }
 
@@ -42,7 +45,15 @@ function Dashboard() {
     }, [loading, user]);
 
     return (
-        firstName === "" ? <div>I AM A FROG!!!!</div> :
+        rendering ?
+            <div className="loading-spinner">
+                <Hypnosis
+                    className="spinner"
+                    color="var(--lunikoOrange)"
+                    width="100px"
+                    height="100px"
+                    duration="1.5s" />
+            </div> :
             <Fragment>
                 <NavBar
                     visibility={"visible"}

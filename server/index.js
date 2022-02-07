@@ -100,6 +100,41 @@ app.get('/get-personnel-with-id/:id', (req, res) => {
     });
 });
 
+app.get('/get-submitted-requests-for-id/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT 
+            request.req_id,
+            CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
+            DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
+            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
+            req_scope_type,
+            req_dept,
+            req_descr,
+            req_approved
+        FROM
+            request
+                JOIN
+            (SELECT 
+                pers_id, pers_fname, pers_lname
+            FROM
+                personnel) submitter_info ON req_submitter = pers_id
+                JOIN
+            (SELECT 
+                req_id
+            FROM
+                identification
+            WHERE
+                pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
 app.delete('/delete/:id', (req, res) => {
     const id = req.params.id;
     db.query("DELETE FROM personnel WHERE pers_id = ?", id, (err, result) => {

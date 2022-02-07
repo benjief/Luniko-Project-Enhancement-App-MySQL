@@ -1,0 +1,58 @@
+#root {
+    height: 100vh;
+    background-image: url("../img/background_pattern.png");
+    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 11pt;
+}
+
+.submitted-requests-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    /* overflow-y: scroll; */
+}
+
+.request-info-container {
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+    background-color: var(--lunikoMidGrey);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    /* outline: 1px dashed var(--lunikoOrange); */
+    /* outline-offset: -4px; */
+    border-radius: 20px;
+    width: 95%;
+    max-width: 350px;
+    box-shadow: 2px 2px 6px rgba(43, 43, 43, 0.884);
+    align-self: center;
+    transition: 0.2s;
+}
+
+.request-info-container:hover {
+    background-color: var(--lunikoOrange);
+    cursor: pointer;
+}
+
+.page-message {
+    align-self: center;
+    margin-top: 20px;
+    font-size: 12pt;
+}
+
+.request-info-container p {
+    align-self: flex-start;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+button {
+    box-shadow: none;
+}
+
+.test {
+    width: 20px;
+}

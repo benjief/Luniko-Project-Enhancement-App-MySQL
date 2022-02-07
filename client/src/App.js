@@ -7,7 +7,6 @@ import Reset from "./pages/Reset";
 import Dashboard from "./pages/Dashboard";
 import CreateRequest from "./pages/CreateRequest";
 import SubmittedRequests from "./pages/SubmittedRequests";
-import SubmittedRequest from "./pages/SubmittedRequest";
 
 function App() {
   return (
