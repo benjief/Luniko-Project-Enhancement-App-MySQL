@@ -4,7 +4,9 @@ import { auth } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import SingleSelect from "../components/SingleSelect";
+import MaterialSingleSelect from "../components/MaterialSingleSelect";
 import MultiSelect from "../components/MultiSelect";
+import MaterialMultiSelect from "../components/MaterialMultiSelect";
 import BootstrapPopover from "../components/BootstrapPopover";
 import Axios from "axios";
 import "../styles/CreateRequest.css";
@@ -183,18 +185,16 @@ function CreateRequest() {
                         required={true}
                         placeholder="Company Name">
                     </input>
-                    <SingleSelect
-                        name="scopes"
-                        placeholder="Scope"
+                    <MaterialSingleSelect
+                        placeholder="Scope Type"
                         singleSelectOptions={scopeOptions}
                         selectedValue={handleScopeCallback}>
-                    </SingleSelect>
-                    <SingleSelect
-                        name="departments"
+                    </MaterialSingleSelect>
+                    <MaterialSingleSelect
                         placeholder="Department"
                         singleSelectOptions={deptOptions}
                         selectedValue={handleDeptCallback}>
-                    </SingleSelect>
+                    </MaterialSingleSelect>
                     <textarea
                         className="request-textBox"
                         type="text"
@@ -205,19 +205,24 @@ function CreateRequest() {
                         required={true}
                         style={{ marginTop: "10px", height: "150px" }}>
                     </textarea>
-                    <SingleSelect
-                        name="values"
+                    <MaterialSingleSelect
                         placeholder="Value"
                         singleSelectOptions={valueOptions}
                         selectedValue={handleValueCallback}>
-                    </SingleSelect>
-                    <MultiSelect
+                    </MaterialSingleSelect>
+                    <MaterialMultiSelect
+                        label="Identifiers"
+                        placeholder="Add Identifiers"
+                        multiSelectOptions={identifierOptions}
+                        selectedValues={handleIdentifierCallback}>
+                    </MaterialMultiSelect>
+                    {/* <MultiSelect
                         name="identifiers"
                         placeholder="Add Identifiers"
                         multiSelectOptions={identifierOptions}
                         selectedValues={handleIdentifierCallback}
                     >
-                    </MultiSelect>
+                    </MultiSelect> */}
                     <button
                         className="submit-request-button"
                         disabled={disabled}
@@ -228,8 +233,8 @@ function CreateRequest() {
                     </button>
                     <BootstrapPopover
                         popoverText=
-                            "All identifiers added to this request will be able to view 
-                            it and receive updates pertaining to it."> 
+                        {[<strong>All identifiers </strong>, "added to this request will be ",
+                            "able to view it and receive updates pertaining to it."]}>
                     </BootstrapPopover>
                 </div>
             </div>

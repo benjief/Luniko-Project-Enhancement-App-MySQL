@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
-import RecipeReviewCard from "../components/MUICard";
+import RequestCard from "../components/RequestCard";
 import "../styles/SubmittedRequests.css";
 
 function SubmittedRequests() {
@@ -55,8 +55,28 @@ function SubmittedRequests() {
                     createRequestLink={`/create-request/${uid}/${isIdentifier}/${isOwner}`}
                     submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}>
                 </NavBar>
-                <div className="submitted-requests-container">
-                    <RecipeReviewCard></RecipeReviewCard>
+                <div className="submitted-requests">
+                    <div className="submitted-requests-container">
+                        {submittedRequests.map((val, key) => {
+                            return <div className="submitted-request-card">
+                                <RequestCard
+                                    key={key}
+                                    orderKey={key}
+                                    id={val.req_id}
+                                    dateSubmitted={val.req_date}
+                                    lastUpdated={val.req_updated}
+                                    status={val.req_approved === "1" || val.req_approved === 1 ? "approved" : val.req_rejected === 1 ? "rejected" : "submitted"}
+                                    submitter={val.req_submitter}
+                                    scopeType={val.req_scope_type}
+                                    department={val.req_dept}
+                                    description={val.req_descr}
+                                    value={val.req_value}
+                                    comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}>
+                                </RequestCard>
+                            </div>
+                        })}
+                    </div>
+
                 </div>
             </Fragment>
         // <div className="submitted-requests-container">

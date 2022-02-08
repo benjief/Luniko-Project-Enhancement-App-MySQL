@@ -13,7 +13,13 @@ import {
 } from "reactstrap";
 import "../styles/Navbar.css";
 
-function NavBar({ visibility = "hidden", srDisabled = false, orDisabled = false, createRequestLink = "/", submittedRequestsLink = "/", ownedRequestLink = "/" }) {
+function NavBar({
+    visibility = "hidden",
+    srDisabled = false,
+    orDisabled = false,
+    createRequestLink = "/",
+    submittedRequestsLink = "/",
+    ownedRequestLink = "/" }) {
     const [isOpen, setIsOpen] = useState(false);
     const [srColor, setSRcolor] = useState("rgba(228, 228, 228, 0.6)");
     const [orColor, setORcolor] = useState("rgba(228, 228, 228, 0.6)");

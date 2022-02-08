@@ -111,7 +111,10 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
             req_scope_type,
             req_dept,
             req_descr,
-            req_approved
+            req_value,
+            req_approved,
+            req_rejected,
+            req_comments
         FROM
             request
                 JOIN
@@ -125,7 +128,9 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
             FROM
                 identification
             WHERE
-                pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id`,
+                pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id
+            ORDER BY
+                req_updated DESC`,
         id, (err, result) => {
             if (err) {
                 console.log(err);

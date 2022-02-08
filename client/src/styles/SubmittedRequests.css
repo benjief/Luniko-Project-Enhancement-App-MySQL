@@ -5,12 +5,33 @@
     font-size: 11pt;
 }
 
-.submitted-requests-container {
+.submitted-requests {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    /* overflow-y: scroll; */
+    height: 88.5vh;
+}
+
+
+.submitted-requests-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-bottom: 20px;
+}
+
+.MuiPaper-root::-webkit-scrollbar {
+    display: none;
+}
+
+.submitted-requests::-webkit-scrollbar {
+    display: none;
 }
 
 .request-info-container {
@@ -53,6 +74,63 @@ button {
     box-shadow: none;
 }
 
-.test {
-    width: 20px;
+.MuiPaper-root {
+    display: flex;
+    flex-direction: column;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* align-items: center; */
+}
+
+.MuiCardHeader-root {
+    padding: 10px !important;
+    padding-bottom: 0 !important;
+    padding-left: 16px !important;
+}
+
+.MuiCardHeader-avatar {
+    align-self: flex-start;
+    margin-right: 0 !important;
+}
+
+.MuiAvatar-root {
+    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
+}
+
+.MuiCardHeader-content {
+    display: flex;
+    justify-content: center;
+    /* margin-left: 30px !important; */
+
+}
+
+.MuiCardHeader-title {
+    margin-bottom: 0 !important;
+    position: relative;
+    left: -20px;
+}
+
+.MuiCardActions-root {
+    width: 100% !important;
+}
+
+.MuiCardContent-root {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.submitted-requests br {
+    display: block;
+    content: "";
+    margin-top: -3px;
+}
+
+.MuiTypography-paragraph {
+    color: rgba(0, 0, 0, 0.7);
+    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
+    font-size: 10.5pt !important;
+}
+
+.MuiCollapse-root .MuiTypography-root:last-of-type {
+    margin-bottom: 20px !important;
 }

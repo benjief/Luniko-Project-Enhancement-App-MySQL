@@ -1,7 +1,11 @@
 import React, { Component, Fragment, useEffect, useState } from "react";
 import Select, { components, PlaceholderProps } from "react-select";
 
-function MultiSelect({ name = "", placeholder = "", multiSelectOptions = [], selectedValues = [] }) {
+function MultiSelect({
+    name = "",
+    placeholder = "",
+    multiSelectOptions = [],
+    selectedValues = [] }) {
     const defaultStyles = {
         control: (base, state) => ({
             ...base,

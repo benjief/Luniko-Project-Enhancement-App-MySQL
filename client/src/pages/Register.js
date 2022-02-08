@@ -111,8 +111,8 @@ function Register() {
                     </div>
                     <BootstrapPopover
                         popoverText=
-                            "A valid email address and password length of at least six 
-                            characters are required for registration."> 
+                        {["A ", <strong>valid email address </strong>, "and password length of ", <strong>at least six characters </strong>,
+                            "are required for registration."]}>
                     </BootstrapPopover>
                     <div className="register-text-container">
                         <div>

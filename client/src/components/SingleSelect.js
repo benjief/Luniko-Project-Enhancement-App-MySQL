@@ -1,7 +1,10 @@
 import React, { Fragment } from "react";
 import Select, { components, PlaceholderProps } from "react-select";
 
-function SingleSelect({ name = "", placeholder = "", singleSelectOptions = [], selectedValue = "" }) {
+function SingleSelect({
+    name = "", placeholder = "",
+    singleSelectOptions = [],
+    selectedValue = "" }) {
     const defaultStyles = {
         control: (base, state) => ({
             ...base,
