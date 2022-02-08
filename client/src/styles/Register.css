@@ -34,11 +34,12 @@
 }
 
 .register-textBox::placeholder {
-  color: rgb(189, 189, 189)
+  color: rgba(83, 83, 83, 0.29);
 }
 
 input {
   font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif;
+  color: rgba(83, 83, 83, 0.767);
 }
 
 input:focus {

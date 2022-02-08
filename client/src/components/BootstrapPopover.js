@@ -45,7 +45,7 @@ class BootstrapPopover extends Component {
                 </Popover>
             </div>
         );
-    } c
+    }
 }
 
 export default BootstrapPopover;

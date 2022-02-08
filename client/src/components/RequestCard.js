@@ -56,7 +56,7 @@ export default function RequestCard({
         <Card sx={{
             minWidth: 350,
             maxWidth: 350,
-            maxHeight: "560px",
+            maxHeight: 589,
             overflowY: "scroll",
             borderRadius: "10px",
             boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
