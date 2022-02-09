@@ -15,6 +15,7 @@ export default function MaterialSingleSelect({
 
     return (
         <Autocomplete
+            // Override of option equality is needed for MUI to properly compare options and values
             isOptionEqualToValue={(option, value) => option.id === value.id}
             disablePortal
             // id="combo-box-demo"

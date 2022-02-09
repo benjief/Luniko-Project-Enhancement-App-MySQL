@@ -79,6 +79,25 @@ app.post("/create-identification", (req, res) => {
     );
 });
 
+// Write ownership to DB
+app.post("/create-ownership", (req, res) => {
+    const uid = req.body.uid;
+    const req_id = req.body.req_id;
+
+    db.query(
+        "INSERT INTO ownership (pers_id, req_id) VALUES (?, ?)",
+        [uid, req_id], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // End the request by sending a message (in this case); can send whatever you want, really
+                console.log("Ownership inserted!");
+                res.send("Ownership inserted!");
+            }
+        }
+    );
+});
+
 app.get('/get-all-personnel', (req, res) => {
     db.query("SELECT * FROM personnel", (err, result) => {
         if (err) {
@@ -129,8 +148,81 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
                 identification
             WHERE
                 pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id
-            ORDER BY
-                req_updated DESC`,
+        ORDER BY req_updated DESC`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.get('/get-owned-requests-for-id/:id', (req, res) => {
+    const id = req.params.id;
+    db.query("SELECT * FROM ownership WHERE pers_id = ?", id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    });
+});
+
+app.get('/get-request-owners-for-id/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT 
+        CONCAT(pers_fname, ' ', pers_lname) AS 'req_owner'
+        FROM
+            personnel
+                JOIN
+            (SELECT 
+                pers_id
+            FROM
+                ownership
+            WHERE
+                req_id = ?) test ON personnel.pers_id = test.pers_id;`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.get('/get-unowned-requests-for-id/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT 
+            request.req_id,
+            CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
+            DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
+            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
+            req_scope_type,
+            req_dept,
+            req_descr,
+            req_value,
+            req_approved,
+            req_rejected,
+            req_comments
+        FROM
+            request
+                JOIN
+            (SELECT 
+                pers_id, pers_fname, pers_lname
+            FROM
+                personnel) submitter_info ON req_submitter = pers_id
+        WHERE
+            req_id NOT IN (SELECT 
+                    req_id
+                FROM
+                    ownership
+                WHERE
+                    pers_id = ?)
+                AND req_rejected <> 1
+        ORDER BY req_date ASC`,
         id, (err, result) => {
             if (err) {
                 console.log(err);

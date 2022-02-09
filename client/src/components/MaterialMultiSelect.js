@@ -24,6 +24,7 @@ export default function MaterialMultiSelect({
   return (
     <Stack spacing={3} sx={{ width: "100%" }}>
       <Autocomplete
+        // Override of option equality is needed for MUI to properly compare options and values
         isOptionEqualToValue={(option, value) => option.id === value.id}
         multiple
         // id="tags-outlined"

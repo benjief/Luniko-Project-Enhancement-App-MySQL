@@ -7,6 +7,8 @@ import Reset from "./pages/Reset";
 import Dashboard from "./pages/Dashboard";
 import CreateRequest from "./pages/CreateRequest";
 import SubmittedRequests from "./pages/SubmittedRequests";
+import AddOwnedRequests from "./pages/AddOwnedRequests";
+import OwnedRequests from "./pages/OwnedRequests";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/create-request/:uid/:isIdentifier/:isOwner" element={<CreateRequest />} />
           <Route exact path="/submitted-requests/:uid/:isIdentifier/:isOwner" element={<SubmittedRequests />} />
+          <Route exact path="/add-owned-requests/:uid/:isIdentifier/:isOwner" element={<AddOwnedRequests />} />
+          <Route exact path="/owned-requests/:uid/:isIdentifier/:isOwner" element={<OwnedRequests />} />
         </Switch>
       </Router>
     </div>

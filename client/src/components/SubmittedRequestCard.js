@@ -29,8 +29,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RequestCard({
-    orderKey = null,
+export default function SubmittedRequestCard({
     id = "",
     dateSubmitted = "",
     lastUpdated = "",
@@ -65,7 +64,7 @@ export default function RequestCard({
             ":hover": {
                 backgroundColor: "var(--lunikoOrange)"
             },
-            marginTop: orderKey === 0 ? "5px" : "20px",
+            marginBottom: "20px"
 
         }}>
             <CardHeader

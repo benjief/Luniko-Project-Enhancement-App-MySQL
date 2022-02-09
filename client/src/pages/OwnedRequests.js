@@ -8,7 +8,7 @@ import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import SubmittedRequestCard from "../components/SubmittedRequestCard";
 import "../styles/SubmittedRequests.css";
 
-function SubmittedRequests() {
+function OwnedRequests() {
     const [user, loading] = useAuthState(auth);
     const [rendering, setRendering] = useState(false);
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ function SubmittedRequests() {
         }).then((response) => {
             // console.log(response.data);
             setSubmittedRequests(response.data);
-            if (response.data.length !== 0) {
+            if (response.length !== 0) {
                 setMessageContent("Your submitted requests:");
             }
             // console.log(submittedRequests);
@@ -56,12 +56,12 @@ function SubmittedRequests() {
                     submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}>
                 </NavBar>
                 <div className="submitted-requests">
-                    <p className="page-message">{messageContent}</p>
                     <div className="submitted-requests-container">
                         {submittedRequests.map((val, key) => {
                             return <div className="submitted-request-card">
                                 <SubmittedRequestCard
                                     key={key}
+                                    orderKey={key}
                                     id={val.req_id}
                                     dateSubmitted={val.req_date}
                                     lastUpdated={val.req_updated}
@@ -79,27 +79,7 @@ function SubmittedRequests() {
 
                 </div>
             </Fragment>
-        // <div className="submitted-requests-container">
-        //     <p className="page-message">{messageContent}</p>
-        //     {submittedRequests.map((val, key) => {
-        //         return <div
-        //             key={key}
-        //             className="request-info-container"
-        //             style={{ visibility: submittedRequests.length === 0 ? "hidden" : "visible", marginTop: key === 0 ? "0" : "20px" }}>
-        //             <p className="request-id">
-        //                 <b>Request ID</b><br />{val.req_id}
-        //             </p>
-        //             <p className="request-date-submitted">
-        //                 <b>Request Submitted</b><br />{val.req_date}
-        //             </p>
-        //             <p className="request-last-updated">
-        //                 <b>Request Updated</b><br />{val.req_updated}
-        //             </p>
-        //         </div>
-        //     })}
-        // </div>
-        // </Fragment >
     );
 }
 
-export default SubmittedRequests;
+export default OwnedRequests;

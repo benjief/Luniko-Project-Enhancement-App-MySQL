@@ -14,8 +14,12 @@ function Dashboard() {
     const [firstName, setFirstName] = useState("");
     const [isIdentifier, setIsIdentifier] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
+    const [ownsRequests, setOwnsRequests] = useState(false);
     const [srBackgroundColor, setSRBackgroundColor] = useState("#BFBFBF");
+    const [aorBackgroundColor, setAORBackgroundColor] = useState("#BFBFBF");
     const [orBackgroundColor, setORBackgroundColor] = useState("#BFBFBF");
+    const [transitionElementOpacity, setTransitionElementOpacity] = useState("100%");
+    const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
     const navigate = useNavigate();
 
     const getPersonnelInfoWithID = (id) => {
@@ -28,6 +32,18 @@ function Dashboard() {
             }
             if (response.data[0].pers_is_owner.data[0] === 1) {
                 setIsOwner(true);
+                setAORBackgroundColor("var(--lunikoBlue)");
+                getOwnedRequests(id);
+            }
+            setRendering(false);
+        });
+    }
+
+    const getOwnedRequests = (id) => {
+        Axios.get(`http://localhost:3001/get-owned-requests-for-id/${id}`, {
+        }).then((response) => {
+            if (response.data[0]) {
+                setOwnsRequests(true);
                 setORBackgroundColor("var(--lunikoBlue)");
             }
             setRendering(false);
@@ -38,11 +54,15 @@ function Dashboard() {
         if (loading) return;
         if (!user) {
             return navigate("/");
-        } else {
+        }
+        if (rendering) {
             getPersonnelInfoWithID(user?.uid);
+        } else {
+            setTransitionElementOpacity("0%");
+            setTransitionElementVisibility("hidden");
         }
 
-    }, [loading, user]);
+    }, [loading, user, rendering]);
 
     return (
         rendering ?
@@ -55,6 +75,13 @@ function Dashboard() {
                     duration="1.5s" />
             </div> :
             <Fragment>
+                <div
+                    className="transition-element"
+                    style={{
+                        opacity: transitionElementOpacity,
+                        visibility: transtitionElementVisibility
+                    }}>
+                </div>
                 <NavBar
                     visibility={"visible"}
                     srDisabled={!(isIdentifier === "true" || isIdentifier === true)}
@@ -71,15 +98,25 @@ function Dashboard() {
                                 Create Request
                             </button>
                         </Link>
-                        <button
-                            className="submitted-requests-button"
-                            disabled={!isIdentifier}
-                            style={{ backgroundColor: srBackgroundColor }}>
-                            Submitted Requests
-                        </button>
+                        <Link to={`/submitted-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                            <button
+                                className="submitted-requests-button"
+                                disabled={!(isIdentifier === "true" || isIdentifier === true)}
+                                style={{ backgroundColor: srBackgroundColor }}>
+                                Submitted Requests
+                            </button>
+                        </Link>
+                        <Link to={`/add-owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                            <button
+                                className="add-owned-requests-button"
+                                disabled={!(isOwner === "true" || isOwner === true)}
+                                style={{ backgroundColor: aorBackgroundColor }}>
+                                Add to Owned Requests
+                            </button>
+                        </Link>
                         <button
                             className="owned-requests-button"
-                            disabled={!isOwner}
+                            disabled={!(ownsRequests === "true" || ownsRequests === true)}
                             style={{ backgroundColor: orBackgroundColor }}>
                             Owned Requests
                         </button>
