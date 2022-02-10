@@ -7,12 +7,14 @@ import MaterialSingleSelect from "../components/MaterialSingleSelect";
 import MaterialMultiSelect from "../components/MaterialMultiSelect";
 import BootstrapPopover from "../components/BootstrapPopover";
 import Axios from "axios";
+import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import "../styles/CreateRequest.css";
 
 function CreateRequest() {
     const [user, loading] = useAuthState(auth);
     const navigate = useNavigate();
     const { uid, isIdentifier, isOwner } = useParams();
+    const [rendering, setRendering] = useState(true);
     const [company, setCompany] = useState("");
     const [scopeType, setScopeType] = useState("");
     const [department, setDepartment] = useState("");
@@ -24,6 +26,8 @@ function CreateRequest() {
     const [submitted, setSubmitted] = useState(false);
     const [submitButtonText, setSubmitButtonText] = useState("Submit");
     const [submitButtonColor, setSubmitButtonColor] = useState("#BFBFBF");
+    const [transitionElementOpacity, setTransitionElementOpacity] = useState("100%");
+    const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
 
     // Submit button
     const activateSubmit = () => {
@@ -146,11 +150,15 @@ function CreateRequest() {
     }
 
     useEffect(() => {
-        if (loading) return;
-        if (!user) {
+        if (loading) {
+            return;
+        } if (!user) {
             return navigate("/");
-        } else {
+        } if (rendering) {
             getIdentifiers();
+        } else {
+            setTransitionElementOpacity("0%");
+            setTransitionElementVisibility("hidden");
             if (company && scopeType && department && value) {
                 if (disabled) {
                     activateSubmit();
@@ -164,80 +172,96 @@ function CreateRequest() {
     }, [loading, user, company, scopeType, department, value, disabled]);
 
     return (
-        <Fragment>
-            <NavBar
-                visibility={"visible"}
-                srDisabled={!(isIdentifier === "true")}
-                orDisabled={!(isOwner === "true")}
-                createRequestLink={`/create-request/${uid}/${isIdentifier}/${isOwner}`}
-                submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}
-                ownedRequestsLink={`/owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
-            </NavBar>
-            <div className="create-request">
-                <div className="create-request-container">
-                    <input
-                        className="request-textBox"
-                        type="text"
-                        value={company}
-                        onChange={(event) => setCompany(event.target.value)}
-                        maxLength={45}
-                        required={true}
-                        placeholder="Company Name">
-                    </input>
-                    <MaterialSingleSelect
-                        placeholder="Scope Type"
-                        singleSelectOptions={scopeOptions}
-                        selectedValue={handleScopeCallback}>
-                    </MaterialSingleSelect>
-                    <MaterialSingleSelect
-                        placeholder="Department"
-                        singleSelectOptions={deptOptions}
-                        selectedValue={handleDeptCallback}>
-                    </MaterialSingleSelect>
-                    <textarea
-                        className="request-textBox"
-                        type="text"
-                        value={description}
-                        onChange={(event) => setDescription(event.target.value)}
-                        placeholder="Description"
-                        maxLength={500}
-                        required={true}
-                        style={{ marginTop: "10px", height: "150px" }}>
-                    </textarea>
-                    <MaterialSingleSelect
-                        placeholder="Value"
-                        singleSelectOptions={valueOptions}
-                        selectedValue={handleValueCallback}>
-                    </MaterialSingleSelect>
-                    <MaterialMultiSelect
-                        label="Identifiers"
-                        placeholder="Add Identifiers"
-                        multiSelectOptions={identifierOptions}
-                        selectedValues={handleIdentifierCallback}>
-                    </MaterialMultiSelect>
-                    {/* <MultiSelect
+        rendering ?
+            <div className="loading-spinner">
+                <Hypnosis
+                    className="spinner"
+                    color="var(--lunikoOrange)"
+                    width="100px"
+                    height="100px"
+                    duration="1.5s" />
+            </div> :
+            <Fragment>
+                <div
+                    className="transition-element"
+                    style={{
+                        opacity: transitionElementOpacity,
+                        visibility: transtitionElementVisibility
+                    }}>
+                </div>
+                <NavBar
+                    visibility={"visible"}
+                    srDisabled={!(isIdentifier === "true")}
+                    orDisabled={!(isOwner === "true")}
+                    createRequestLink={`/create-request/${uid}/${isIdentifier}/${isOwner}`}
+                    submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}
+                    ownedRequestsLink={`/owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                </NavBar>
+                <div className="create-request">
+                    <div className="create-request-container">
+                        <input
+                            className="request-textBox"
+                            type="text"
+                            value={company}
+                            onChange={(event) => setCompany(event.target.value)}
+                            maxLength={45}
+                            required={true}
+                            placeholder="Company Name">
+                        </input>
+                        <MaterialSingleSelect
+                            placeholder="Scope Type"
+                            singleSelectOptions={scopeOptions}
+                            selectedValue={handleScopeCallback}>
+                        </MaterialSingleSelect>
+                        <MaterialSingleSelect
+                            placeholder="Department"
+                            singleSelectOptions={deptOptions}
+                            selectedValue={handleDeptCallback}>
+                        </MaterialSingleSelect>
+                        <textarea
+                            className="request-textBox"
+                            type="text"
+                            value={description}
+                            onChange={(event) => setDescription(event.target.value)}
+                            placeholder="Description"
+                            maxLength={500}
+                            required={true}
+                            style={{ marginTop: "10px", height: "150px" }}>
+                        </textarea>
+                        <MaterialSingleSelect
+                            placeholder="Value"
+                            singleSelectOptions={valueOptions}
+                            selectedValue={handleValueCallback}>
+                        </MaterialSingleSelect>
+                        <MaterialMultiSelect
+                            label="Identifiers"
+                            placeholder="Add Identifiers"
+                            multiSelectOptions={identifierOptions}
+                            selectedValues={handleIdentifierCallback}>
+                        </MaterialMultiSelect>
+                        {/* <MultiSelect
                         name="identifiers"
                         placeholder="Add Identifiers"
                         multiSelectOptions={identifierOptions}
                         selectedValues={handleIdentifierCallback}
                     >
                     </MultiSelect> */}
-                    <button
-                        className="submit-request-button"
-                        disabled={disabled}
-                        // TODO: this might not be super necessary
-                        onClick={!submitted ? addRequest : null}
-                        style={{ backgroundColor: submitButtonColor }}>
-                        {submitButtonText}
-                    </button>
-                    <BootstrapPopover
-                        popoverText=
-                        {[<strong>All identifiers </strong>, "added to this request will be ",
-                            "able to view it and receive updates pertaining to it."]}>
-                    </BootstrapPopover>
+                        <button
+                            className="submit-request-button"
+                            disabled={disabled}
+                            // TODO: this might not be super necessary
+                            onClick={!submitted ? addRequest : null}
+                            style={{ backgroundColor: submitButtonColor }}>
+                            {submitButtonText}
+                        </button>
+                        <BootstrapPopover
+                            popoverText=
+                            {[<strong>All identifiers </strong>, "added to this request will be ",
+                                "able to view it and receive updates pertaining to it."]}>
+                        </BootstrapPopover>
+                    </div>
                 </div>
-            </div>
-        </Fragment >
+            </Fragment >
     )
 }
 

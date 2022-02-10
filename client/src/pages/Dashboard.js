@@ -51,17 +51,16 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        if (loading) return;
-        if (!user) {
+        if (loading) {
+            return;
+        } if (!user) {
             return navigate("/");
-        }
-        if (rendering) {
+        } if (rendering) {
             getPersonnelInfoWithID(user?.uid);
         } else {
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
         }
-
     }, [loading, user, rendering]);
 
     return (

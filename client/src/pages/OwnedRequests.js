@@ -15,6 +15,8 @@ function OwnedRequests() {
     const { uid, isIdentifier, isOwner } = useParams();
     const [ownedRequests, setOwnedRequests] = useState([]);
     const [messageContent, setMessageContent] = useState("You aren't the owner of any requests!");
+    const [transitionElementOpacity, setTransitionElementOpacity] = useState("100%");
+    const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
 
     const getOwnedRequests = () => {
         Axios.get(`http://localhost:3001/get-owned-requests-for-id/${uid}`, {
@@ -76,11 +78,16 @@ function OwnedRequests() {
     }
 
     useEffect(() => {
-        if (loading || rendering) return;
-        if (!user || !uid) {
+        if (loading) {
+            return;
+        } if (!user || !uid) {
             return navigate("/");
-        } else {
+        } if (rendering) {
             getOwnedRequests();
+        }
+        else {
+            setTransitionElementOpacity("0%");
+            setTransitionElementVisibility("hidden");
         }
     }, [loading, user, rendering, uid]);
 
@@ -95,6 +102,13 @@ function OwnedRequests() {
                     duration="1.5s" />
             </div> :
             <Fragment>
+                <div
+                    className="transition-element"
+                    style={{
+                        opacity: transitionElementOpacity,
+                        visibility: transtitionElementVisibility
+                    }}>
+                </div>
                 <NavBar
                     visibility={"visible"}
                     srDisabled={!(isIdentifier === "true" || isIdentifier === true)}

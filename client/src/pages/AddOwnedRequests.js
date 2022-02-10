@@ -126,14 +126,13 @@ function AddOwnedRequests() {
     }
 
     useEffect(() => {
-        if (loading) return;
-        if (!user || !uid) {
+        if (loading) {
+            return;
+        } if (!user || !uid) {
             return navigate("/");
-        }
-        if (rendering) {
+        } if (rendering) {
             getUnownedRequests();
-        }
-        else {
+        } else {
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
         }

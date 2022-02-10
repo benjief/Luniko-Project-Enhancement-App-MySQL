@@ -15,6 +15,8 @@ function SubmittedRequests() {
     const { uid, isIdentifier, isOwner } = useParams();
     const [submittedRequests, setSubmittedRequests] = useState([]);
     const [messageContent, setMessageContent] = useState("You haven't yet submitted any requests!");
+    const [transitionElementOpacity, setTransitionElementOpacity] = useState("100%");
+    const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
 
     const getSubmittedRequests = () => {
         Axios.get(`http://localhost:3001/get-submitted-requests-for-id/${uid}`, {
@@ -68,11 +70,15 @@ function SubmittedRequests() {
     }
 
     useEffect(() => {
-        if (loading || rendering) return;
+        if (loading) return;
         if (!user || !uid) {
             return navigate("/");
-        } else {
+        }
+        if (rendering) {
             getSubmittedRequests();
+        } else {
+            setTransitionElementOpacity("0%");
+            setTransitionElementVisibility("hidden");
         }
     }, [loading, user, rendering, uid]);
 
@@ -87,6 +93,13 @@ function SubmittedRequests() {
                     duration="1.5s" />
             </div> :
             <Fragment>
+                <div
+                    className="transition-element"
+                    style={{
+                        opacity: transitionElementOpacity,
+                        visibility: transtitionElementVisibility
+                    }}>
+                </div>
                 <NavBar
                     visibility={"visible"}
                     srDisabled={!(isIdentifier === "true" || isIdentifier === true)}
