@@ -88,6 +88,7 @@ function CreateRequest() {
                 }
             }
             setIdentifierOptions(tempArray);
+            setRendering(false);
         }
     }
 

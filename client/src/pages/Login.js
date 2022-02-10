@@ -22,6 +22,7 @@ function Login() {
         } if (user) {
             navigate("/dashboard");
         } else {
+            setRendering(false);
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
         }

@@ -48,6 +48,7 @@ function Register() {
             navigate("/dashboard");
             // }, 200);
         } else {
+            setRendering(false);
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
             if (firstName && lastName && email.match(/[^@]+@[^@]+\./) && password.length > 5) {

@@ -27,6 +27,7 @@ function SubmittedRequests() {
                 setMessageContent("Your submitted requests:");
             }
             // console.log(submittedRequests);
+            setRendering(false);
         });
     };
 

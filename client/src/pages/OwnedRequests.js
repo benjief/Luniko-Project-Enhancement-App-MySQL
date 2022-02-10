@@ -26,6 +26,7 @@ function OwnedRequests() {
             if (response.length !== 0) {
                 setMessageContent("Your owned requests:");
             }
+            setRendering(false);
         });
     };
 
