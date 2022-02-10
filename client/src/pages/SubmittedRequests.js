@@ -28,6 +28,45 @@ function SubmittedRequests() {
         });
     };
 
+    const getStatus = (statusCode) => {
+        let status = statusCode === "C" ? "Completed"
+            : statusCode === "P" ? "In Progress"
+                : statusCode === "I" ? "Issue"
+                    : "Not Started";
+
+        return status;
+    }
+
+    const getDepartment = (deptCode) => {
+        let dept = deptCode === "R" ? "Risk"
+            : deptCode === "A" ? "Action"
+                : deptCode === "I" ? "Issue"
+                    : "Decision";
+
+        return dept;
+    }
+
+    const getScopeType = (scopeCode) => {
+        let scope = scopeCode === "F" ? "Functional"
+            : scopeCode === "TE" ? "Technical"
+                : scopeCode === "CO" ? "Conversion"
+                    : scopeCode === "G" ? "General"
+                        : scopeCode === "CU" ? "Cutover"
+                            : "Testing";
+
+        return scope;
+    }
+
+    const getValue = (valueCode) => {
+        let value = valueCode === 0 ? "TBD"
+            : valueCode === 1 ? "Low"
+                : valueCode === 2 ? "Medium"
+                    : valueCode === 3 ? "High"
+                        : "Critical";
+
+        return value;
+    }
+
     useEffect(() => {
         if (loading || rendering) return;
         if (!user || !uid) {
@@ -65,12 +104,13 @@ function SubmittedRequests() {
                                     id={val.req_id}
                                     dateSubmitted={val.req_date}
                                     lastUpdated={val.req_updated}
-                                    status={val.req_approved === "1" || val.req_approved === 1 ? "approved" : val.req_rejected === 1 ? "rejected" : "submitted"}
+                                    status={val.req_rejected.data[0] === 1 ? "Rejected" : getStatus(val.req_status)}
                                     submitter={val.req_submitter}
-                                    scopeType={val.req_scope_type}
-                                    department={val.req_dept}
+                                    scopeType={getScopeType(val.req_scope_type)}
+                                    department={getDepartment(val.req_dept)}
                                     description={val.req_descr}
-                                    value={val.req_value}
+                                    value={getValue(val.req_value)}
+                                    rsn_rejected={val.rsn_rejected ? val.rsn_rejected : ""}
                                     comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}>
                                 </SubmittedRequestCard>
                             </div>

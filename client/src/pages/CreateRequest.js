@@ -170,7 +170,8 @@ function CreateRequest() {
                 srDisabled={!(isIdentifier === "true")}
                 orDisabled={!(isOwner === "true")}
                 createRequestLink={`/create-request/${uid}/${isIdentifier}/${isOwner}`}
-                submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}>
+                submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}
+                ownedRequestsLink={`/owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
             </NavBar>
             <div className="create-request">
                 <div className="create-request-container">

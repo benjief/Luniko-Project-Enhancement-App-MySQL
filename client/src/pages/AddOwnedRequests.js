@@ -6,7 +6,7 @@ import NavBar from "../components/Navbar";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import AddToOwnedRequestsCard from "../components/AddToOwnedRequestsCard";
-import { map } from "@firebase/util";
+// import { map } from "@firebase/util";
 import "../styles/AddOwnedRequests.css";
 
 
@@ -72,25 +72,58 @@ function AddOwnedRequests() {
             uid: uid,
             req_id: requestFromCard
         }).then((response) => {
-            setTimeout(function () {
-                setCardContainerOpacity("0%");
-            }, 500);
-            setTimeout(function () {
-                console.log("Ownership successfully added!");
-                setUnownedRequests(unownedRequests.filter((val) => {
-                    return val.req_id !== requestFromCard;
-                }));
-                setCardContainerOpacity("100%");
-                if (unownedRequests.length === 1) {
-                    setPageMessageOpacity("0%");
-                    setTimeout(function () {
-                        setMessageContent("No more requests available!");
-                        setPageMessageOpacity("100%")
-                    }, 300);
-                }
-            }, 1000);
+            console.log("Ownership successfully added!");
+            setUnownedRequests(unownedRequests.filter((val) => {
+                return val.req_id !== requestFromCard;
+            }));
+            if (unownedRequests.length === 1) {
+                setPageMessageOpacity("0%");
+                setTimeout(() => {
+                    setMessageContent("No more requests available!");
+                    setPageMessageOpacity("100%")
+                }, 300);
+            }
         });
     };
+
+    const getStatus = (statusCode) => {
+        let status = statusCode === "C" ? "Completed"
+            : statusCode === "P" ? "In Progress"
+                : statusCode === "I" ? "Issue"
+                    : "Not Started";
+
+        return status;
+    }
+
+    const getDepartment = (deptCode) => {
+        let dept = deptCode === "R" ? "Risk"
+            : deptCode === "A" ? "Action"
+                : deptCode === "I" ? "Issue"
+                    : "Decision";
+
+        return dept;
+    }
+
+    const getScopeType = (scopeCode) => {
+        let scope = scopeCode === "F" ? "Functional"
+            : scopeCode === "TE" ? "Technical"
+                : scopeCode === "CO" ? "Conversion"
+                    : scopeCode === "G" ? "General"
+                        : scopeCode === "CU" ? "Cutover"
+                            : "Testing";
+
+        return scope;
+    }
+
+    const getValue = (valueCode) => {
+        let value = valueCode === 0 ? "TBD"
+            : valueCode === 1 ? "Low"
+                : valueCode === 2 ? "Medium"
+                    : valueCode === 3 ? "High"
+                        : "Critical";
+
+        return value;
+    }
 
     useEffect(() => {
         if (loading) return;
@@ -129,7 +162,8 @@ function AddOwnedRequests() {
                     srDisabled={!(isIdentifier === "true" || isIdentifier === true)}
                     orDisabled={!(isOwner === "true" || isOwner === true)}
                     createRequestLink={`/create-request/${uid}/${isIdentifier}/${isOwner}`}
-                    submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}>
+                    submittedRequestsLink={`/submitted-requests/${uid}/${isIdentifier}/${isOwner}`}
+                    ownedRequestsLink={`/owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
                 </NavBar>
                 <div className="unowned-requests">
                     <p
@@ -137,23 +171,24 @@ function AddOwnedRequests() {
                         style={{ opacity: pageMessageopacity }}>
                         {messageContent}</p>
                     <div
-                        className="unowned-requests-container"
-                        style={{ opacity: cardContainerOpacity }}>
+                        className="unowned-requests-container">
+                        {/* style={{ opacity: cardContainerOpacity }}> */}
                         {unownedRequests.map((val, key) => {
                             return <div
-                                className="unowned-request-card">
+                                className="unowned-request-card"
+                                /*style={{ opacity: cardContainerOpacity }}*/>
                                 <AddToOwnedRequestsCard
                                     key={key}
                                     id={val.req_id}
                                     dateSubmitted={val.req_date}
                                     lastUpdated={val.req_updated}
-                                    status={val.req_approved === "1" || val.req_approved === 1 ? "approved" : val.req_rejected === 1 ? "rejected" : "submitted"}
+                                    status={val.req_rejected.data[0] === 1 ? "Rejected" : getStatus(val.req_status)}
                                     submitter={val.req_submitter}
                                     owners={getOwnerList(val.req_id)}
-                                    scopeType={val.req_scope_type}
-                                    department={val.req_dept}
+                                    scopeType={getScopeType(val.req_scope_type)}
+                                    department={getDepartment(val.req_dept)}
                                     description={val.req_descr}
-                                    value={val.req_value}
+                                    value={getValue(val.req_value)}
                                     comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}
                                     added={handleAddRequestCallback}>
                                 </AddToOwnedRequestsCard>
@@ -162,7 +197,7 @@ function AddOwnedRequests() {
                     </div>
 
                 </div>
-            </Fragment>
+            </Fragment >
     );
 }
 

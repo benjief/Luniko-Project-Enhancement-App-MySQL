@@ -87,7 +87,8 @@ function Dashboard() {
                     srDisabled={!(isIdentifier === "true" || isIdentifier === true)}
                     orDisabled={!(isOwner === "true" || isOwner === true)}
                     createRequestLink={`/create-request/${user?.uid}/${isIdentifier}/${isOwner}`}
-                    submittedRequestsLink={`/submitted-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                    submittedRequestsLink={`/submitted-requests/${user?.uid}/${isIdentifier}/${isOwner}`}
+                    ownedRequestsLink={`/owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
                 </NavBar>
                 <div className="dashboard">
                     <div className="dashboard-container">
@@ -114,12 +115,14 @@ function Dashboard() {
                                 Add to Owned Requests
                             </button>
                         </Link>
-                        <button
-                            className="owned-requests-button"
-                            disabled={!(ownsRequests === "true" || ownsRequests === true)}
-                            style={{ backgroundColor: orBackgroundColor }}>
-                            Owned Requests
-                        </button>
+                        <Link to={`/owned-requests/${user?.uid}/${isIdentifier}/${isOwner}`}>
+                            <button
+                                className="owned-requests-button"
+                                disabled={!(ownsRequests === "true" || ownsRequests === true)}
+                                style={{ backgroundColor: orBackgroundColor }}>
+                                Owned Requests
+                            </button>
+                        </Link>
                         <button className="logout-button" onClick={logout}>
                             Logout
                         </button>

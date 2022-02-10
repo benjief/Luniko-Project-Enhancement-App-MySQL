@@ -25,23 +25,27 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function SubmittedRequestCard({
+export default function OwnedRequestCard({
     id = "",
+    status = "",
     dateSubmitted = "",
     lastUpdated = "",
+    company = "",
     submitter = "",
     scopeType = "",
     department = "",
     description = "",
     value = "",
-    status = "",
+    effort = "",
+    priority = "",
+    approved = "",
+    rejected = "",
     rsn_rejected = "",
     comments = ""
 }) {
     const [expanded, setExpanded] = React.useState(false);
     const [cardColor, setCardColor] = React.useState("var(--lunikoMidGrey)");
     var statusAbbreviation = status.charAt(0).toUpperCase();
-
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -106,6 +110,10 @@ export default function SubmittedRequestCard({
                     </Typography>
                     <Typography
                         paragraph>
+                        <strong>Company<br /></strong> {company}
+                    </Typography>
+                    <Typography
+                        paragraph>
                         <strong>Submitted By<br /></strong> {submitter}
                     </Typography>
                     <Typography
@@ -133,9 +141,22 @@ export default function SubmittedRequestCard({
                         <strong>Value<br /></strong> {value}
                     </Typography>
                     <Typography
-                        style={{
-                            display: rsn_rejected.length === 0 ? "none" : "inline",
-                        }}
+                        paragraph>
+                        <strong>Effort<br /></strong> {effort}
+                    </Typography>
+                    <Typography
+                        paragraph>
+                        <strong>Priority<br /></strong> {priority}
+                    </Typography>
+                    <Typography
+                        paragraph>
+                        <strong>Approved<br /></strong> {approved}
+                    </Typography>
+                    <Typography
+                        paragraph>
+                        <strong>Rejected<br /></strong> {rejected}
+                    </Typography>
+                    <Typography
                         paragraph>
                         <strong>Reason Rejected<br /></strong> {rsn_rejected}
                     </Typography>

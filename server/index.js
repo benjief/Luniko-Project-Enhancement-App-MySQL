@@ -133,6 +133,8 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
             req_value,
             req_approved,
             req_rejected,
+            rsn_rejected,
+            req_status,
             req_comments
         FROM
             request
@@ -149,6 +151,50 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
             WHERE
                 pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id
         ORDER BY req_updated DESC`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.get('/get-owned-requests-for-id/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT
+            request.req_id,
+            req_company,
+            CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
+            DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
+            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
+            req_scope_type,
+            req_dept,
+            req_descr,
+            req_value,
+            req_effort,
+            req_priority,
+            req_approved,
+            req_rejected,
+            rsn_rejected,
+            req_status,
+            req_comments
+        FROM 
+            request
+            JOIN
+            (SELECT 
+                pers_id, pers_fname, pers_lname
+                FROM
+                    personnel) submitter_info ON req_submitter = pers_id
+                    JOIN
+                (SELECT 
+                    req_id
+                FROM
+                    ownership
+                WHERE
+                    pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id
+        ORDER BY req_value DESC`,
         id, (err, result) => {
             if (err) {
                 console.log(err);

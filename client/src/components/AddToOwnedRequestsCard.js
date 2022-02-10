@@ -2,21 +2,17 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { yellow } from '@mui/material/colors';
-import { green } from '@mui/material/colors';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+// import { yellow } from '@mui/material/colors';
+// import { green } from '@mui/material/colors';
+// import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { color } from '@mui/system';
+// import { color } from '@mui/system';
 import parse from 'html-react-parser';
 
 const ExpandMore = styled((props) => {
@@ -45,8 +41,10 @@ export default function SubmittedRequestCard({
     added = ""
 }) {
     const [expanded, setExpanded] = React.useState(false);
+    // const [cardTransitionTime, setCardTransitionTime] = React.useState("0.2s");
     const [cardColor, setCardColor] = React.useState("var(--lunikoMidGrey)");
-    var statusAbbreviation = status === "submitted" ? "S" : status === "approved" ? "A" : "R";
+    const [cardOpacity, setCardOpacity] = React.useState("100%");
+    // var statusAbbreviation = status === "submitted" ? "S" : status === "approved" ? "A" : "R";
 
     // React.useEffect(() => {
     //     console.log(owners);
@@ -59,7 +57,12 @@ export default function SubmittedRequestCard({
 
     const handleAddRequest = () => {
         handleExpandClick();
+        setCardOpacity("0%");
+        // setCardTransitionTime("2s");
         added(id);
+        setTimeout(() => {
+            setCardOpacity("100%");
+        }, 10);
     }
 
     return (
@@ -75,7 +78,8 @@ export default function SubmittedRequestCard({
             ":hover": {
                 backgroundColor: "var(--lunikoOrange)"
             },
-            marginBottom: "20px"
+            marginBottom: "20px",
+            opacity: cardOpacity
         }}>
             <CardHeader
                 titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
