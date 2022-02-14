@@ -1,0 +1,80 @@
+.unowned-request-card .MuiTypography-paragraph,
+.submitted-request-card .MuiTypography-paragraph {
+    color: rgba(0, 0, 0, 0.7);
+    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
+    font-size: 10.5pt !important;
+}
+
+.unowned-request-card .MuiCollapse-root .MuiTypography-root:last-of-type,
+.submitted-request-card .MuiCollapse-root .MuiTypography-root:last-of-type {
+    margin-bottom: 20px !important;
+}
+
+.unowned-request-card .MuiPaper-root,
+.submitted-request-card .MuiPaper-root {
+    display: flex;
+    flex-direction: column;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* align-items: center; */
+}
+
+.unowned-request-card .MuiPaper-root::-webkit-scrollbar,
+.submitted-request-card .MuiPaper-root::-webkit-scrollbar {
+    display: none;
+}
+
+.unowned-request-card .MuiCardHeader-avatar,
+.submitted-request-card .MuiCardHeader-avatar {
+    align-self: flex-start;
+    margin-right: 0 !important;
+}
+
+.unowned-request-card .MuiAvatar-root,
+.submitted-request-card .MuiAvatar-root {
+    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
+}
+
+.unowned-request-card .MuiCardHeader-root,
+.submitted-request-card .MuiCardHeader-root {
+    padding: 10px !important;
+    padding-bottom: 0 !important;
+    padding-left: 16px !important;
+}
+
+.unowned-request-card .MuiCardHeader-title,
+.subtmitted-request-card .MuiCardHeader-title {
+    margin-bottom: 10px !important;
+    position: relative;
+    left: 0px;
+}
+
+.unowned-request-card .MuiCardHeader-content,
+.submitted-request-card .MuiCardHeader-content {
+    display: flex;
+    justify-content: center;
+    /* margin-left: 30px !important; */
+}
+
+.unowned-request-card .MuiCardActions-root,
+.submitted-request-card .MuiCardActions-root {
+    width: 100% !important;
+}
+
+.unowned-request-card .MuiCardActions-root button,
+.submitted-request-card .MuiCardActions-root button {
+    box-shadow: none !important;
+}
+
+.unowned-request-card .MuiCardContent-root,
+.submitted-request-card .MuiCardContent-root {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.unowned-request-card .request-info-container p,
+.submitted-request-card .request-info-container p {
+    align-self: flex-start;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

@@ -59,13 +59,32 @@ button {
   box-shadow: 2px 2px 4px rgba(43, 43, 43, 0.6) !important;
 }
 
-input {
-  box-shadow: 2px 2px 4px rgba(43, 43, 43, 0.6);
-  height: 50px;
-}
 
 button:hover {
   cursor: pointer;
+}
+
+input {
+  font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 13pt;
+  height: 50px;
+  box-shadow: 2px 2px 4px rgba(43, 43, 43, 0.6);
+
+}
+
+.select__input {
+  box-shadow: none;
+  height: auto;
+}
+
+textarea {
+  min-height: 120px;
+  box-shadow: 2px 2px 6px rgba(43, 43, 43, 0.6);
+  resize: none;
+}
+
+textarea:focus {
+  outline: none;
 }
 
 .page-message {
@@ -91,4 +110,11 @@ button:hover {
   background-image: url("img/background_pattern.png");
   transition: 1s;
   z-index: 1;
+}
+
+.page-message {
+  align-self: center;
+  margin-top: 20px;
+  font-size: 12pt;
+  transition: 0.3s;
 }

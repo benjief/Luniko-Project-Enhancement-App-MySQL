@@ -9,6 +9,7 @@ import BootstrapPopover from "../components/BootstrapPopover";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import "../styles/CreateRequest.css";
+import "../styles/SelectorComponents.css";
 
 function CreateRequest() {
     const [user, loading] = useAuthState(auth);
@@ -144,10 +145,12 @@ function CreateRequest() {
 
     const handleSuccessfulSubmit = () => {
         setSubmitButtonColor("rgb(0, 191, 32)");
-        setSubmitButtonText("Request Submitted!");
-        setTimeout(function () {
+        // setTimeout(() => {
+        //     setSubmitButtonText("Request Submitted!");
+        // }, 500);
+        setTimeout(() => {
             navigate("/dashboard");
-        }, 2000);
+        }, 1000);
     }
 
     useEffect(() => {
@@ -170,7 +173,7 @@ function CreateRequest() {
                 }
             }
         }
-    }, [loading, user, company, scopeType, department, value, disabled]);
+    }, [loading, user, company, scopeType, department, value, disabled, rendering]);
 
     return (
         rendering ?
@@ -238,7 +241,8 @@ function CreateRequest() {
                             label="Identifiers"
                             placeholder="Add Identifiers"
                             multiSelectOptions={identifierOptions}
-                            selectedValues={handleIdentifierCallback}>
+                            selectedValues={handleIdentifierCallback}
+                            limitTags={1}>
                         </MaterialMultiSelect>
                         {/* <MultiSelect
                         name="identifiers"

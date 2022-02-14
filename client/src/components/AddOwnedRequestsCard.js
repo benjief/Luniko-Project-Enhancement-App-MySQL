@@ -5,7 +5,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-// import Avatar from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 // import { yellow } from '@mui/material/colors';
@@ -26,11 +26,13 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function SubmittedRequestCard({
+export default function AddOwnedRequestsCard({
+    requestsRemaining = 0,
     id = "",
     dateSubmitted = "",
     lastUpdated = "",
     status = "",
+    approved = "",
     submitter = "",
     owners = "",
     scopeType = "",
@@ -38,13 +40,13 @@ export default function SubmittedRequestCard({
     description = "",
     value = "",
     comments = "",
-    added = ""
+    toAdd = ""
 }) {
     const [expanded, setExpanded] = React.useState(false);
     // const [cardTransitionTime, setCardTransitionTime] = React.useState("0.2s");
     const [cardColor, setCardColor] = React.useState("var(--lunikoMidGrey)");
     const [cardOpacity, setCardOpacity] = React.useState("100%");
-    // var statusAbbreviation = status === "submitted" ? "S" : status === "approved" ? "A" : "R";
+    var statusAbbreviation = status.charAt(0).toUpperCase();
 
     // React.useEffect(() => {
     //     console.log(owners);
@@ -57,41 +59,49 @@ export default function SubmittedRequestCard({
 
     const handleAddRequest = () => {
         handleExpandClick();
-        setCardOpacity("0%");
-        // setCardTransitionTime("2s");
-        added(id);
         setTimeout(() => {
-            setCardOpacity("100%");
+            setCardOpacity("0%");
+            setTimeout(() => {
+                toAdd(id);
+            }, 200);
+            // This condition ensures properties of an unmounted component aren't changed
+            if (requestsRemaining > 0) {
+                setTimeout(() => {
+                    setCardOpacity("100%");
+                }, 200);
+            }
         }, 10);
+
     }
 
     return (
-        <Card sx={{
-            minWidth: 350,
-            maxWidth: 350,
-            maxHeight: 1000,
-            overflowY: "scroll",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
-            transition: "0.5s",
-            backgroundColor: cardColor,
-            ":hover": {
-                backgroundColor: "var(--lunikoOrange)"
-            },
-            marginBottom: "20px",
-            opacity: cardOpacity
-        }}>
+        <Card
+            sx={{
+                minWidth: 350,
+                maxWidth: 350,
+                maxHeight: 1000,
+                overflowY: "scroll",
+                borderRadius: "10px",
+                boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
+                transition: "0.5s",
+                backgroundColor: cardColor,
+                ":hover": {
+                    backgroundColor: "var(--lunikoOrange)"
+                },
+                marginBottom: "20px",
+                opacity: cardOpacity
+            }}>
             <CardHeader
                 titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
                 // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
-                // avatar={
-                //     <Avatar sx={{
-                //         bgcolor: status === "submitted" ? yellow["A700"] : status === "approved" ? green[500] : red[500]
-                //     }}
-                //         aria-label="status">
-                //         {statusAbbreviation}
-                //     </Avatar>
-                // }
+                avatar={
+                    <Avatar sx={{
+                        bgcolor: "var(--lunikoBlue)"
+                    }}
+                        aria-label="status">
+                        {statusAbbreviation}
+                    </Avatar>
+                }
                 title={[<strong>Request ID </strong>, <strong>{id}</strong>]}
             // subheader={[<strong>Date Submitted</strong>, <br />, dateSubmitted, <span />, <strong>Last Updated</strong>, <br />, lastUpdated]}
             />
@@ -120,6 +130,10 @@ export default function SubmittedRequestCard({
                     <Typography
                         paragraph>
                         <strong>Status<br /></strong> {status}
+                    </Typography>
+                    <Typography
+                        paragraph>
+                        <strong>Approved<br /></strong> {approved}
                     </Typography>
                     <Typography
                         paragraph>
@@ -159,7 +173,6 @@ export default function SubmittedRequestCard({
                     </Typography>
                     <button
                         className="add-request-button"
-                        // disabled={disabled}
                         onClick={handleAddRequest}>
                         Become Owner
                     </button>

@@ -9,6 +9,7 @@ import CreateRequest from "./pages/CreateRequest";
 import SubmittedRequests from "./pages/SubmittedRequests";
 import AddOwnedRequests from "./pages/AddOwnedRequests";
 import OwnedRequests from "./pages/OwnedRequests";
+import UpdateOwnedRequest from "./pages/UpdateOwnedRequest";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route exact path="/submitted-requests/:uid/:isIdentifier/:isOwner" element={<SubmittedRequests />} />
           <Route exact path="/add-owned-requests/:uid/:isIdentifier/:isOwner" element={<AddOwnedRequests />} />
           <Route exact path="/owned-requests/:uid/:isIdentifier/:isOwner" element={<OwnedRequests />} />
+          <Route exact path="/update-owned-request/:uid/:isIdentifier/:isOwner/:reqID" element={<UpdateOwnedRequest />} />
         </Switch>
       </Router>
     </div>

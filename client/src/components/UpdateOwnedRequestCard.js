@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 // import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import { color } from '@mui/system';
-import { Link } from 'react-router-dom';
+import MaterialSingleSelect from './MaterialSingleSelect';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -26,13 +26,14 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-
-export default function OwnedRequestCard({
-    uid = "",
-    isIdentifier = 0,
-    isOwner = 0,
+export default function UpdateOwnedRequestCard({
+    // uid = "",
+    // isIdentifier = 0,
+    // isOwner = 0,
     id = "",
     status = "",
+    statusOptions = [],
+    selectedStatus = "",
     dateSubmitted = "",
     lastUpdated = "",
     company = "",
@@ -42,38 +43,67 @@ export default function OwnedRequestCard({
     description = "",
     value = "",
     effort = "",
+    effortOptions = [],
+    selectedEffort = "",
     priority = "",
     approved = "",
     rejected = "",
+    rejectDisabled = true,
+    approvalOptions = [],
+    selectedApproved = "",
+    selectedRejected = "",
     reasonRejected = "",
-    comments = ""
+    updatedReasonRejected = "",
+    comments = "",
+    updatedComments = ""
+
 }) {
-    const [expanded, setExpanded] = React.useState(false);
-    const [cardColor, setCardColor] = React.useState("var(--lunikoMidGrey)");
+    const [expanded, setExpanded] = React.useState(true);
     var statusAbbreviation = status.charAt(0).toUpperCase();
+
+    const handleOnSelectStatus = (valueFromSelector) => {
+        selectedStatus(valueFromSelector);
+    }
+
+    const handleOnSelectEffort = (valueFromSelector) => {
+        selectedEffort(valueFromSelector);
+    }
+
+    const handleOnSelectApproved = (valueFromSelector) => {
+        selectedApproved(valueFromSelector);
+    }
+
+    const handleOnSelectRejected = (valueFromSelector) => {
+        selectedRejected(valueFromSelector);
+    }
+
+    const handleOnChangeReasonRejected = (updatedText) => {
+        updatedReasonRejected(updatedText);
+    }
+
+    const handleOnChangeComments = (updatedText) => {
+        updatedComments(updatedText);
+    }
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
         console.log(priority);
-        cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
+        // cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
     };
 
     return (
-        <Card sx={{
-            minWidth: 350,
-            maxWidth: 350,
-            maxHeight: 589,
-            overflowY: "scroll",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
-            transition: "0.5s",
-            backgroundColor: cardColor,
-            ":hover": {
-                backgroundColor: "var(--lunikoOrange)"
-            },
-            marginBottom: "20px"
-
-        }}>
+        <Card
+            sx={{
+                minWidth: 350,
+                maxWidth: 350,
+                maxHeight: 589,
+                overflowY: "scroll",
+                borderRadius: "10px",
+                boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
+                transition: "0.5s",
+                backgroundColor: "var(--lunikoOrange)",
+                marginBottom: "20px"
+            }}>
             <CardHeader
                 titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
                 // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
@@ -86,15 +116,7 @@ export default function OwnedRequestCard({
                     </Avatar>
                 }
                 title={[<strong>Request ID </strong>, <strong>{id}</strong>]}
-            // subheader={[<strong>Date Submitted</strong>, <br />, dateSubmitted, <span />, <strong>Last Updated</strong>, <br />, lastUpdated]}
             />
-            {/* <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    This impressive paella is a perfect party dish and a fun meal to cook
-                    together with your guests. Add 1 cup of frozen peas along with the mussels,
-                    if you like.
-                </Typography>
-            </CardContent> */}
             < CardActions
                 disableSpacing
                 style={{ justifyContent: "center", height: "40px", padding: 0, paddingBottom: "10px" }}>
@@ -112,8 +134,15 @@ export default function OwnedRequestCard({
                 <CardContent>
                     <Typography
                         paragraph>
-                        <strong>Status<br /></strong> {status}
+                        <strong>Status</strong>
                     </Typography>
+                    <MaterialSingleSelect
+                        label="Status"
+                        placeholder="Status"
+                        defaultValue={status}
+                        singleSelectOptions={statusOptions}
+                        selectedValue={handleOnSelectStatus}>
+                    </MaterialSingleSelect>
                     <Typography
                         paragraph>
                         <strong>Company<br /></strong> {company}
@@ -163,9 +192,6 @@ export default function OwnedRequestCard({
                         <strong>Rejected<br /></strong> {rejected}
                     </Typography>
                     <Typography
-                        style={{
-                            display: reasonRejected.length === 0 ? "none" : "inline",
-                        }}
                         paragraph>
                         <strong>Reason Rejected<br /></strong> {reasonRejected}
                     </Typography>
@@ -173,12 +199,6 @@ export default function OwnedRequestCard({
                         paragraph>
                         <strong>Comments<br /></strong> {comments}
                     </Typography>
-                    <Link to={`/update-owned-request/${uid}/${isIdentifier}/${isOwner}/${id}`}>
-                        <button
-                            className="update-request-button">
-                            Update Request
-                        </button>
-                    </Link>
                 </CardContent>
             </Collapse>
         </Card >

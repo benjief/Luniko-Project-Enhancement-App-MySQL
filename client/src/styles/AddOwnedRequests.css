@@ -19,64 +19,8 @@
     transition: 0.3s;
 }
 
-.MuiPaper-root::-webkit-scrollbar {
-    display: none;
-}
-
 .unowned-requests-container::-webkit-scrollbar {
     display: none;
-}
-
-.page-message {
-    align-self: center;
-    margin-top: 20px;
-    font-size: 12pt;
-    transition: 0.3s;
-}
-
-.request-info-container p {
-    align-self: flex-start;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.MuiPaper-root {
-    display: flex;
-    flex-direction: column;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    /* align-items: center; */
-}
-
-.MuiCardHeader-root {
-    padding: 10px !important;
-    padding-bottom: 0 !important;
-    padding-left: 16px !important;
-}
-
-.MuiCardHeader-content {
-    display: flex;
-    justify-content: center;
-    /* margin-left: 30px !important; */
-}
-
-.MuiCardHeader-title {
-    margin-bottom: 10px !important;
-    position: relative;
-    left: 0px;
-}
-
-.MuiCardActions-root {
-    width: 100% !important;
-}
-
-.MuiCardActions-root button {
-    box-shadow: none !important;
-}
-
-.MuiCardContent-root {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
 }
 
 .unowned-requests br {
@@ -85,18 +29,7 @@
     margin-top: -3px;
 }
 
-.MuiTypography-paragraph {
-    color: rgba(0, 0, 0, 0.7);
-    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
-    font-size: 10.5pt !important;
-}
-
-.MuiCollapse-root .MuiTypography-root:last-of-type {
-    margin-bottom: 20px !important;
-}
-
 .add-request-button {
     font-size: 13pt !important;
     margin-top: 10px;
-    margin-bottom: 15px;
 }

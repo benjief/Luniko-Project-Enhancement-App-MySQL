@@ -34,8 +34,9 @@ export default function SubmittedRequestCard({
     department = "",
     description = "",
     value = "",
+    approved = "",
     status = "",
-    rsn_rejected = "",
+    reasonRejected = "",
     comments = ""
 }) {
     const [expanded, setExpanded] = React.useState(false);
@@ -49,21 +50,22 @@ export default function SubmittedRequestCard({
     };
 
     return (
-        <Card sx={{
-            minWidth: 350,
-            maxWidth: 350,
-            maxHeight: 589,
-            overflowY: "scroll",
-            borderRadius: "10px",
-            boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
-            transition: "0.5s",
-            backgroundColor: cardColor,
-            ":hover": {
-                backgroundColor: "var(--lunikoOrange)"
-            },
-            marginBottom: "20px"
+        <Card
+            sx={{
+                minWidth: 350,
+                maxWidth: 350,
+                maxHeight: 589,
+                overflowY: "scroll",
+                borderRadius: "10px",
+                boxShadow: "2px 2px 6px rgba(43, 43, 43, 0.6)",
+                transition: "0.5s",
+                backgroundColor: cardColor,
+                ":hover": {
+                    backgroundColor: "var(--lunikoOrange)"
+                },
+                marginBottom: "20px"
 
-        }}>
+            }}>
             <CardHeader
                 titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
                 // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
@@ -106,6 +108,10 @@ export default function SubmittedRequestCard({
                     </Typography>
                     <Typography
                         paragraph>
+                        <strong>Approved<br /></strong> {approved}
+                    </Typography>
+                    <Typography
+                        paragraph>
                         <strong>Submitted By<br /></strong> {submitter}
                     </Typography>
                     <Typography
@@ -134,10 +140,10 @@ export default function SubmittedRequestCard({
                     </Typography>
                     <Typography
                         style={{
-                            display: rsn_rejected.length === 0 ? "none" : "inline",
+                            display: reasonRejected.length === 0 ? "none" : "inline",
                         }}
                         paragraph>
-                        <strong>Reason Rejected<br /></strong> {rsn_rejected}
+                        <strong>Reason Rejected<br /></strong> {reasonRejected}
                     </Typography>
                     <Typography
                         paragraph>

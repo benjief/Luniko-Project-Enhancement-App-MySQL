@@ -19,7 +19,7 @@ function NavBar({
     orDisabled = false,
     createRequestLink = "/",
     submittedRequestsLink = "/",
-    ownedRequestLink = "/" }) {
+    ownedRequestsLink = "/" }) {
     const [isOpen, setIsOpen] = useState(false);
     const [srColor, setSRcolor] = useState("rgba(228, 228, 228, 0.6)");
     const [orColor, setORcolor] = useState("rgba(228, 228, 228, 0.6)");
@@ -89,7 +89,7 @@ function NavBar({
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            href={ownedRequestLink}
+                            href={ownedRequestsLink}
                             className="or-nav-link"
                             disabled={orDisabled}
                             onMouseOver={(event) => { handleMouseOver(event.target) }}

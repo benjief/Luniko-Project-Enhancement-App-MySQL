@@ -36,17 +36,21 @@ function Register() {
         setDisabled(true);
     }
 
-    const registerConventionally = () => {
-        registerWithEmailAndPassword(firstName, lastName, email, password);
+    const registerConventionally = async () => {
+        await registerWithEmailAndPassword(firstName, lastName, email, password).then(() => {
+            navigate("/dashboard");
+        });
+    };
+
+    const registerWithGoogle = async () => {
+        await loginWithGoogle(firstName, lastName, email, password).then(() => {
+            navigate("/dashboard");
+        });
     };
 
     useEffect(() => {
         if (loading) {
             return;
-        } if (user) {
-            // setTimeout(function () {
-            navigate("/dashboard");
-            // }, 200);
         } else {
             setRendering(false);
             setTransitionElementOpacity("0%");
@@ -130,7 +134,7 @@ function Register() {
                         </button>
                         <div
                             className="register-google"
-                            onClick={loginWithGoogle}>
+                            onClick={registerWithGoogle}>
                             <img src={require("../img/google_logo.png")} alt="Google" />
                             <p>Register with Google</p>
                         </div>

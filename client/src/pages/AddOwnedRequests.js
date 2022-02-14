@@ -5,9 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
-import AddToOwnedRequestsCard from "../components/AddToOwnedRequestsCard";
+import AddOwnedRequestsCard from "../components/AddOwnedRequestsCard";
 // import { map } from "@firebase/util";
+import { getStatus, getScopeType, getDepartment, getValue, getApprovalStatus } from "../components/DecoderFunctions";
 import "../styles/AddOwnedRequests.css";
+import "../styles/CardComponents.css";
 
 
 function AddOwnedRequests() {
@@ -86,45 +88,6 @@ function AddOwnedRequests() {
         });
     };
 
-    const getStatus = (statusCode) => {
-        let status = statusCode === "C" ? "Completed"
-            : statusCode === "P" ? "In Progress"
-                : statusCode === "I" ? "Issue"
-                    : "Not Started";
-
-        return status;
-    }
-
-    const getDepartment = (deptCode) => {
-        let dept = deptCode === "R" ? "Risk"
-            : deptCode === "A" ? "Action"
-                : deptCode === "I" ? "Issue"
-                    : "Decision";
-
-        return dept;
-    }
-
-    const getScopeType = (scopeCode) => {
-        let scope = scopeCode === "F" ? "Functional"
-            : scopeCode === "TE" ? "Technical"
-                : scopeCode === "CO" ? "Conversion"
-                    : scopeCode === "G" ? "General"
-                        : scopeCode === "CU" ? "Cutover"
-                            : "Testing";
-
-        return scope;
-    }
-
-    const getValue = (valueCode) => {
-        let value = valueCode === 0 ? "TBD"
-            : valueCode === 1 ? "Low"
-                : valueCode === 2 ? "Medium"
-                    : valueCode === 3 ? "High"
-                        : "Critical";
-
-        return value;
-    }
-
     useEffect(() => {
         if (loading) {
             return;
@@ -176,12 +139,14 @@ function AddOwnedRequests() {
                             return <div
                                 className="unowned-request-card"
                                 /*style={{ opacity: cardContainerOpacity }}*/>
-                                <AddToOwnedRequestsCard
+                                <AddOwnedRequestsCard
                                     key={key}
+                                    requestsRemaining={unownedRequests.length - 1}
                                     id={val.req_id}
                                     dateSubmitted={val.req_date}
                                     lastUpdated={val.req_updated}
                                     status={val.req_rejected.data[0] === 1 ? "Rejected" : getStatus(val.req_status)}
+                                    approved={getApprovalStatus(val.req_approved.data[0])}
                                     submitter={val.req_submitter}
                                     owners={getOwnerList(val.req_id)}
                                     scopeType={getScopeType(val.req_scope_type)}
@@ -189,12 +154,11 @@ function AddOwnedRequests() {
                                     description={val.req_descr}
                                     value={getValue(val.req_value)}
                                     comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}
-                                    added={handleAddRequestCallback}>
-                                </AddToOwnedRequestsCard>
+                                    toAdd={handleAddRequestCallback}>
+                                </AddOwnedRequestsCard>
                             </div>
                         })}
                     </div>
-
                 </div>
             </Fragment >
     );

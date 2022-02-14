@@ -56,8 +56,10 @@ function Dashboard() {
         } if (!user) {
             return navigate("/");
         } if (rendering) {
+            console.log(user);
             getPersonnelInfoWithID(user?.uid);
         } else {
+            // getPersonnelInfoWithID(user?.uid);
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
         }

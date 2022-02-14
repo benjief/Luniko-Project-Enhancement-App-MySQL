@@ -37,6 +37,37 @@ app.post("/create-personnel", (req, res) => {
     );
 });
 
+// Update request in DB
+app.put("/update-owned-request", (req, res) => {
+    const effort = req.body.effort;
+    const approved = req.body.approved;
+    const rejected = req.body.rejected;
+    const reasonRejected = req.body.reasonRejected;
+    const status = req.body.status;
+    const comments = req.body.comments;
+
+    db.query(
+        `UPDATE request 
+         SET 
+             rsn_rejected = ?,
+             req_effort = ?,
+             req_approved = ?,
+             req_rejected = ?,
+             req_status = ?,
+             req_comments = ?
+         WHERE 
+             req_id = ?`,
+        [effort, approved, rejected, reasonRejected, status, comments], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Request updated!");
+                res.send(result);
+            }
+        }
+    );
+});
+
 // Write request to DB
 app.post("/create-request", (req, res) => {
     const uid = req.body.uid;
@@ -194,7 +225,7 @@ app.get('/get-owned-requests-for-id/:id', (req, res) => {
                     ownership
                 WHERE
                     pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id
-        ORDER BY req_value DESC`,
+        ORDER BY req_value DESC;`,
         id, (err, result) => {
             if (err) {
                 console.log(err);
@@ -204,15 +235,41 @@ app.get('/get-owned-requests-for-id/:id', (req, res) => {
         });
 });
 
-app.get('/get-owned-requests-for-id/:id', (req, res) => {
+app.get('/get-request-details-for-id/:id', (req, res) => {
     const id = req.params.id;
-    db.query("SELECT * FROM ownership WHERE pers_id = ?", id, (err, result) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(result);
-        }
-    });
+    db.query(
+        `SELECT 
+            request.req_id,
+            req_company,
+            CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
+            DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
+            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
+            req_scope_type,
+            req_dept,
+            req_descr,
+            req_value,
+            req_effort,
+            req_approved,
+            req_rejected,
+            rsn_rejected,
+            req_status,
+            req_comments
+        FROM
+            request
+                JOIN
+            (SELECT 
+                pers_id, pers_fname, pers_lname
+            FROM
+                personnel) submitter_info ON req_submitter = pers_id
+        WHERE 
+            req_id = 1;`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
 });
 
 app.get('/get-request-owners-for-id/:id', (req, res) => {
@@ -229,6 +286,46 @@ app.get('/get-request-owners-for-id/:id', (req, res) => {
                 ownership
             WHERE
                 req_id = ?) test ON personnel.pers_id = test.pers_id;`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.get('/get-unowned-requests-for-id/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT 
+            request.req_id,
+            CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
+            DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
+            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
+            req_scope_type,
+            req_dept,
+            req_descr,
+            req_value,
+            req_approved,
+            req_rejected,
+            req_comments
+        FROM
+            request
+                JOIN
+            (SELECT 
+                pers_id, pers_fname, pers_lname
+            FROM
+                personnel) submitter_info ON req_submitter = pers_id
+        WHERE
+            req_id NOT IN (SELECT 
+                    req_id
+                FROM
+                    ownership
+                WHERE
+                    pers_id = ?)
+                AND req_rejected <> 1
+        ORDER BY req_date ASC`,
         id, (err, result) => {
             if (err) {
                 console.log(err);

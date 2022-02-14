@@ -6,11 +6,20 @@ import NavBar from "../components/Navbar";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import OwnedRequestCard from "../components/OwnedRequestCard";
+import {
+    getStatus,
+    getScopeType,
+    getDepartment,
+    getValue,
+    getEffort,
+    getApprovalStatus
+} from "../components/DecoderFunctions";
 import "../styles/OwnedRequests.css";
+import "../styles/CardComponents.css";
 
 function OwnedRequests() {
     const [user, loading] = useAuthState(auth);
-    const [rendering, setRendering] = useState(false);
+    const [rendering, setRendering] = useState(true);
     const navigate = useNavigate();
     const { uid, isIdentifier, isOwner } = useParams();
     const [ownedRequests, setOwnedRequests] = useState([]);
@@ -30,52 +39,8 @@ function OwnedRequests() {
         });
     };
 
-    const getStatus = (statusCode) => {
-        let status = statusCode === "C" ? "Completed"
-            : statusCode === "P" ? "In Progress"
-                : statusCode === "I" ? "Issue"
-                    : "Not Started";
-
-        return status;
-    }
-
-    const getDepartment = (deptCode) => {
-        let dept = deptCode === "R" ? "Risk"
-            : deptCode === "A" ? "Action"
-                : deptCode === "I" ? "Issue"
-                    : "Decision";
-
-        return dept;
-    }
-
-    const getScopeType = (scopeCode) => {
-        let scope = scopeCode === "F" ? "Functional"
-            : scopeCode === "TE" ? "Technical"
-                : scopeCode === "CO" ? "Conversion"
-                    : scopeCode === "G" ? "General"
-                        : scopeCode === "CU" ? "Cutover"
-                            : "Testing";
-
-        return scope;
-    }
-
-    const getValue = (valueCode) => {
-        let value = valueCode === 0 ? "TBD"
-            : valueCode === 1 ? "Low"
-                : valueCode === 2 ? "Medium"
-                    : valueCode === 3 ? "High"
-                        : "Critical";
-
-        return value;
-    }
-
-    const getEffort = (effortCode) => {
-        let effort = effortCode === 0 ? "TBD"
-            : effortCode === 1 ? "Low"
-                : effortCode === 2 ? "Medium"
-                    : "high";
-
-        return effort;
+    const handleModifyRequestCallback = (requestFromCard) => {
+        navigate(`/modify-owned-request/${user?.uid}/${isIdentifier}/${isOwner}`);
     }
 
     useEffect(() => {
@@ -125,6 +90,9 @@ function OwnedRequests() {
                             return <div className="owned-request-card">
                                 <OwnedRequestCard
                                     key={key}
+                                    uid={uid}
+                                    isIdentifier={isIdentifier}
+                                    isOwner={isOwner}
                                     id={val.req_id}
                                     status={val.req_rejected.data[0] === 1 ? "rejected" : getStatus(val.req_status)}
                                     dateSubmitted={val.req_date}
@@ -136,11 +104,12 @@ function OwnedRequests() {
                                     description={val.req_descr}
                                     value={getValue(val.req_value)}
                                     effort={getEffort(val.req_effort)}
-                                    priority={val.req_priority}
-                                    approved={val.req_approved.data[0] === 1 ? "Approved" : "Unapproved"}
-                                    rejected={val.req_rejected.data[0] === 1 ? "Rejected" : "Not Rejected"}
+                                    priority={val.req_priority === 0 ? "TBD" : val.req_priority}
+                                    approved={getApprovalStatus(val.req_approved.data[0])}
+                                    rejected={getApprovalStatus(val.req_rejected.data[0])}
                                     rsn_rejected={val.rsn_rejected ? val.rsn_rejected : "None"}
-                                    comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}>
+                                    comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}
+                                    toModify={handleModifyRequestCallback}>
                                 </OwnedRequestCard>
                             </div>
                         })}

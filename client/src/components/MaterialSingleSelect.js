@@ -2,10 +2,14 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 
-export default function MaterialSingleSelect({
-    placeholder = "",
-    singleSelectOptions = [],
-    selectedValue = "" }) {
+export default function MaterialSingleSelect(
+    {
+        label = "",
+        placeholder = "",
+        defaultValue = "",
+        singleSelectOptions = [],
+        selectedValue = "" }
+) {
 
     const handleOnChange = (object) => {
         if (object) {
@@ -21,10 +25,12 @@ export default function MaterialSingleSelect({
             // id="combo-box-demo"
             options={singleSelectOptions}
             sx={{ width: "100%", marginBottom: "10px" }}
+            defaultValue={defaultValue}
             onChange={(event, object) => handleOnChange(object)}
             renderInput={(params) =>
                 <TextField
                     {...params}
+                    label={label}
                     placeholder={placeholder} />}
         />
     );
