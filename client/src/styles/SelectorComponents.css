@@ -15,6 +15,13 @@
     justify-content: center;
 }
 
+#mui-2-label {
+    font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
+    font-weight: bold !important;
+    font-size: 10.5pt !important;
+    color: rgba(0, 0, 0, 0.7) !important;
+}
+
 .create-request-container .MuiAutocomplete-input,
 .update-owned-request-container .MuiAutocomplete-input {
     /* background-color: white !important; */
@@ -29,12 +36,14 @@
     border: none !important;
 }
 
-.create-request-container .MuiAutocomplete-option {
+.create-request-container .MuiAutocomplete-option,
+.update-owned-request-container .MuiAutocomplete-option {
     font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
     font-size: 13pt !important;
 }
 
-.create-request-container .MuiAutocomplete-noOptions {
+.create-request-container .MuiAutocomplete-noOptions,
+.update-owned-request-container .MuiAutocomplete-noOptions {
     font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
     font-size: 13pt !important;
     min-height: 64px !important;
@@ -43,7 +52,29 @@
     top: 5px !important;
 }
 
-.create-request-container .MuiAutocomplete-popper {
+.create-request-container .MuiAutocomplete-popper,
+.update-owned-request-container .MuiAutocomplete-popper {
     position: relative;
     top: 5px !important;
+}
+
+.update-owned-request-container .MuiAutocomplete-input {
+    color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.update-owned-request-container .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.update-owned-request-container .MuiAutocomplete-input {
+    font-size: 10.5pt !important;
+}
+
+.update-owned-request-container .MuiAutocomplete-noOptions {
+    font-size: 10.5pt !important;
+    top: 8px !important;
+}
+
+.update-owned-request-container .MuiAutocomplete-option {
+    font-size: 10.5pt !important;
 }
