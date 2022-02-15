@@ -39,6 +39,7 @@ function UpdateOwnedRequest() {
     const [comments, setComments] = useState("");
     // const [updateButtonDisabled, setUpdateButtonDisabled] = useState(true);
     const [rejectDisabled, setRejectDisabled] = useState(true);
+    const [approveDisabled, setApproveDisabled] = useState(false);
     const [updated, setUpdated] = useState(false);
     const [updateButtonText, setUpdateButtonText] = useState("Update");
     const [updateButtonColor, setUpdateButtonColor] = useState("var(--lunikoOrange");
@@ -61,7 +62,6 @@ function UpdateOwnedRequest() {
         }).then((response) => {
             // console.log(response.data);
             setRequestDetails(response.data);
-            console.log(response.data);
             if (response.data.rsn_rejected && response.data.rsn_rejected.length > 0) {
                 setRejectDisabled(false);
             }
@@ -86,8 +86,8 @@ function UpdateOwnedRequest() {
     ];
 
     const approvalOptions = [
-        { value: 0, label: "Yes" },
-        { value: 1, label: "No" }
+        { value: 0, label: "No" },
+        { value: 1, label: "Yes" }
     ];
 
     // Selector callback handlers
@@ -106,14 +106,20 @@ function UpdateOwnedRequest() {
 
     const handleRejectedCallback = (rejectedFromSelector) => {
         setRejected(rejectedFromSelector);
+        rejectedFromSelector === 1
+            ? setApproveDisabled(true)
+            : setApproveDisabled(false);
     }
 
     const handleReasonRejectedChange = (reasonRejectedFromTextArea) => {
         setReasonRejected(reasonRejectedFromTextArea);
         let regex = new RegExp("[a-zA-Z]");
-        reasonRejectedFromTextArea.length > 0 && regex.test(reasonRejectedFromTextArea)
-            ? setRejectDisabled(false)
-            : setRejectDisabled(true);
+        if (reasonRejectedFromTextArea.length > 0 && regex.test(reasonRejectedFromTextArea)) {
+            setRejectDisabled(false)
+        } else {
+            setRejectDisabled(true);
+            setApproveDisabled(false);
+        }
     }
 
     const handleCommentsChange = (commentsFromTextArea) => {
@@ -210,6 +216,7 @@ function UpdateOwnedRequest() {
                                     selectedEffort={handleEffortCallback}
                                     priority={getPriority(priority)}
                                     approved={getApprovalStatus(val.req_approved.data[0])}
+                                    approveDisabled={approveDisabled}
                                     rejected={getApprovalStatus(val.req_rejected.data[0])}
                                     rejectDisabled={rejectDisabled}
                                     approvalOptions={approvalOptions}

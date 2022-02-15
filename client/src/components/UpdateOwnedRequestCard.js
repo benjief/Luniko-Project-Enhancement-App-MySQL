@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import { color } from '@mui/system';
 import MaterialSingleSelect from './MaterialSingleSelect';
+import MaterialSingleSelectWithValue from './MaterialSingleSelectWithValue';
 import MaterialTextField from './MaterialTextField';
 
 const ExpandMore = styled((props) => {
@@ -48,6 +49,7 @@ export default function UpdateOwnedRequestCard({
     selectedEffort = "",
     priority = "",
     approved = "",
+    approveDisabled = false,
     rejected = "",
     rejectDisabled = true,
     approvalOptions = [],
@@ -61,6 +63,8 @@ export default function UpdateOwnedRequestCard({
 
 }) {
     const [expanded, setExpanded] = React.useState(true);
+    const [approvedValue, setApprovedValue] = React.useState(approved);
+    const [rejectedValue, setRejectedValue] = React.useState(rejected);
     var statusAbbreviation = status.charAt(0).toUpperCase();
 
     const handleOnSelectStatus = (valueFromSelector) => {
@@ -73,14 +77,31 @@ export default function UpdateOwnedRequestCard({
 
     const handleOnSelectApproved = (valueFromSelector) => {
         selectedApproved(valueFromSelector);
+        if (valueFromSelector === 1) {
+            setApprovedValue("Yes");
+            setRejectedValue("No");
+        } else {
+            setApprovedValue("No");
+        }
     }
 
     const handleOnSelectRejected = (valueFromSelector) => {
         selectedRejected(valueFromSelector);
+        setRejectedValue(valueFromSelector === 1 ? "Yes" : "No");
+        if (valueFromSelector === 1) {
+            setRejectedValue("Yes");
+            setApprovedValue("No");
+        } else {
+            setRejectedValue("No");
+        }
     }
 
     const handleOnChangeReasonRejected = (updatedText) => {
         updatedReasonRejected(updatedText);
+        let regex = new RegExp("[a-zA-Z]");
+        if (!updatedText.length > 0 || !regex.test(updatedText)) {
+            setRejectedValue("No");
+        }
     }
 
     const handleOnChangeComments = (updatedText) => {
@@ -155,21 +176,24 @@ export default function UpdateOwnedRequestCard({
                         singleSelectOptions={effortOptions}
                         selectedValue={handleOnSelectEffort}>
                     </MaterialSingleSelect>
-                    <MaterialSingleSelect
+                    <MaterialSingleSelectWithValue
                         label="Approved"
                         placeholder="Approved"
                         defaultValue={approved}
+                        value={approvedValue}
                         singleSelectOptions={approvalOptions}
-                        selectedValue={handleOnSelectApproved}>
-                    </MaterialSingleSelect>
-                    <MaterialSingleSelect
+                        selectedValue={handleOnSelectApproved}
+                        isDisabled={approveDisabled}>
+                    </MaterialSingleSelectWithValue>
+                    <MaterialSingleSelectWithValue
                         label="Rejected"
                         placeholder="Rejected"
                         defaultValue={rejected}
+                        value={rejectedValue}
                         singleSelectOptions={approvalOptions}
                         selectedValue={handleOnSelectRejected}
                         isDisabled={rejectDisabled}>
-                    </MaterialSingleSelect>
+                    </MaterialSingleSelectWithValue>
                     <MaterialTextField
                         label="Reason for Rejection"
                         helperText="Required for rejection"

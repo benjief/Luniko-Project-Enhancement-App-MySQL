@@ -30,6 +30,15 @@
     color: #d32f2f !important;
 }
 
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+}
+
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+}
+
+
 .MuiInputLabel-shrink {
     font-size: 12pt !important;
 }
