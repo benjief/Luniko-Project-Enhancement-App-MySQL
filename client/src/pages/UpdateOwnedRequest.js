@@ -18,9 +18,10 @@ import {
 } from "../components/DecoderFunctions";
 // import { stringify } from "@firebase/util";
 import UpdateOwnedRequestCard from "../components/UpdateOwnedRequestCard";
-import "../styles/UpdateOwnedRequest.css";
 import "../styles/SelectorComponents.css";
 import "../styles/CardComponents.css";
+import "../styles/InputComponents.css";
+import "../styles/UpdateOwnedRequest.css";
 
 function UpdateOwnedRequest() {
     const [user, loading] = useAuthState(auth);
@@ -109,7 +110,8 @@ function UpdateOwnedRequest() {
 
     const handleReasonRejectedChange = (reasonRejectedFromTextArea) => {
         setReasonRejected(reasonRejectedFromTextArea);
-        reasonRejectedFromTextArea.length > 0
+        let regex = new RegExp("[a-zA-Z]");
+        reasonRejectedFromTextArea.length > 0 && regex.test(reasonRejectedFromTextArea)
             ? setRejectDisabled(false)
             : setRejectDisabled(true);
     }
@@ -118,15 +120,16 @@ function UpdateOwnedRequest() {
         setComments(commentsFromTextArea);
     }
 
-    const updateRequest = () => {
+    const updateRequest = (idFromSelector) => {
         console.log("Updating request...");
-        Axios.post("http://localhost:3001/update-owned-request", {
+        Axios.post(`http://localhost:3001/update-owned-request`, {
             effort: effort,
             approved: approved,
             rejected: rejected,
             reasonRejected: reasonRejected,
             status: status,
-            comments: comments
+            comments: comments,
+            id: idFromSelector
         }).then((response) => {
             setUpdated(true);
             console.log("Request successfully updated!");
@@ -212,10 +215,11 @@ function UpdateOwnedRequest() {
                                     approvalOptions={approvalOptions}
                                     selectedApproved={handleApprovedCallback}
                                     selectedRejected={handleRejectedCallback}
-                                    reasonRejected={val.rsn_rejected}
+                                    reasonRejected={val.rsn_rejected === null ? "" : val.rsn_rejected}
                                     updatedReasonRejected={handleReasonRejectedChange}
-                                    comments={val.req_comments}
-                                    updatedComments={handleCommentsChange}>
+                                    comments={val.req_comments === null ? "" : val.req_comments}
+                                    updatedComments={handleCommentsChange}
+                                    requestToUpdate={updateRequest}>
                                 </UpdateOwnedRequestCard>
                             </div>
                         })}

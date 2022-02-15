@@ -45,6 +45,7 @@ app.put("/update-owned-request", (req, res) => {
     const reasonRejected = req.body.reasonRejected;
     const status = req.body.status;
     const comments = req.body.comments;
+    const id = req.params.id
 
     db.query(
         `UPDATE request 
@@ -57,7 +58,7 @@ app.put("/update-owned-request", (req, res) => {
              req_comments = ?
          WHERE 
              req_id = ?`,
-        [effort, approved, rejected, reasonRejected, status, comments], (err, result) => {
+        [effort, approved, rejected, reasonRejected, status, comments, id], (err, result) => {
             if (err) {
                 console.log(err);
             } else {

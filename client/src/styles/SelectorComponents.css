@@ -15,11 +15,23 @@
     justify-content: center;
 }
 
-#mui-2-label {
+.MuiInputLabel-root {
     font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
     font-weight: bold !important;
     font-size: 10.5pt !important;
     color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
+    color: #d32f2f !important;
+}
+
+.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
+    color: #d32f2f !important;
+}
+
+.MuiInputLabel-shrink {
+    font-size: 12pt !important;
 }
 
 .create-request-container .MuiAutocomplete-input,
@@ -58,12 +70,20 @@
     top: 5px !important;
 }
 
+.update-owned-request-container .MuiAutocomplete-root {
+    margin-bottom: 20px !important;
+}
+
 .update-owned-request-container .MuiAutocomplete-input {
     color: rgba(0, 0, 0, 0.7) !important;
 }
 
 .update-owned-request-container .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.update-owned-request-container .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: #d32f2f !important;
 }
 
 .update-owned-request-container .MuiAutocomplete-input {

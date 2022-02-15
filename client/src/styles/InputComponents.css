@@ -1,0 +1,30 @@
+.update-owned-request-container .MuiBox-root {
+    width: 100% !important;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.update-owned-request-container .MuiFormControl-root {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.update-owned-request-container .MuiOutlinedInput-input {
+    border: none !important;
+}
+
+.update-owned-request-container .css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.update-owned-request-container .material-text-field .MuiInputLabel-shrink {
+    transform: translate(11.5px, -9px) scale(0.75) !important;
+}
+
+.update-owned-request-container .comments-text-field .material-text-field .MuiInputLabel-shrink {
+    transform: translate(13px, -9px) scale(0.75) !important;
+}
+
+.update-owned-request-container .MuiBox-root:last-of-type {
+    margin-bottom: 15px;
+}

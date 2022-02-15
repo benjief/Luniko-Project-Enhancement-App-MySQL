@@ -8,12 +8,22 @@ export default function MaterialSingleSelect(
         placeholder = "",
         defaultValue = "",
         singleSelectOptions = [],
-        selectedValue = "" }
+        selectedValue = "",
+        isDisabled = false,
+    }
+
 ) {
+    const [errorEnabled, setErrorEnabled] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState("");
 
     const handleOnChange = (object) => {
         if (object) {
             selectedValue(object.value);
+            setErrorEnabled(false);
+            setErrorMsg("");
+        } else {
+            setErrorEnabled(true);
+            setErrorMsg("Required Value");
         }
     }
 
@@ -22,16 +32,21 @@ export default function MaterialSingleSelect(
             // Override of option equality is needed for MUI to properly compare options and values
             isOptionEqualToValue={(option, value) => option.id === value.id}
             disablePortal
+            disabled={isDisabled}
             // id="combo-box-demo"
             options={singleSelectOptions}
-            sx={{ width: "100%", marginBottom: "10px" }}
             defaultValue={defaultValue}
+            sx={{ width: "100%", marginBottom: "10px" }}
             onChange={(event, object) => handleOnChange(object)}
             renderInput={(params) =>
                 <TextField
                     {...params}
                     label={label}
-                    placeholder={placeholder} />}
+                    placeholder={placeholder}
+                    required={true}
+                    error={errorEnabled}
+                    helperText={errorMsg}
+                />}
         />
     );
 }

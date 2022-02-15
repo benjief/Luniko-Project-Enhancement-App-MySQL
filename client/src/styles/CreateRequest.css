@@ -42,6 +42,7 @@
     border-radius: 4px;
     min-height: 57.91px;
     color: rgba(83, 83, 83, 0.767);
+    resize: none;
 }
 
 .request-textBox::placeholder {

@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import { color } from '@mui/system';
 import MaterialSingleSelect from './MaterialSingleSelect';
+import MaterialTextField from './MaterialTextField';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -55,7 +56,8 @@ export default function UpdateOwnedRequestCard({
     reasonRejected = "",
     updatedReasonRejected = "",
     comments = "",
-    updatedComments = ""
+    updatedComments = "",
+    requestToUpdate = ""
 
 }) {
     const [expanded, setExpanded] = React.useState(true);
@@ -85,9 +87,12 @@ export default function UpdateOwnedRequestCard({
         updatedComments(updatedText);
     }
 
+    const handleUpdateRequest = () => {
+        requestToUpdate(id);
+    }
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
-        console.log(priority);
         // cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
     };
 
@@ -134,7 +139,7 @@ export default function UpdateOwnedRequestCard({
                 <CardContent>
                     <Typography
                         paragraph>
-                        <strong>Status</strong>
+                        <strong>Updatable Fields</strong>
                     </Typography>
                     <MaterialSingleSelect
                         label="Status"
@@ -143,6 +148,42 @@ export default function UpdateOwnedRequestCard({
                         singleSelectOptions={statusOptions}
                         selectedValue={handleOnSelectStatus}>
                     </MaterialSingleSelect>
+                    <MaterialSingleSelect
+                        label="Effort"
+                        placeholder="Effort"
+                        defaultValue={effort}
+                        singleSelectOptions={effortOptions}
+                        selectedValue={handleOnSelectEffort}>
+                    </MaterialSingleSelect>
+                    <MaterialSingleSelect
+                        label="Approved"
+                        placeholder="Approved"
+                        defaultValue={approved}
+                        singleSelectOptions={approvalOptions}
+                        selectedValue={handleOnSelectApproved}>
+                    </MaterialSingleSelect>
+                    <MaterialSingleSelect
+                        label="Rejected"
+                        placeholder="Rejected"
+                        defaultValue={rejected}
+                        singleSelectOptions={approvalOptions}
+                        selectedValue={handleOnSelectRejected}
+                        isDisabled={rejectDisabled}>
+                    </MaterialSingleSelect>
+                    <MaterialTextField
+                        label="Reason for Rejection"
+                        helperText="Required for rejection"
+                        placeholder="Reason for Rejection"
+                        defaultValue={reasonRejected}
+                        inputValue={handleOnChangeReasonRejected}>
+                    </MaterialTextField>
+                    <MaterialTextField
+                        className="comments-text-field"
+                        label="Comments"
+                        placeholder="Comments"
+                        defaultValue={comments}
+                        inputValue={handleOnChangeComments}>
+                    </MaterialTextField>
                     <Typography
                         paragraph>
                         <strong>Company<br /></strong> {company}
@@ -177,28 +218,13 @@ export default function UpdateOwnedRequestCard({
                     </Typography>
                     <Typography
                         paragraph>
-                        <strong>Effort<br /></strong> {effort}
-                    </Typography>
-                    <Typography
-                        paragraph>
                         <strong>Priority<br /></strong> {priority}
                     </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Approved<br /></strong> {approved}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Rejected<br /></strong> {rejected}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Reason Rejected<br /></strong> {reasonRejected}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Comments<br /></strong> {comments}
-                    </Typography>
+                    <button
+                        className="update-request-button"
+                        onClick={handleUpdateRequest}>
+                        Update Request
+                    </button>
                 </CardContent>
             </Collapse>
         </Card >
