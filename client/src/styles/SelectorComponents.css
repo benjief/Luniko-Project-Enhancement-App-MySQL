@@ -1,18 +1,5 @@
-.create-request-container .MuiAutocomplete-root {
-    border-radius: 4px;
-    box-shadow: 2px 2px 6px rgba(43, 43, 43, 0.6);
-}
-
-.create-request-container .MuiAutocomplete-root button,
-.update-owned-request-container .MuiAutocomplete-root button {
+.MuiAutocomplete-root button {
     box-shadow: none !important;
-}
-
-.create-request-container .MuiFormControl-root {
-    border-radius: 4px;
-    background-color: white;
-    min-height: 50px;
-    justify-content: center;
 }
 
 .MuiInputLabel-root {
@@ -26,25 +13,15 @@
     color: #d32f2f !important;
 }
 
-.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
-    color: #d32f2f !important;
-}
-
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled {
     color: rgba(0, 0, 0, 0.38) !important;
 }
-
-.css-1sumxir-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled {
-    color: rgba(0, 0, 0, 0.38) !important;
-}
-
 
 .MuiInputLabel-shrink {
     font-size: 12pt !important;
 }
 
-.create-request-container .MuiAutocomplete-input,
-.update-owned-request-container .MuiAutocomplete-input {
+.MuiAutocomplete-input {
     /* background-color: white !important; */
     box-shadow: none !important;
     font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
@@ -52,19 +29,12 @@
     color: rgba(83, 83, 83, 0.767) !important;
 }
 
-.create-request-container .MuiOutlinedInput-notchedOutline {
-    /* background-color: blue; */
-    border: none !important;
-}
-
-.create-request-container .MuiAutocomplete-option,
-.update-owned-request-container .MuiAutocomplete-option {
+.MuiAutocomplete-option {
     font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
     font-size: 13pt !important;
 }
 
-.create-request-container .MuiAutocomplete-noOptions,
-.update-owned-request-container .MuiAutocomplete-noOptions {
+.MuiAutocomplete-noOptions {
     font-family: "Raleway", Verdana, Geneva, Tahoma, sans-serif !important;
     font-size: 13pt !important;
     min-height: 64px !important;
@@ -73,37 +43,40 @@
     top: 5px !important;
 }
 
-.create-request-container .MuiAutocomplete-popper,
-.update-owned-request-container .MuiAutocomplete-popper {
+.MuiAutocomplete-popper {
     position: relative;
     top: 5px !important;
 }
 
-.update-owned-request-container .MuiAutocomplete-root {
+.MuiAutocomplete-root {
     margin-bottom: 20px !important;
 }
 
-.update-owned-request-container .MuiAutocomplete-input {
+.MuiAutocomplete-input {
     color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.update-owned-request-container .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
+.css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.update-owned-request-container .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline,
+.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline,
+.css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
     border-color: #d32f2f !important;
 }
 
-.update-owned-request-container .MuiAutocomplete-input {
+.MuiAutocomplete-input {
     font-size: 10.5pt !important;
 }
 
-.update-owned-request-container .MuiAutocomplete-noOptions {
+.MuiAutocomplete-noOptions {
     font-size: 10.5pt !important;
     top: 8px !important;
 }
 
-.update-owned-request-container .MuiAutocomplete-option {
+.MuiAutocomplete-option {
     font-size: 10.5pt !important;
 }

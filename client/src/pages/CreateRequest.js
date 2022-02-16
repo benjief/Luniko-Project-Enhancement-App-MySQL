@@ -5,11 +5,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../components/Navbar";
 import MaterialSingleSelect from "../components/MaterialSingleSelect";
 import MaterialMultiSelect from "../components/MaterialMultiSelect";
+import CreateRequestCard from "../components/CreateRequestCard";
 import BootstrapPopover from "../components/BootstrapPopover";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import "../styles/CreateRequest.css";
 import "../styles/SelectorComponents.css";
+import "../styles/InputComponents.css";
 
 function CreateRequest() {
     const [user, loading] = useAuthState(auth);
@@ -23,23 +25,11 @@ function CreateRequest() {
     const [value, setValue] = useState("");
     const [identifierOptions, setIdentifierOptions] = useState([]);
     const [selectedIdentifiers, setSelectedIdentifiers] = useState([]);
-    const [disabled, setDisabled] = useState(true);
     const [submitted, setSubmitted] = useState(false);
     const [submitButtonText, setSubmitButtonText] = useState("Submit");
-    const [submitButtonColor, setSubmitButtonColor] = useState("#BFBFBF");
+    const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
     const [transitionElementOpacity, setTransitionElementOpacity] = useState("100%");
     const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
-
-    // Submit button
-    const activateSubmit = () => {
-        setSubmitButtonColor("#E58004");
-        setDisabled(false);
-    }
-
-    const deactivateSubmit = () => {
-        setSubmitButtonColor("#BFBFBF");
-        setDisabled(true);
-    }
 
     // Single select options
     const scopeOptions = [
@@ -94,12 +84,20 @@ function CreateRequest() {
     }
 
     // Selector callback handlers
+    const handleCompanyCallback = (companyFromSelector) => {
+        setCompany(companyFromSelector);
+    }
+
     const handleScopeCallback = (scopeFromSelector) => {
         setScopeType(scopeFromSelector);
     }
 
     const handleDeptCallback = (deptFromSelector) => {
         setDepartment(deptFromSelector);
+    }
+
+    const handleDescriptionCallback = (descriptionFromSelector) => {
+        setDescription(descriptionFromSelector);
     }
 
     const handleValueCallback = (valueFromSelector) => {
@@ -110,10 +108,10 @@ function CreateRequest() {
         setSelectedIdentifiers(identifiersFromSelector);
     }
 
-    const addRequest = () => {
+    const addRequest = (uidFromCallback) => {
         console.log("Adding request...");
         Axios.post("http://localhost:3001/create-request", {
-            uid: uid,
+            uid: uidFromCallback,
             company: company,
             scopeType: scopeType,
             department: department,
@@ -144,7 +142,6 @@ function CreateRequest() {
     };
 
     const handleSuccessfulSubmit = () => {
-        setSubmitButtonColor("rgb(0, 191, 32)");
         // setTimeout(() => {
         //     setSubmitButtonText("Request Submitted!");
         // }, 500);
@@ -163,17 +160,13 @@ function CreateRequest() {
         } else {
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
-            if (company && scopeType && department && value) {
-                if (disabled) {
-                    activateSubmit();
-                }
+            if (company !== "" && scopeType !== "" && department !== "" && value !== "") {
+                setSubmitButtonDisabled(false);
             } else {
-                if (!disabled) {
-                    deactivateSubmit();
-                }
+                setSubmitButtonDisabled(true);
             }
         }
-    }, [loading, user, company, scopeType, department, value, disabled, rendering]);
+    }, [loading, user, company, scopeType, department, value, rendering]);
 
     return (
         rendering ?
@@ -203,7 +196,24 @@ function CreateRequest() {
                 </NavBar>
                 <div className="create-request">
                     <div className="create-request-container">
-                        <input
+                        <div className="create-request-card">
+                            <CreateRequestCard
+                                uid={uid}
+                                scopeTypeOptions={scopeOptions}
+                                departmentOptions={deptOptions}
+                                valueOptions={valueOptions}
+                                identifierOptions={identifierOptions}
+                                updatedCompany={handleCompanyCallback}
+                                selectedScopeType={handleScopeCallback}
+                                selectedDepartment={handleDeptCallback}
+                                updatedDescription={handleDescriptionCallback}
+                                selectedValue={handleValueCallback}
+                                selectedIdentifiers={handleIdentifierCallback}
+                                requestToSubmit={addRequest}
+                                submitButtonDisabled={submitButtonDisabled}>
+                            </CreateRequestCard>
+                        </div>
+                        {/* <input
                             className="request-textBox"
                             type="text"
                             value={company}
@@ -244,13 +254,6 @@ function CreateRequest() {
                             selectedValues={handleIdentifierCallback}
                             limitTags={1}>
                         </MaterialMultiSelect>
-                        {/* <MultiSelect
-                        name="identifiers"
-                        placeholder="Add Identifiers"
-                        multiSelectOptions={identifierOptions}
-                        selectedValues={handleIdentifierCallback}
-                    >
-                    </MultiSelect> */}
                         <button
                             className="submit-request-button"
                             disabled={disabled}
@@ -258,7 +261,7 @@ function CreateRequest() {
                             onClick={!submitted ? addRequest : null}
                             style={{ backgroundColor: submitButtonColor }}>
                             {submitButtonText}
-                        </button>
+                        </button> */}
                         <BootstrapPopover
                             popoverText=
                             {[<strong>All identifiers </strong>, "added to this request will be ",

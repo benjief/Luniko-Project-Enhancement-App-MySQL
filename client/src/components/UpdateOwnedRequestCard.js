@@ -65,7 +65,7 @@ export default function UpdateOwnedRequestCard({
     const [expanded, setExpanded] = React.useState(true);
     const [approvedValue, setApprovedValue] = React.useState(approved);
     const [rejectedValue, setRejectedValue] = React.useState(rejected);
-    const [updateButtonColor, setUpdateButtonColorDisplayed] = React.useState("#BFBFBF");
+    const [updateButtonColor, setUpdateButtonColor] = React.useState("#BFBFBF");
     var statusAbbreviation = status.charAt(0).toUpperCase();
 
     const handleOnSelectStatus = (valueFromSelector) => {
@@ -74,8 +74,8 @@ export default function UpdateOwnedRequestCard({
 
     const handleOnSelectEffort = (valueFromSelector) => {
         selectedEffort(valueFromSelector);
-        console.log(updateButtonColor);
-        console.log(updateButtonColor);
+        // console.log(updateButtonColor);
+        // console.log(updateButtonColor);
     }
 
     const handleOnSelectApproved = (valueFromSelector) => {
@@ -122,7 +122,9 @@ export default function UpdateOwnedRequestCard({
 
     React.useEffect(() => {
         if (!updateButtonDisabled) {
-            setUpdateButtonColorDisplayed("var(--lunikoBlue)");
+            setUpdateButtonColor("var(--lunikoBlue)");
+        } else {
+            setUpdateButtonColor("#BFBFBF");
         }
     }, [updateButtonDisabled]);
 

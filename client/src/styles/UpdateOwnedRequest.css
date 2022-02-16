@@ -18,17 +18,16 @@
     padding-bottom: 20px;
 }
 
+.update-owned-request-container::-webkit-scrollbar {
+    display: none;
+}
+
 .update-owned-request-card textarea {
     width: 100%;
     font-size: 10.5pt;
     box-shadow: none;
     background-color: transparent;
     border: 1px solid rgba(0, 0, 0, 0.7);
-
-}
-
-.update-owned-request-container::-webkit-scrollbar {
-    display: none;
 }
 
 .update-request-button {

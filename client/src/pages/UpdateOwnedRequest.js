@@ -37,7 +37,6 @@ function UpdateOwnedRequest() {
     const [reasonRejected, setReasonRejected] = useState("");
     const [status, setStatus] = useState("");
     const [comments, setComments] = useState("");
-    // const [updateButtonDisabled, setUpdateButtonDisabled] = useState(true);
     const [rejectDisabled, setRejectDisabled] = useState(true);
     const [approveDisabled, setApproveDisabled] = useState(false);
     const [valueUpdated, setValueUpdated] = useState(false);
@@ -190,7 +189,9 @@ function UpdateOwnedRequest() {
             setTransitionElementVisibility("hidden");
             if (valueUpdated && status !== "" && effort !== "" && approved !== "" && rejected !== "") {
                 setUpdateButtonDisabled(false);
-                console.log(valueUpdated + " " + status + " " + effort + " " + approved + " " + rejected);
+                // console.log(valueUpdated + " " + status + " " + effort + " " + approved + " " + rejected);
+            } else {
+                setUpdateButtonDisabled(true);
             }
         }
     }, [loading, user, rendering, valueUpdated, status, effort, approved, rejected, updateButtonDisabled]);

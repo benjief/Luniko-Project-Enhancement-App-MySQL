@@ -23,8 +23,8 @@ export default function MaterialSingleSelect(
             setErrorEnabled(false);
             setErrorMsg("");
         } else {
+            selectedValue("");
             if (required) {
-                console.log("test");
                 setErrorEnabled(true);
                 setErrorMsg("Required Field");
             }
@@ -49,8 +49,8 @@ export default function MaterialSingleSelect(
                     placeholder={placeholder}
                     required={required}
                     error={errorEnabled}
-                    helperText={errorMsg}
-                />}
+                    helperText={errorMsg} />
+            }
         />
     );
 }

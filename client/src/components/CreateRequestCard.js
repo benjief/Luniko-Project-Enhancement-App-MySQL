@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MaterialSingleSelect from './MaterialSingleSelect';
 import MaterialSingleSelectWithValue from './MaterialSingleSelectWithValue';
 import MaterialTextField from './MaterialTextField';
+import MaterialMultiSelect from './MaterialMultiSelect';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -40,9 +41,11 @@ export default function UpdateOwnedRequestCard({
     updatedDescription = "",
     selectedValue = 0,
     selectedIdentifiers = [],
-    requestToSubmit = ""
+    requestToSubmit = "",
+    submitButtonDisabled = true
 }) {
     const [expanded, setExpanded] = React.useState(true);
+    const [submitButtonColor, setSubmitButtonColor] = React.useState("#BFBFBF");
 
     const handleOnChangeCompany = (updatedText) => {
         updatedCompany(updatedText);
@@ -56,16 +59,11 @@ export default function UpdateOwnedRequestCard({
         selectedDepartment(valueFromSelector);
     }
 
-
-    const handleOnChangeComments = (updatedText) => {
-        updatedComments(updatedText);
-    }
-
     const handleOnChangeDescription = (updatedText) => {
         updatedDescription(updatedText);
     }
 
-    const handleOnChangeValue = (valueFromSelector) => {
+    const handleOnSelecteValue = (valueFromSelector) => {
         selectedValue(valueFromSelector);
     }
 
@@ -81,6 +79,14 @@ export default function UpdateOwnedRequestCard({
     //     setExpanded(!expanded);
     //     // cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
     // };
+
+    React.useEffect(() => {
+        if (!submitButtonDisabled) {
+            setSubmitButtonColor("var(--lunikoBlue)");
+        } else {
+            setSubmitButtonColor("#BFBFBF");
+        }
+    }, [submitButtonDisabled]);
 
     return (
         <Card
@@ -106,7 +112,7 @@ export default function UpdateOwnedRequestCard({
                 //         {statusAbbreviation}
                 //     </Avatar>
                 // }
-                title={[<strong>Request ID </strong>, <strong>{id}</strong>]}
+                title={<strong>Create Your Request</strong>}
             />
             {/* < CardActions
                 disableSpacing
@@ -129,55 +135,56 @@ export default function UpdateOwnedRequestCard({
                     </Typography> */}
                     <MaterialTextField
                         label="Company Name"
-                        helperText="Required for rejection"
-                        placeholder="Reason for Rejection"
-                        defaultValue={reasonRejected}
-                        inputValue={handleOnChangeReasonRejected}
-                        multiline={false}>
+                        characterLimit={45}
+                        placeholder="Company Name"
+                        inputValue={handleOnChangeCompany}
+                        multiline={false}
+                        required={true}
+                        showCharCounter={true}>
                     </MaterialTextField>
                     <MaterialSingleSelect
-                        label="Status"
-                        placeholder="Status"
-                        defaultValue={status}
-                        singleSelectOptions={statusOptions}
-                        selectedValue={handleOnSelectStatus}>
+                        label="Scope Type"
+                        placeholder="Scope Type"
+                        singleSelectOptions={scopeTypeOptions}
+                        selectedValue={handleOnSelectScopeType}
+                        required={true}>
                     </MaterialSingleSelect>
                     <MaterialSingleSelect
-                        label="Effort"
-                        placeholder="Effort"
-                        defaultValue={effort}
-                        singleSelectOptions={effortOptions}
-                        selectedValue={handleOnSelectEffort}>
+                        label="Department"
+                        placeholder="Department"
+                        singleSelectOptions={departmentOptions}
+                        selectedValue={handleOnSelectDepartment}
+                        required={true}>
                     </MaterialSingleSelect>
-                    <MaterialSingleSelectWithValue
-                        label="Approved"
-                        placeholder="Approved"
-                        defaultValue={approved}
-                        value={approvedValue}
-                        singleSelectOptions={approvalOptions}
-                        selectedValue={handleOnSelectApproved}
-                        isDisabled={approveDisabled}>
-                    </MaterialSingleSelectWithValue>
-                    <MaterialSingleSelectWithValue
-                        label="Rejected"
-                        placeholder="Rejected"
-                        defaultValue={rejected}
-                        value={rejectedValue}
-                        singleSelectOptions={approvalOptions}
-                        selectedValue={handleOnSelectRejected}
-                        isDisabled={rejectDisabled}>
-                    </MaterialSingleSelectWithValue>
+                    <MaterialSingleSelect
+                        label="Value"
+                        placeholder="Value"
+                        singleSelectOptions={valueOptions}
+                        selectedValue={handleOnSelecteValue}
+                        required={true}>
+                    </MaterialSingleSelect>
+                    <MaterialMultiSelect
+                        label="Add Identifiers"
+                        placeholder="Add Identifiers"
+                        multiSelectOptions={identifierOptions}
+                        selectedValues={handleOnChangeIdentifiers}
+                        required={false}>
+                    </MaterialMultiSelect>
                     <MaterialTextField
-                        className="comments-text-field"
-                        label="Comments"
-                        placeholder="Comments"
-                        defaultValue={comments}
-                        inputValue={handleOnChangeComments}>
+                        label="Description"
+                        characterLimit={500}
+                        placeholder="Description"
+                        inputValue={handleOnChangeDescription}
+                        multiline={true}
+                        required={false}
+                        showCharCounter={true}>
                     </MaterialTextField>
                     <button
                         className="submit-request-button"
-                        onClick={handleSubmitRequest}>
-                        Submit
+                        onClick={handleSubmitRequest}
+                        disabled={submitButtonDisabled}
+                        style={{ backgroundColor: submitButtonColor }}>
+                        Submit Request
                     </button>
                 </CardContent>
             </Collapse>

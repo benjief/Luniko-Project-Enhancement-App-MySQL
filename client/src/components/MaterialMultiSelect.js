@@ -9,11 +9,12 @@ export default function MaterialMultiSelect({
   label = "",
   placeholder = "",
   multiSelectOptions = [],
-  selectedValues = []
+  selectedValues = [],
+  limitTags = 1,
+  required = false
 }) {
 
   const handleOnChange = (object) => {
-    console.log(object);
     if (object[0]) {
       let tempArray = [];
       for (let i = 0; i < object.length; i++) {
@@ -29,6 +30,7 @@ export default function MaterialMultiSelect({
         // Override of option equality is needed for MUI to properly compare options and values
         // isOptionEqualToValue={(option, value) => option.id === value.id}
         multiple
+        limitTags={limitTags}
         // id="tags-outlined"
         options={multiSelectOptions}
         getOptionLabel={(option) => option.label}
@@ -39,7 +41,8 @@ export default function MaterialMultiSelect({
           <TextField
             // color='warning'
             {...params}
-            // label={label}
+            required={required}
+            label={label}
             placeholder={placeholder}
           />
         )}
