@@ -59,12 +59,13 @@ export default function UpdateOwnedRequestCard({
     updatedReasonRejected = "",
     comments = "",
     updatedComments = "",
-    requestToUpdate = ""
-
+    requestToUpdate = "",
+    updateButtonDisabled = true,
 }) {
     const [expanded, setExpanded] = React.useState(true);
     const [approvedValue, setApprovedValue] = React.useState(approved);
     const [rejectedValue, setRejectedValue] = React.useState(rejected);
+    const [updateButtonColor, setUpdateButtonColorDisplayed] = React.useState("#BFBFBF");
     var statusAbbreviation = status.charAt(0).toUpperCase();
 
     const handleOnSelectStatus = (valueFromSelector) => {
@@ -73,6 +74,8 @@ export default function UpdateOwnedRequestCard({
 
     const handleOnSelectEffort = (valueFromSelector) => {
         selectedEffort(valueFromSelector);
+        console.log(updateButtonColor);
+        console.log(updateButtonColor);
     }
 
     const handleOnSelectApproved = (valueFromSelector) => {
@@ -112,10 +115,16 @@ export default function UpdateOwnedRequestCard({
         requestToUpdate(id);
     }
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-        // cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
-    };
+    // const handleExpandClick = () => {
+    //     setExpanded(!expanded);
+    //     // cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
+    // };
+
+    React.useEffect(() => {
+        if (!updateButtonDisabled) {
+            setUpdateButtonColorDisplayed("var(--lunikoBlue)");
+        }
+    }, [updateButtonDisabled]);
 
     return (
         <Card
@@ -143,7 +152,7 @@ export default function UpdateOwnedRequestCard({
                 }
                 title={[<strong>Request ID </strong>, <strong>{id}</strong>]}
             />
-            < CardActions
+            {/* < CardActions
                 disableSpacing
                 style={{ justifyContent: "center", height: "40px", padding: 0, paddingBottom: "10px" }}>
                 <ExpandMore
@@ -155,7 +164,7 @@ export default function UpdateOwnedRequestCard({
                 >
                     <ExpandMoreIcon />
                 </ExpandMore>
-            </CardActions >
+            </CardActions > */}
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <Typography
@@ -167,14 +176,16 @@ export default function UpdateOwnedRequestCard({
                         placeholder="Status"
                         defaultValue={status}
                         singleSelectOptions={statusOptions}
-                        selectedValue={handleOnSelectStatus}>
+                        selectedValue={handleOnSelectStatus}
+                        required={true}>
                     </MaterialSingleSelect>
                     <MaterialSingleSelect
                         label="Effort"
                         placeholder="Effort"
                         defaultValue={effort}
                         singleSelectOptions={effortOptions}
-                        selectedValue={handleOnSelectEffort}>
+                        selectedValue={handleOnSelectEffort}
+                        required={true}>
                     </MaterialSingleSelect>
                     <MaterialSingleSelectWithValue
                         label="Approved"
@@ -183,7 +194,8 @@ export default function UpdateOwnedRequestCard({
                         value={approvedValue}
                         singleSelectOptions={approvalOptions}
                         selectedValue={handleOnSelectApproved}
-                        isDisabled={approveDisabled}>
+                        isDisabled={approveDisabled}
+                        required={true}>
                     </MaterialSingleSelectWithValue>
                     <MaterialSingleSelectWithValue
                         label="Rejected"
@@ -192,21 +204,26 @@ export default function UpdateOwnedRequestCard({
                         value={rejectedValue}
                         singleSelectOptions={approvalOptions}
                         selectedValue={handleOnSelectRejected}
-                        isDisabled={rejectDisabled}>
+                        isDisabled={rejectDisabled}
+                        required={true}>
                     </MaterialSingleSelectWithValue>
                     <MaterialTextField
                         label="Reason for Rejection"
-                        helperText="Required for rejection"
+                        helperText={"Required for rejection"}
                         placeholder="Reason for Rejection"
                         defaultValue={reasonRejected}
-                        inputValue={handleOnChangeReasonRejected}>
+                        inputValue={handleOnChangeReasonRejected}
+                        multiline={true}
+                        showCharCounter={true}>
                     </MaterialTextField>
                     <MaterialTextField
                         className="comments-text-field"
                         label="Comments"
                         placeholder="Comments"
                         defaultValue={comments}
-                        inputValue={handleOnChangeComments}>
+                        inputValue={handleOnChangeComments}
+                        multiline={true}
+                        showCharCounter={true}>
                     </MaterialTextField>
                     <Typography
                         paragraph>
@@ -246,7 +263,9 @@ export default function UpdateOwnedRequestCard({
                     </Typography>
                     <button
                         className="update-request-button"
-                        onClick={handleUpdateRequest}>
+                        onClick={handleUpdateRequest}
+                        disabled={updateButtonDisabled}
+                        style={{ backgroundColor: updateButtonColor }}>
                         Update Request
                     </button>
                 </CardContent>

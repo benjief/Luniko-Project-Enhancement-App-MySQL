@@ -30,7 +30,7 @@ function OwnedRequests() {
     const getOwnedRequests = () => {
         Axios.get(`http://localhost:3001/get-owned-requests-for-id/${uid}`, {
         }).then((response) => {
-            // console.log(response.data);
+            console.log(response.data);
             setOwnedRequests(response.data);
             if (response.length !== 0) {
                 setMessageContent("Your owned requests:");
@@ -108,7 +108,7 @@ function OwnedRequests() {
                                     approved={getApprovalStatus(val.req_approved.data[0])}
                                     rejected={getApprovalStatus(val.req_rejected.data[0])}
                                     rsn_rejected={val.rsn_rejected ? val.rsn_rejected : "None"}
-                                    comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req.comments}
+                                    comments={val.req_comments === "" || val.req_comments === null ? "None" : val.req_comments}
                                     toModify={handleModifyRequestCallback}>
                                 </OwnedRequestCard>
                             </div>

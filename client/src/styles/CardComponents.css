@@ -4,6 +4,10 @@
     font-size: 10.5pt !important;
 }
 
+.update-owned-request-container .MuiCollapse-root {
+    margin-top: 20px;
+}
+
 .MuiCollapse-root .MuiTypography-root:last-of-type {
     margin-bottom: 20px !important;
 }

@@ -1,7 +1,7 @@
 .update-owned-request-container .MuiBox-root {
     width: 100% !important;
     display: flex;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .update-owned-request-container .MuiFormControl-root {

@@ -9,18 +9,50 @@ export default function MaterialTextField({
   characterLimit = 500,
   placeholder = "",
   defaultValue = "",
-  inputValue = ""
+  inputValue = "",
+  multiline = false,
+  type = "text",
+  required = false,
+  showCharCounter = false
 }) {
+  const [errorEnabled, setErrorEnabled] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState("");
+  const [displayedHelperText, setDisplayedHelperText] = React.useState(helperText);
   const [inputLength, setInputLength] = React.useState(defaultValue.length);
 
   const handleOnChange = (value) => {
     if (value) {
-      inputValue(value);
-      setInputLength(value.length);
+      if (type === "email") {
+        checkEmailValidity(value);
+      } else if (type === "password") {
+        checkPasswordValidity(value);
+      }
+      handleValidValue(value);
     } else {
       inputValue("");
       setInputLength(value.length);
+      if (required) {
+        setErrorEnabled(true);
+        setErrorMsg("Required Field");
+        setDisplayedHelperText(errorMsg);
+      }
     }
+  }
+
+  const checkEmailValidity = (email) => {
+
+  }
+
+  const checkPasswordValidity = (password) => {
+
+  }
+
+  const handleValidValue = (value) => {
+    inputValue(value);
+    setInputLength(value.length);
+    setErrorEnabled(false);
+    setErrorMsg("");
+    setDisplayedHelperText(helperText);
   }
 
   return (
@@ -36,15 +68,16 @@ export default function MaterialTextField({
         <TextField
           label={label}
           defaultValue={defaultValue}
-          type="text"
+          type={type}
           onChange={(event) => handleOnChange(event.target.value)}
-          multiline
+          multiline={multiline}
+          error={errorEnabled}
           inputProps={{
             maxLength: characterLimit
           }}
-          helperText={helperText !== ""
-            ? [helperText, ". Limit: ", inputLength, "/", characterLimit]
-            : ["Limit: ", inputLength, "/", characterLimit]} />
+          helperText={showCharCounter ? displayedHelperText !== ""
+            ? [displayedHelperText, ". Limit: ", inputLength, "/", characterLimit] : ["Limit: ", inputLength, "/", characterLimit]
+            : displayedHelperText} />
       </div>
     </Box>
   );

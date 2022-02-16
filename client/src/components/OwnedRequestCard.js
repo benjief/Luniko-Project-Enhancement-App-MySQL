@@ -54,7 +54,7 @@ export default function OwnedRequestCard({
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
-        console.log(priority);
+        // console.log(priority);
         cardColor === "var(--lunikoMidGrey)" ? setCardColor("var(--lunikoOrange)") : setCardColor("var(--lunikoMidGrey)");
     };
 

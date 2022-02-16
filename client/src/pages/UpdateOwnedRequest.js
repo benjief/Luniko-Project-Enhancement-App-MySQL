@@ -40,9 +40,10 @@ function UpdateOwnedRequest() {
     // const [updateButtonDisabled, setUpdateButtonDisabled] = useState(true);
     const [rejectDisabled, setRejectDisabled] = useState(true);
     const [approveDisabled, setApproveDisabled] = useState(false);
+    const [valueUpdated, setValueUpdated] = useState(false);
     const [updated, setUpdated] = useState(false);
     const [updateButtonText, setUpdateButtonText] = useState("Update");
-    const [updateButtonColor, setUpdateButtonColor] = useState("var(--lunikoOrange");
+    const [updateButtonDisabled, setUpdateButtonDisabled] = useState(true);
     const [transitionElementOpacity, setTransitionElementOpacity] = useState("100%");
     const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
 
@@ -62,8 +63,14 @@ function UpdateOwnedRequest() {
         }).then((response) => {
             // console.log(response.data);
             setRequestDetails(response.data);
+            setStatus(response.data[0].req_status);
+            setEffort(response.data[0].req_effort);
+            setApproved(response.data[0].req_approved.data[0]);
+            setRejected(response.data[0].req_rejected.data[0]);
             if (response.data.rsn_rejected && response.data.rsn_rejected.length > 0) {
                 setRejectDisabled(false);
+            } else {
+                setRejectDisabled(true);
             }
             setPriority(response.data.value * response.data.effort);
             setRendering(false);
@@ -90,18 +97,32 @@ function UpdateOwnedRequest() {
         { value: 1, label: "Yes" }
     ];
 
+
+    const checkValueUpdated = () => {
+        if (!valueUpdated) {
+            setValueUpdated(true);
+        }
+    }
+
     // Selector callback handlers
     const handleStatusCallback = (statusFromSelector) => {
         setStatus(statusFromSelector);
+        checkValueUpdated();
     }
 
     const handleEffortCallback = (effortFromSelector) => {
         setEffort(effortFromSelector);
         setPriority(effortFromSelector * value);
+        if (!valueUpdated) {
+            setValueUpdated(true);
+        }
+        checkValueUpdated();
     }
 
     const handleApprovedCallback = (approvedFromSelector) => {
+        console.log(approvedFromSelector);
         setApproved(approvedFromSelector);
+        checkValueUpdated();
     }
 
     const handleRejectedCallback = (rejectedFromSelector) => {
@@ -109,6 +130,7 @@ function UpdateOwnedRequest() {
         rejectedFromSelector === 1
             ? setApproveDisabled(true)
             : setApproveDisabled(false);
+        checkValueUpdated();
     }
 
     const handleReasonRejectedChange = (reasonRejectedFromTextArea) => {
@@ -120,23 +142,26 @@ function UpdateOwnedRequest() {
             setRejectDisabled(true);
             setApproveDisabled(false);
         }
+        checkValueUpdated();
     }
 
     const handleCommentsChange = (commentsFromTextArea) => {
         setComments(commentsFromTextArea);
+        checkValueUpdated();
     }
 
     const updateRequest = (idFromSelector) => {
         console.log("Updating request...");
-        Axios.post(`http://localhost:3001/update-owned-request`, {
+        Axios.put("http://localhost:3001/update-owned-request", {
+            reasonRejected: reasonRejected,
             effort: effort,
             approved: approved,
             rejected: rejected,
-            reasonRejected: reasonRejected,
             status: status,
             comments: comments,
             id: idFromSelector
         }).then((response) => {
+            console.log(response);
             setUpdated(true);
             console.log("Request successfully updated!");
             handleSuccessfulUpdate();
@@ -144,7 +169,6 @@ function UpdateOwnedRequest() {
     };
 
     const handleSuccessfulUpdate = () => {
-        setUpdateButtonColor("rgb(0, 191, 32)");
         // setTimeout(() => {
         //     setSubmitButtonText("Request Submitted!");
         // }, 500);
@@ -164,8 +188,12 @@ function UpdateOwnedRequest() {
         } else {
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
+            if (valueUpdated && status !== "" && effort !== "" && approved !== "" && rejected !== "") {
+                setUpdateButtonDisabled(false);
+                console.log(valueUpdated + " " + status + " " + effort + " " + approved + " " + rejected);
+            }
         }
-    }, [loading, user, rendering]);
+    }, [loading, user, rendering, valueUpdated, status, effort, approved, rejected, updateButtonDisabled]);
 
     return (
         rendering ?
@@ -226,7 +254,8 @@ function UpdateOwnedRequest() {
                                     updatedReasonRejected={handleReasonRejectedChange}
                                     comments={val.req_comments === null ? "" : val.req_comments}
                                     updatedComments={handleCommentsChange}
-                                    requestToUpdate={updateRequest}>
+                                    requestToUpdate={updateRequest}
+                                    updateButtonDisabled={updateButtonDisabled}>
                                 </UpdateOwnedRequestCard>
                             </div>
                         })}

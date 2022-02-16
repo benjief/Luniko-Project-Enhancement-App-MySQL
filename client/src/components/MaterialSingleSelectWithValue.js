@@ -11,20 +11,28 @@ export default function MaterialSingleSelect(
         singleSelectOptions = [],
         selectedValue = "",
         isDisabled = false,
+        required = false
     }
 
 ) {
     const [errorEnabled, setErrorEnabled] = React.useState(false);
     const [errorMsg, setErrorMsg] = React.useState("");
+    const [displayedValue, setDisplayedValue] = React.useState(value);
 
     const handleOnChange = (object) => {
         if (object) {
+            console.log(object);
             selectedValue(object.value);
             setErrorEnabled(false);
             setErrorMsg("");
+            setDisplayedValue(object);
         } else {
-            setErrorEnabled(true);
-            setErrorMsg("Required Value");
+            if (required) {
+                selectedValue("");
+                setErrorEnabled(true);
+                setErrorMsg("Required Field");
+                setDisplayedValue("");
+            }
         }
     }
 
@@ -37,7 +45,7 @@ export default function MaterialSingleSelect(
             // id="combo-box-demo"
             options={singleSelectOptions}
             defaultValue={defaultValue}
-            value={value === "" ? "" : value}
+            value={displayedValue}
             sx={{ width: "100%", marginBottom: "10px" }}
             onChange={(event, object) => handleOnChange(object)}
             renderInput={(params) =>
@@ -45,7 +53,7 @@ export default function MaterialSingleSelect(
                     {...params}
                     label={label}
                     placeholder={placeholder}
-                    required={true}
+                    required={required}
                     error={errorEnabled}
                     helperText={errorMsg}
                 />}

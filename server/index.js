@@ -39,13 +39,13 @@ app.post("/create-personnel", (req, res) => {
 
 // Update request in DB
 app.put("/update-owned-request", (req, res) => {
+    const reasonRejected = req.body.reasonRejected;
     const effort = req.body.effort;
     const approved = req.body.approved;
     const rejected = req.body.rejected;
-    const reasonRejected = req.body.reasonRejected;
     const status = req.body.status;
     const comments = req.body.comments;
-    const id = req.params.id
+    const id = req.body.id
 
     db.query(
         `UPDATE request 
@@ -58,7 +58,7 @@ app.put("/update-owned-request", (req, res) => {
              req_comments = ?
          WHERE 
              req_id = ?`,
-        [effort, approved, rejected, reasonRejected, status, comments, id], (err, result) => {
+        [reasonRejected, effort, approved, rejected, status, comments, id], (err, result) => {
             if (err) {
                 console.log(err);
             } else {
