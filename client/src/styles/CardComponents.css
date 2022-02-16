@@ -51,7 +51,8 @@
 
 .unowned-requests-container .MuiCardHeader-title,
 .owned-requests-container .MuiCardHeader-title,
-.update-owned-request-container .MuiCardheader-title {
+.update-owned-request-container .MuiCardHeader-title,
+.submitted-requests-container .MuiCardHeader-title {
     position: relative;
     left: -20px;
 }
