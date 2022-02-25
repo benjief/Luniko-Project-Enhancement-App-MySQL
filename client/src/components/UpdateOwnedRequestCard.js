@@ -141,20 +141,21 @@ export default function UpdateOwnedRequestCard({
                 backgroundColor: "var(--lunikoOrange)",
                 marginBottom: "20px"
             }}>
-            <CardHeader
-                titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
-                // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
-                avatar={
-                    <Avatar sx={{
-                        bgcolor: "var(--lunikoBlue)"
-                    }}
-                        aria-label="status">
-                        {statusAbbreviation}
-                    </Avatar>
-                }
-                title={[<strong>Request ID </strong>, <strong>{id}</strong>]}
-            />
-            {/* < CardActions
+            <div className="card-content">
+                <CardHeader
+                    titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
+                    // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
+                    avatar={
+                        <Avatar sx={{
+                            bgcolor: "var(--lunikoBlue)"
+                        }}
+                            aria-label="status">
+                            {statusAbbreviation}
+                        </Avatar>
+                    }
+                    title={[<strong>Request ID </strong>, <strong>{id}</strong>]}
+                />
+                {/* < CardActions
                 disableSpacing
                 style={{ justifyContent: "center", height: "40px", padding: 0, paddingBottom: "10px" }}>
                 <ExpandMore
@@ -167,111 +168,112 @@ export default function UpdateOwnedRequestCard({
                     <ExpandMoreIcon />
                 </ExpandMore>
             </CardActions > */}
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography
-                        paragraph>
-                        <strong>Updatable Fields</strong>
-                    </Typography>
-                    <MaterialSingleSelect
-                        label="Status"
-                        placeholder="Status"
-                        defaultValue={status}
-                        singleSelectOptions={statusOptions}
-                        selectedValue={handleOnSelectStatus}
-                        required={true}>
-                    </MaterialSingleSelect>
-                    <MaterialSingleSelect
-                        label="Effort"
-                        placeholder="Effort"
-                        defaultValue={effort}
-                        singleSelectOptions={effortOptions}
-                        selectedValue={handleOnSelectEffort}
-                        required={true}>
-                    </MaterialSingleSelect>
-                    <MaterialSingleSelectWithValue
-                        label="Approved"
-                        placeholder="Approved"
-                        defaultValue={approved}
-                        value={approvedValue}
-                        singleSelectOptions={approvalOptions}
-                        selectedValue={handleOnSelectApproved}
-                        isDisabled={approveDisabled}
-                        required={true}>
-                    </MaterialSingleSelectWithValue>
-                    <MaterialSingleSelectWithValue
-                        label="Rejected"
-                        placeholder="Rejected"
-                        defaultValue={rejected}
-                        value={rejectedValue}
-                        singleSelectOptions={approvalOptions}
-                        selectedValue={handleOnSelectRejected}
-                        isDisabled={rejectDisabled}
-                        required={true}>
-                    </MaterialSingleSelectWithValue>
-                    <MaterialTextField
-                        label="Reason for Rejection"
-                        helperText={"Required for rejection"}
-                        placeholder="Reason for Rejection"
-                        defaultValue={reasonRejected}
-                        inputValue={handleOnChangeReasonRejected}
-                        multiline={true}
-                        showCharCounter={true}>
-                    </MaterialTextField>
-                    <MaterialTextField
-                        className="comments-text-field"
-                        label="Comments"
-                        placeholder="Comments"
-                        defaultValue={comments}
-                        inputValue={handleOnChangeComments}
-                        multiline={true}
-                        showCharCounter={true}>
-                    </MaterialTextField>
-                    <Typography
-                        paragraph>
-                        <strong>Company<br /></strong> {company}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Submitted By<br /></strong> {submitter}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Date Submitted<br /></strong> {dateSubmitted}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Last Updated<br /></strong> {lastUpdated}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Scope Type<br /></strong> {scopeType}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Department<br /></strong> {department}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Description<br /></strong> {description}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Value<br /></strong> {value}
-                    </Typography>
-                    <Typography
-                        paragraph>
-                        <strong>Priority<br /></strong> {priority}
-                    </Typography>
-                    <button
-                        className="update-request-button"
-                        onClick={handleUpdateRequest}
-                        disabled={updateButtonDisabled}
-                        style={{ backgroundColor: updateButtonColor }}>
-                        Update Request
-                    </button>
-                </CardContent>
-            </Collapse>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <Typography
+                            paragraph>
+                            <strong>Updatable Fields</strong>
+                        </Typography>
+                        <MaterialSingleSelect
+                            label="Status"
+                            placeholder="Status"
+                            defaultValue={status}
+                            singleSelectOptions={statusOptions}
+                            selectedValue={handleOnSelectStatus}
+                            required={true}>
+                        </MaterialSingleSelect>
+                        <MaterialSingleSelect
+                            label="Effort"
+                            placeholder="Effort"
+                            defaultValue={effort}
+                            singleSelectOptions={effortOptions}
+                            selectedValue={handleOnSelectEffort}
+                            required={true}>
+                        </MaterialSingleSelect>
+                        <MaterialSingleSelectWithValue
+                            label="Approved"
+                            placeholder="Approved"
+                            defaultValue={approved}
+                            value={approvedValue}
+                            singleSelectOptions={approvalOptions}
+                            selectedValue={handleOnSelectApproved}
+                            isDisabled={approveDisabled}
+                            required={true}>
+                        </MaterialSingleSelectWithValue>
+                        <MaterialSingleSelectWithValue
+                            label="Rejected"
+                            placeholder="Rejected"
+                            defaultValue={rejected}
+                            value={rejectedValue}
+                            singleSelectOptions={approvalOptions}
+                            selectedValue={handleOnSelectRejected}
+                            isDisabled={rejectDisabled}
+                            required={true}>
+                        </MaterialSingleSelectWithValue>
+                        <MaterialTextField
+                            label="Reason for Rejection"
+                            helperText={"Required for rejection"}
+                            placeholder="Reason for Rejection"
+                            defaultValue={reasonRejected}
+                            inputValue={handleOnChangeReasonRejected}
+                            multiline={true}
+                            showCharCounter={true}>
+                        </MaterialTextField>
+                        <MaterialTextField
+                            className="comments-text-field"
+                            label="Comments"
+                            placeholder="Comments"
+                            defaultValue={comments}
+                            inputValue={handleOnChangeComments}
+                            multiline={true}
+                            showCharCounter={true}>
+                        </MaterialTextField>
+                        <Typography
+                            paragraph>
+                            <strong>Company<br /></strong> {company}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Submitted By<br /></strong> {submitter}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Date Submitted<br /></strong> {dateSubmitted}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Last Updated<br /></strong> {lastUpdated}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Scope Type<br /></strong> {scopeType}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Department<br /></strong> {department}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Description<br /></strong> {description}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Value<br /></strong> {value}
+                        </Typography>
+                        <Typography
+                            paragraph>
+                            <strong>Priority<br /></strong> {priority}
+                        </Typography>
+                        <button
+                            className="update-request-button"
+                            onClick={handleUpdateRequest}
+                            disabled={updateButtonDisabled}
+                            style={{ backgroundColor: updateButtonColor }}>
+                            Update Request
+                        </button>
+                    </CardContent>
+                </Collapse>
+            </div>
         </Card >
     );
 }

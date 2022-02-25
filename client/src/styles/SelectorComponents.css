@@ -48,6 +48,11 @@
     top: 5px !important;
 }
 
+.MuiAutocomplete-popper[data-popper-reference-hidden] {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .MuiAutocomplete-root {
     margin-bottom: 20px !important;
 }
@@ -56,9 +61,7 @@
     color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
-.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline,
-.css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+.MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.7) !important;
 }
 

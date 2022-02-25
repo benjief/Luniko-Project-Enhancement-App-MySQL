@@ -3,7 +3,14 @@
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    height: 88.5vh;
+    height: calc(100vh - 106.52px);
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.update-owned-request::-webkit-scrollbar {
+    display: none;
 }
 
 .update-owned-request-container {
@@ -12,14 +19,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
     padding-bottom: 20px;
-}
-
-.update-owned-request-container::-webkit-scrollbar {
-    display: none;
 }
 
 .update-owned-request-card textarea {

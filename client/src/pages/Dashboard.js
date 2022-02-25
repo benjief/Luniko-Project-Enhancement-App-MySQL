@@ -23,7 +23,7 @@ function Dashboard() {
     const navigate = useNavigate();
 
     const getPersonnelInfoWithID = (id) => {
-        Axios.get(`http://localhost:3001/get-personnel-with-id/${id}`, {
+        Axios.get(`https://luniko-pe.herokuapp.com/get-personnel-with-id/${id}`, {
         }).then((response) => {
             setFirstName(response.data[0].pers_fname);
             if (response.data[0].pers_is_identifier.data[0] === 1) {
@@ -40,7 +40,7 @@ function Dashboard() {
     }
 
     const getOwnedRequests = (id) => {
-        Axios.get(`http://localhost:3001/get-owned-requests-for-id/${id}`, {
+        Axios.get(`https://luniko-pe.herokuapp.com/get-owned-requests-for-id/${id}`, {
         }).then((response) => {
             if (response.data[0]) {
                 setOwnsRequests(true);

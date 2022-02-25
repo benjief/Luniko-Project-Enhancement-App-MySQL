@@ -21,7 +21,7 @@ function SubmittedRequests() {
     const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
 
     const getSubmittedRequests = () => {
-        Axios.get(`http://localhost:3001/get-submitted-requests-for-id/${uid}`, {
+        Axios.get(`https://luniko-pe.herokuapp.com/get-submitted-requests-for-id/${uid}`, {
         }).then((response) => {
             console.log(response.data);
             setSubmittedRequests(response.data);

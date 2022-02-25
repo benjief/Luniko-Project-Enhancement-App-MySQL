@@ -58,9 +58,8 @@ function UpdateOwnedRequest() {
     // }
 
     const getRequestDetails = (id) => {
-        Axios.get(`http://localhost:3001/get-request-details-for-id/${id}`, {
+        Axios.get(`https://luniko-pe.herokuapp.com/get-request-details-for-id/${id}`, {
         }).then((response) => {
-            // console.log(response.data);
             setRequestDetails(response.data);
             setStatus(response.data[0].req_status);
             setEffort(response.data[0].req_effort);
@@ -71,7 +70,7 @@ function UpdateOwnedRequest() {
             } else {
                 setRejectDisabled(true);
             }
-            setPriority(response.data.value * response.data.effort);
+            setPriority(response.data[0].req_value * response.data[0].req_effort);
             setRendering(false);
         });
     };
@@ -151,7 +150,7 @@ function UpdateOwnedRequest() {
 
     const updateRequest = (idFromSelector) => {
         console.log("Updating request...");
-        Axios.put("http://localhost:3001/update-owned-request", {
+        Axios.put("https://luniko-pe.herokuapp.com/update-owned-request", {
             reasonRejected: reasonRejected,
             effort: effort,
             approved: approved,

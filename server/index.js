@@ -6,11 +6,18 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
+// const db = mysql.createConnection({
+//     user: "root",
+//     host: "localhost",
+//     password: "",
+//     database: "luniko_pe"
+// });
+
 const db = mysql.createConnection({
-    user: "root",
-    host: "localhost",
-    password: "",
-    database: "luniko_pe"
+    user: "ntzi52mknsjwhyar",
+    host: "en1ehf30yom7txe7.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    password: "n7e3tkngvli21m8q",
+    database: "q7vrrrkirjc2me4f"
 });
 
 // Create a route
@@ -385,8 +392,12 @@ app.delete('/delete/:id', (req, res) => {
             res.send(result);
         }
     });
-})
+});
 
-app.listen(3001, () => {
-    console.log("Yay! Your server is running on port 3001.");
+// app.listen(3001, () => {
+//     console.log("Yay! Your server is running on port 3001.");
+// });
+
+app.listen(process.env.PORT || 3001, () => {
+    console.log("Your server is running!");
 });

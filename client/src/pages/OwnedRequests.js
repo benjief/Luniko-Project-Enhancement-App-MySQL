@@ -12,6 +12,7 @@ import {
     getDepartment,
     getValue,
     getEffort,
+    getPriority,
     getApprovalStatus
 } from "../components/DecoderFunctions";
 import "../styles/OwnedRequests.css";
@@ -28,9 +29,8 @@ function OwnedRequests() {
     const [transtitionElementVisibility, setTransitionElementVisibility] = useState("visible");
 
     const getOwnedRequests = () => {
-        Axios.get(`http://localhost:3001/get-owned-requests-for-id/${uid}`, {
+        Axios.get(`https://luniko-pe.herokuapp.com/get-owned-requests-for-id/${uid}`, {
         }).then((response) => {
-            console.log(response.data);
             setOwnedRequests(response.data);
             if (response.length !== 0) {
                 setMessageContent("Your owned requests:");
@@ -104,7 +104,7 @@ function OwnedRequests() {
                                     description={val.req_descr}
                                     value={getValue(val.req_value)}
                                     effort={getEffort(val.req_effort)}
-                                    priority={val.req_priority === 0 ? "TBD" : val.req_priority}
+                                    priority={val.req_priority === 0 ? "TBD" : getPriority(val.req_priority)}
                                     approved={getApprovalStatus(val.req_approved.data[0])}
                                     rejected={getApprovalStatus(val.req_rejected.data[0])}
                                     rsn_rejected={val.rsn_rejected ? val.rsn_rejected : "None"}

@@ -6,7 +6,6 @@ import NavBar from "../components/Navbar";
 import MaterialSingleSelect from "../components/MaterialSingleSelect";
 import MaterialMultiSelect from "../components/MaterialMultiSelect";
 import CreateRequestCard from "../components/CreateRequestCard";
-import BootstrapPopover from "../components/BootstrapPopover";
 import Axios from "axios";
 import Hypnosis from "react-cssfx-loading/lib/Hypnosis";
 import "../styles/CreateRequest.css";
@@ -58,7 +57,7 @@ function CreateRequest() {
 
     // Identifier functions
     const getIdentifiers = () => {
-        Axios.get("http://localhost:3001/get-all-personnel", {
+        Axios.get("https://luniko-pe.herokuapp.com/get-all-personnel", {
         }).then((response) => {
             populateIdentifierList(response.data);
         });
@@ -110,7 +109,7 @@ function CreateRequest() {
 
     const addRequest = (uidFromCallback) => {
         console.log("Adding request...");
-        Axios.post("http://localhost:3001/create-request", {
+        Axios.post("https://luniko-pe.herokuapp.com/create-request", {
             uid: uidFromCallback,
             company: company,
             scopeType: scopeType,
@@ -131,7 +130,7 @@ function CreateRequest() {
     const addIdentifications = (requestID) => {
         console.log("Moving on to identifications...")
         for (let i = 0; i < selectedIdentifiers.length; i++) {
-            Axios.post("http://localhost:3001/create-identification", {
+            Axios.post("https://luniko-pe.herokuapp.com/create-identification", {
                 uid: selectedIdentifiers[i],
                 req_id: requestID
             }).then((response) => {
@@ -262,11 +261,6 @@ function CreateRequest() {
                             style={{ backgroundColor: submitButtonColor }}>
                             {submitButtonText}
                         </button> */}
-                        <BootstrapPopover
-                            popoverText=
-                            {[<strong>All identifiers </strong>, "added to this request will be ",
-                                "able to view it and receive updates pertaining to it."]}>
-                        </BootstrapPopover>
                     </div>
                 </div>
             </Fragment >

@@ -11,7 +11,6 @@ import { getStatus, getScopeType, getDepartment, getValue, getApprovalStatus } f
 import "../styles/AddOwnedRequests.css";
 import "../styles/CardComponents.css";
 
-
 function AddOwnedRequests() {
     const [user, loading] = useAuthState(auth);
     const [rendering, setRendering] = useState(true);
@@ -27,7 +26,7 @@ function AddOwnedRequests() {
     const [pageMessageopacity, setPageMessageOpacity] = useState("100%");
 
     const getUnownedRequests = () => {
-        Axios.get(`http://localhost:3001/get-unowned-requests-for-id/${uid}`, {
+        Axios.get(`https://luniko-pe.herokuapp.com/get-unowned-requests-for-id/${uid}`, {
         }).then((response) => {
             setUnownedRequests(response.data);
             if (response.data.length !== 0) {
@@ -41,7 +40,7 @@ function AddOwnedRequests() {
     const getRequestOwners = (unownedRequestList) => {
         let tempMap = new Map();
         for (let i = 0; i < unownedRequestList.length; i++) {
-            Axios.get(`http://localhost:3001/get-request-owners-for-id/${unownedRequestList[i].req_id}`, {
+            Axios.get(`https://luniko-pe.herokuapp.com/get-request-owners-for-id/${unownedRequestList[i].req_id}`, {
             }).then((response) => {
                 if (response.data.length !== 0) {
                     let req_id = unownedRequestList[i].req_id;
@@ -70,7 +69,7 @@ function AddOwnedRequests() {
     }
 
     const handleAddRequestCallback = (requestFromCard) => {
-        Axios.post("http://localhost:3001/create-ownership", {
+        Axios.post("https://luniko-pe.herokuapp.com/create-ownership", {
             uid: uid,
             req_id: requestFromCard
         }).then((response) => {

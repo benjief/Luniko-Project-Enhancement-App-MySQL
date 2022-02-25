@@ -17,6 +17,7 @@ import MaterialSingleSelect from './MaterialSingleSelect';
 import MaterialSingleSelectWithValue from './MaterialSingleSelectWithValue';
 import MaterialTextField from './MaterialTextField';
 import MaterialMultiSelect from './MaterialMultiSelect';
+import BootstrapPopover from "../components/BootstrapPopover";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -63,7 +64,7 @@ export default function UpdateOwnedRequestCard({
         updatedDescription(updatedText);
     }
 
-    const handleOnSelecteValue = (valueFromSelector) => {
+    const handleOnSelectValue = (valueFromSelector) => {
         selectedValue(valueFromSelector);
     }
 
@@ -101,20 +102,21 @@ export default function UpdateOwnedRequestCard({
                 backgroundColor: "var(--lunikoOrange)",
                 marginBottom: "20px"
             }}>
-            <CardHeader
-                titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
-                // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
-                // avatar={
-                //     <Avatar sx={{
-                //         bgcolor: "var(--lunikoBlue)"
-                //     }}
-                //         aria-label="status">
-                //         {statusAbbreviation}
-                //     </Avatar>
-                // }
-                title={<strong>Create Your Request</strong>}
-            />
-            {/* < CardActions
+            <div className="card-content">
+                <CardHeader
+                    titleTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
+                    // subheaderTypographyProps={{ color: "rgba(0, 0, 0, 0.7)", fontFamily: "'Raleway', Verdana, Geneva, Tahoma, sans-serif", fontSize: "10.5pt" }}
+                    // avatar={
+                    //     <Avatar sx={{
+                    //         bgcolor: "var(--lunikoBlue)"
+                    //     }}
+                    //         aria-label="status">
+                    //         {statusAbbreviation}
+                    //     </Avatar>
+                    // }
+                    title={<strong>Create Your Request</strong>}
+                />
+                {/* < CardActions
                 disableSpacing
                 style={{ justifyContent: "center", height: "40px", padding: 0, paddingBottom: "10px" }}>
                 <ExpandMore
@@ -127,67 +129,75 @@ export default function UpdateOwnedRequestCard({
                     <ExpandMoreIcon />
                 </ExpandMore>
             </CardActions > */}
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    {/* <Typography
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        {/* <Typography
                         paragraph>
                         <strong>Updatable Fields</strong>
                     </Typography> */}
-                    <MaterialTextField
-                        label="Company Name"
-                        characterLimit={45}
-                        placeholder="Company Name"
-                        inputValue={handleOnChangeCompany}
-                        multiline={false}
-                        required={true}
-                        showCharCounter={true}>
-                    </MaterialTextField>
-                    <MaterialSingleSelect
-                        label="Scope Type"
-                        placeholder="Scope Type"
-                        singleSelectOptions={scopeTypeOptions}
-                        selectedValue={handleOnSelectScopeType}
-                        required={true}>
-                    </MaterialSingleSelect>
-                    <MaterialSingleSelect
-                        label="Department"
-                        placeholder="Department"
-                        singleSelectOptions={departmentOptions}
-                        selectedValue={handleOnSelectDepartment}
-                        required={true}>
-                    </MaterialSingleSelect>
-                    <MaterialSingleSelect
-                        label="Value"
-                        placeholder="Value"
-                        singleSelectOptions={valueOptions}
-                        selectedValue={handleOnSelecteValue}
-                        required={true}>
-                    </MaterialSingleSelect>
-                    <MaterialMultiSelect
-                        label="Add Identifiers"
-                        placeholder="Add Identifiers"
-                        multiSelectOptions={identifierOptions}
-                        selectedValues={handleOnChangeIdentifiers}
-                        required={false}>
-                    </MaterialMultiSelect>
-                    <MaterialTextField
-                        label="Description"
-                        characterLimit={500}
-                        placeholder="Description"
-                        inputValue={handleOnChangeDescription}
-                        multiline={true}
-                        required={false}
-                        showCharCounter={true}>
-                    </MaterialTextField>
-                    <button
-                        className="submit-request-button"
-                        onClick={handleSubmitRequest}
-                        disabled={submitButtonDisabled}
-                        style={{ backgroundColor: submitButtonColor }}>
-                        Submit Request
-                    </button>
-                </CardContent>
-            </Collapse>
+                        <MaterialTextField
+                            label="Company Name"
+                            characterLimit={45}
+                            placeholder="Company Name"
+                            inputValue={handleOnChangeCompany}
+                            multiline={false}
+                            required={true}
+                            showCharCounter={true}>
+                        </MaterialTextField>
+                        <MaterialSingleSelect
+                            label="Scope Type"
+                            placeholder="Scope Type"
+                            singleSelectOptions={scopeTypeOptions}
+                            selectedValue={handleOnSelectScopeType}
+                            required={true}>
+                        </MaterialSingleSelect>
+                        <MaterialSingleSelect
+                            label="Department"
+                            placeholder="Department"
+                            singleSelectOptions={departmentOptions}
+                            selectedValue={handleOnSelectDepartment}
+                            required={true}>
+                        </MaterialSingleSelect>
+                        <MaterialSingleSelect
+                            label="Value"
+                            placeholder="Value"
+                            singleSelectOptions={valueOptions}
+                            selectedValue={handleOnSelectValue}
+                            required={true}>
+                        </MaterialSingleSelect>
+                        <MaterialMultiSelect
+                            label="Add Identifiers"
+                            placeholder="Add Identifiers"
+                            multiSelectOptions={identifierOptions}
+                            selectedValues={handleOnChangeIdentifiers}
+                            required={false}>
+                        </MaterialMultiSelect>
+                        <MaterialTextField
+                            label="Description"
+                            characterLimit={500}
+                            placeholder="Description"
+                            inputValue={handleOnChangeDescription}
+                            multiline={true}
+                            required={false}
+                            showCharCounter={true}>
+                        </MaterialTextField>
+                        <button
+                            className="submit-request-button"
+                            onClick={handleSubmitRequest}
+                            disabled={submitButtonDisabled}
+                            style={{ backgroundColor: submitButtonColor }}>
+                            Submit Request
+                        </button>
+                        <div className="popover-container">
+                            <BootstrapPopover
+                                popoverText=
+                                {[<strong>All identifiers </strong>, "added to this request will be ",
+                                    "able to view it and receive updates pertaining to it."]}>
+                            </BootstrapPopover>
+                        </div>
+                    </CardContent>
+                </Collapse>
+            </div>
         </Card >
     );
 }
