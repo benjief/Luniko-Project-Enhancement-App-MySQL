@@ -45,3 +45,11 @@
 .css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: rgba(0, 0, 0, 0.7) !important;
 }
+
+.css-dpjnhs-MuiInputBase-root-MuiOutlinedInput-root.Mui-error .MuiOutlinedInput-notchedOutline {
+    border-color: #d32f2f !important;
+}
+
+.MuiInputLabel-root {
+    z-index: 1 !important;
+}

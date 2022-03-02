@@ -57,6 +57,7 @@ function CreateRequest() {
 
     // Identifier functions
     const getIdentifiers = () => {
+        console.log("getting identifiers");
         Axios.get("https://luniko-pe.herokuapp.com/get-all-personnel", {
         }).then((response) => {
             populateIdentifierList(response.data);
@@ -78,8 +79,8 @@ function CreateRequest() {
                 }
             }
             setIdentifierOptions(tempArray);
-            setRendering(false);
         }
+        setRendering(false);
     }
 
     // Selector callback handlers
