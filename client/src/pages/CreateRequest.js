@@ -106,9 +106,6 @@ function CreateRequest() {
 
     const handleIdentifierCallback = (identifiersFromSelector) => {
         setSelectedIdentifiers(identifiersFromSelector);
-        if (identifiersFromSelector.length) {
-            console.log(identifiersFromSelector[0].value);
-        }
     }
 
     const addRequest = (uidFromCallback) => {
