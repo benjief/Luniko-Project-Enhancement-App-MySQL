@@ -21,11 +21,6 @@
     border-color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.update-owned-request-container .material-text-field .MuiInputLabel-shrink,
-.create-request-container .material-text-field .MuiInputLabel-shrink {
-    transform: translate(11.5px, -9px) scale(0.75) !important;
-}
-
 .update-owned-request-container .comments-text-field .material-text-field .MuiInputLabel-shrink {
     transform: translate(13px, -9px) scale(0.75) !important;
 }
