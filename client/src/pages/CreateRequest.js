@@ -106,9 +106,13 @@ function CreateRequest() {
 
     const handleIdentifierCallback = (identifiersFromSelector) => {
         setSelectedIdentifiers(identifiersFromSelector);
+        if (identifiersFromSelector.length) {
+            console.log(identifiersFromSelector[0].value);
+        }
     }
 
     const addRequest = (uidFromCallback) => {
+        console.log(uidFromCallback);
         console.log("Adding request...");
         Axios.post("https://luniko-pe.herokuapp.com/create-request", {
             uid: uidFromCallback,
@@ -132,7 +136,7 @@ function CreateRequest() {
         console.log("Moving on to identifications...")
         for (let i = 0; i < selectedIdentifiers.length; i++) {
             Axios.post("https://luniko-pe.herokuapp.com/create-identification", {
-                uid: selectedIdentifiers[i],
+                uid: selectedIdentifiers[i].value,
                 req_id: requestID
             }).then((response) => {
                 console.log("Identification successfully added!");
@@ -160,13 +164,13 @@ function CreateRequest() {
         } else {
             setTransitionElementOpacity("0%");
             setTransitionElementVisibility("hidden");
-            if (company !== "" && scopeType !== "" && department !== "" && value !== "") {
+            if (company !== "" && scopeType !== "" && department !== "" && value !== "" && description.length) {
                 setSubmitButtonDisabled(false);
             } else {
                 setSubmitButtonDisabled(true);
             }
         }
-    }, [loading, user, company, scopeType, department, value, rendering]);
+    }, [loading, user, company, scopeType, department, value, rendering, description]);
 
     return (
         rendering ?
