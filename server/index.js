@@ -280,7 +280,7 @@ app.get('/get-request-details-for-id/:id', (req, res) => {
             FROM
                 personnel) submitter_info ON req_submitter = pers_id
         WHERE 
-            req_id = 1;`,
+            req_id = ?`,
         id, (err, result) => {
             if (err) {
                 console.log(err);
