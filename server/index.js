@@ -44,7 +44,7 @@ app.post("/create-personnel", (req, res) => {
     );
 });
 
-// Update request in DB
+// Update owned request in DB
 app.put("/update-owned-request", (req, res) => {
     const reasonRejected = req.body.reasonRejected;
     const effort = req.body.effort;
@@ -76,6 +76,36 @@ app.put("/update-owned-request", (req, res) => {
     );
 });
 
+// Update submitted request in DB
+app.put("/update-submitted-request/", (req, res) => {
+    const company = req.body.company;
+    const scopeType = req.body.scopeType;
+    const department = req.body.department;
+    const description = req.body.description;
+    const value = req.body.value;
+    const id = req.body.id;
+
+    db.query(
+        `UPDATE request 
+         SET 
+            req_company = ?,
+            req_scope_type = ?,
+            req_dept = ?,
+            req_descr = ?,
+            req_value = ?
+         WHERE 
+             req_id = ?`,
+        [company, scopeType, department, description, value, id], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Request updated!");
+                res.send(result);
+            }
+        }
+    );
+});
+
 // Write request to DB
 app.post("/create-request", (req, res) => {
     const uid = req.body.uid;
@@ -86,7 +116,14 @@ app.post("/create-request", (req, res) => {
     const value = req.body.value;
 
     db.query(
-        "INSERT INTO request (req_submitter, req_company, req_scope_type, req_dept, req_descr, req_value) VALUES (?, ?, ?, ?, ?, ?)",
+        `INSERT INTO request (
+            req_submitter, 
+            req_company, 
+            req_scope_type, 
+            req_dept, 
+            req_descr, 
+            req_value) 
+            VALUES (?, ?, ?, ?, ?, ?)`,
         [uid, company, scopeType, department, description, value], (err, result) => {
             if (err) {
                 console.log(err);
@@ -145,6 +182,29 @@ app.get('/get-all-personnel', (req, res) => {
             res.send(result);
         }
     });
+});
+
+app.get('/get-identifiers-for-submitted-request/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT 
+            personnel.pers_id
+         FROM
+            personnel
+         JOIN
+         (SELECT 
+            pers_id
+         FROM
+            identification
+         WHERE
+            req_id = ?) identifiers ON personnel.pers_id = identifiers.pers_id;`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
 });
 
 app.get('/get-all-emails', (req, res) => {
