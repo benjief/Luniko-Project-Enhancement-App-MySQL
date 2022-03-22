@@ -247,12 +247,12 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
             req_comments
         FROM
             request
-                JOIN
+            JOIN
             (SELECT 
                 pers_id, pers_fname, pers_lname
             FROM
                 personnel) submitter_info ON req_submitter = pers_id
-                JOIN
+            JOIN
             (SELECT 
                 req_id
             FROM
