@@ -197,7 +197,30 @@ app.get('/get-identifiers-for-submitted-request/:id', (req, res) => {
          FROM
             identification
          WHERE
-            req_id = ?) identifiers ON personnel.pers_id = identifiers.pers_id;`,
+            req_id = ?) identifiers ON personnel.pers_id = identifiers.pers_id`,
+        id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(result);
+            }
+        });
+});
+
+app.get('/get-identifier-names-for-submitted-request/:id', (req, res) => {
+    const id = req.params.id;
+    db.query(
+        `SELECT 
+            CONCAT(pers_fname, " ", pers_lname) AS 'pers_name'
+         FROM
+            personnel
+         JOIN
+         (SELECT 
+            pers_id
+         FROM
+            identification
+         WHERE
+            req_id = ?) identifiers ON personnel.pers_id = identifiers.pers_id`,
         id, (err, result) => {
             if (err) {
                 console.log(err);
