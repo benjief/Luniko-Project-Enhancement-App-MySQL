@@ -155,6 +155,24 @@ app.post("/create-identification", (req, res) => {
     );
 });
 
+app.post("/remove-identifications/:req-id", (req, res) => {
+    const req_id = req.params.reqID;
+
+    db.query(
+        `DELETE FROM identification
+         WHERE req_id = ?`,
+        [req_id], (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // End the request by sending a message (in this case); can send whatever you want, really
+                console.log("Identification deleted!");
+                res.send("Identification deleted!");
+            }
+        }
+    );
+});
+
 // Write ownership to DB
 app.post("/create-ownership", (req, res) => {
     const uid = req.body.uid;
@@ -188,7 +206,7 @@ app.get('/get-identifiers-for-submitted-request/:id', (req, res) => {
     const id = req.params.id;
     db.query(
         `SELECT 
-            personnel.pers_id
+            CONCAT(personnel.pers_fname, " ", personnel.pers_lname) AS pers_name, personnel.pers_id
          FROM
             personnel
          JOIN
@@ -343,6 +361,7 @@ app.get('/get-request-details-for-id/:id', (req, res) => {
             request.req_id,
             req_company,
             CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
+            pers_id AS 'req_submitter_id',
             DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
             DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
             req_scope_type,
