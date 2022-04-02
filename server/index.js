@@ -140,7 +140,7 @@ app.delete("/remove-request/:requestID", (req, res) => {
     const requestID = req.params.requestID;
 
     db.query(
-        `DELETE FROM request (
+        `DELETE FROM request
             WHERE req_id = ?`,
         requestID, (err, result) => {
             if (err) {
@@ -172,13 +172,13 @@ app.post("/create-identification", (req, res) => {
     );
 });
 
-app.post("/remove-identifications/:req-id", (req, res) => {
-    const req_id = req.params.reqID;
+app.delete("/remove-identifications/:requestID", (req, res) => {
+    const req_id = req.params.requestID;
 
     db.query(
         `DELETE FROM identification
          WHERE req_id = ?`,
-        [req_id], (err, result) => {
+        req_id, (err, result) => {
             if (err) {
                 console.log(err);
             } else {
@@ -293,7 +293,8 @@ app.get('/get-submitted-requests-for-id/:id', (req, res) => {
             request.req_id,
             CONCAT(pers_fname, ' ', pers_lname) AS 'req_submitter',
             DATE_FORMAT(req_date, '%M %d, %Y') AS 'req_date',
-            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated',
+            DATE_FORMAT(req_updated, '%M %d, %Y at %h:%i%p') AS 'req_updated_formatted',
+            req_updated,
             req_scope_type,
             req_dept,
             req_descr,
@@ -361,7 +362,7 @@ app.get('/get-owned-requests-for-id/:id', (req, res) => {
                     ownership
                 WHERE
                     pers_id = ?) matching_ids ON request.req_id = matching_ids.req_id
-        ORDER BY req_value DESC;`,
+        ORDER BY req_value DESC`,
         id, (err, result) => {
             if (err) {
                 console.log(err);
