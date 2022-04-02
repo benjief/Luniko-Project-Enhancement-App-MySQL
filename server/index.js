@@ -136,6 +136,23 @@ app.post("/create-request", (req, res) => {
     );
 });
 
+app.delete("/remove-request/:requestID", (req, res) => {
+    const requestID = req.params.requestID;
+
+    db.query(
+        `DELETE FROM request (
+            WHERE req_id = ?`,
+        requestID, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Request removed!");
+                res.send(result);
+            }
+        }
+    );
+});
+
 // Write identification to DB
 app.post("/create-identification", (req, res) => {
     const uid = req.body.uid;
